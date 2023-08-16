@@ -22,7 +22,11 @@ const DisplaySingle = () => {
 
   return (
     <div>
-      <h1>Display poop opopps</h1>
+
+
+
+      <h1>Display something</h1>
+
 
     </div>
   )
