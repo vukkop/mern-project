@@ -41,7 +41,9 @@ function NavBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <LogoSVG/>
+          <Box>
+            <LogoSVG width={50} height={50}/>
+          </Box>
           <Typography
             variant="h6"
             noWrap
