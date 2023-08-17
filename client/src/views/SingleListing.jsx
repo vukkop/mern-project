@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useEffect, useState } from 'react'
 import axios from "axios";
 
-const DisplaySingle = () => {
+const SingleListing = () => {
   const { id } = useParams()
   const [listing, setListing] = useState({ name: "" })
 
@@ -32,4 +32,4 @@ const DisplaySingle = () => {
   )
 }
 
-export default DisplaySingle
+export default SingleListing
