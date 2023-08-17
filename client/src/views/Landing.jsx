@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { deleteById } from "../Utils/UtilsFunc";
+import NavBar from "../components/global-components/nav-bar/NavBar"
 
 const Landing = () => {
 
@@ -30,7 +31,7 @@ const Landing = () => {
   // will finish it when i want
   return (
     <div>
-
+      <NavBar/>
     </div>
   )
 }
