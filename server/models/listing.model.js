@@ -16,6 +16,10 @@ const ListingSchema = mongoose.Schema(
       type: String,
       required: [false, ""],
     },
+    price: {
+      type: Number,
+      required: [true, "Price is required."],
+    },
     imgUrl: {
       type: String,
       required: [true, "Image Url is required."],
@@ -24,4 +28,4 @@ const ListingSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports.Pirate = mongoose.model("Listing", ListingSchema);
+module.exports.Listing = mongoose.model("Listing", ListingSchema);
