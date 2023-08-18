@@ -7,6 +7,21 @@ import ListingForm from './ListingForm'
 const ListingNew = () => {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate()
+  const newListing = {
+    name: '',
+    type: '',
+    numOfBedrooms: 0,
+    numOfBathrooms: 0,
+    size: 0,
+    description: '',
+    price: '',
+    isFeatured: false,
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    imgUrl: '',
+  }
 
   const createListing = (listing) => {
     axios.post("http://localhost:8000/api/listing", listing)
@@ -29,13 +44,12 @@ const ListingNew = () => {
   }
 
   return (
-    <div>ListingNew
-
+    <div>
+      <h4 className='mb-4'>New</h4>
       <ListingForm
         onSubmitProp={createListing}
-        initialListing=''
+        initialListing={newListing}
       />
-
 
       {
         errors.length > 0
