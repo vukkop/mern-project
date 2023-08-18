@@ -1,5 +1,5 @@
 import * as React from 'react';
-import  { useTheme }  from "@mui/material";
+import { useTheme } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../../theme";
@@ -18,14 +18,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
+import NavStyles from "../../../hooks/NavHooks"
 
-const pages = ['Home', 'Properties', "About", "Contact" ];
+const pages = ['Home', 'Properties', "About", "Contact"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const navStyle = NavStyles();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,26 +48,18 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: colors.blueAccent[500]}}>
+    <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 10, alignItems: "center" }}>
-            <LogoSVG width={35} height={35} color={colors.grey[100]}/>
+            <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: colors.grey[100],
-              textDecoration: 'none',
-            }}
+            sx={navStyle.sxObj}
           >
             RBIV
           </Typography>
@@ -76,61 +70,51 @@ function NavBar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon style={{color: colors.grey[100]}}/>
             </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: 'bottom', horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: 'top', horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
-              PaperProps={{sx: {backgroundColor: colors.blueAccent[500]}}}
+              PaperProps={{ sx: { backgroundColor: colors.blueAccent[500] } }}
             >
+              {/* this is the hamburger menu text */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography color={colors.grey[100]} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 2, alignItems: "center" }}>
-            <LogoSVG width={35} height={35} color={colors.grey[100]}/>
+            <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography
             variant="h5"
             noWrap
             component="a"
             href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: colors.grey[100],
-              textDecoration: 'none',
-            }}
+            sx={navStyle.sxObj2}
           >
             RBIV
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "center"}}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "center" }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block'}}
+                sx={{ my: 2, color: colors.grey[100], display: 'block' }}
               >
                 {page}
               </Button>
@@ -143,28 +127,26 @@ function NavBar() {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === "dark" ? <LightModeOutlinedIcon/> : <DarkModeOutlinedIcon/>}
+                {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px'}}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: 'top', horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: 'top', horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              PaperProps={{sx: {backgroundColor: colors.blueAccent[500]}}}
+              PaperProps={{ sx: { backgroundColor: colors.blueAccent[500] } }}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Link style={{textDecoration: "none", color: colors.grey[100]}} to={"/login"}>Login</Link>
+                <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>Login</Link>
               </MenuItem>
             </Menu>
           </Box>

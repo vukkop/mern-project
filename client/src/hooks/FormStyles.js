@@ -36,6 +36,8 @@ const useColorTheme = () => {
     },
   };
 
+  // you guys are going to love this
+
   return { inputLabelProps, inputProps, inputStyling, submitButton };
 };
 
