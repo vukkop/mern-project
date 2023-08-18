@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -15,7 +15,8 @@ import {
 import LogoSVG from "../assets/svg/Logo";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { ColorModeContext, tokens } from "../theme";
+import { useTheme } from "@emotion/react";
 
 function Copyright(props) {
   return (
@@ -38,11 +39,16 @@ function Copyright(props) {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate("");
   const [emailError, setEmailError] = useState(false);
   const [error, setError] = useState(null);
   const [bgImageIdx, setBgImageIdx] = useState(0);
   const [imgArr, setImgArr] = useState([]);
+
+  const navigate = useNavigate("");
+  const theme = useTheme();
+  console.log(theme);
+  const colors = tokens(theme.palette.mode);
+  // const colorMode = useContext(ColorModeContext)
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
   //! co-authors (Immanuel, Braxton)
@@ -128,10 +134,6 @@ const Login = () => {
           sx={{
             backgroundImage: `url(${imgArr[bgImageIdx].src.original})`,
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
             transition: "background-image 1.25s ease-in-out",
@@ -147,16 +149,21 @@ const Login = () => {
             backgroundImage:
               "url(https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         />
       )}
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        sx={{ background: colors.primary[500] }}
+      >
         <Box
           sx={{
             my: 8,
@@ -166,16 +173,11 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <LogoSVG width={75} height={75} sx={{ m: 1 }} />
+          <LogoSVG width={75} height={75} color={colors.primary[100]} sx={{ m: 1 }} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate onSubmit={handleSubmit}>
             <TextField
               margin="normal"
               required
@@ -186,6 +188,27 @@ const Login = () => {
               autoComplete="email"
               autoFocus
               value={email}
+              InputLabelProps={{
+                style: {
+                  color: colors.blueAccent[200],
+                },
+              }}
+              InputProps={{
+                style: {
+                  color: colors.grey[100],
+                },
+              }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: colors.blueAccent[100],
+                    },
+                  },
+                },
+              }}
               onChange={(e) => setEmail(e.target.value)}
               error={emailError}
               helperText={emailError ? "Invalid email address" : ""}
@@ -200,11 +223,32 @@ const Login = () => {
               id="password"
               autoComplete="current-password"
               value={password}
+              InputLabelProps={{
+                style: {
+                  color: colors.blueAccent[200],
+                },
+              }}
+              InputProps={{
+                style: {
+                  color: colors.grey[100],
+                },
+              }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  "&.Mui-focused": {
+                    "& fieldset": {
+                      borderColor: colors.blueAccent[100],
+                    },
+                  },
+                },
+              }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="d-flex justify-content-between align-items-center">
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
+                control={<Checkbox value="remember" color="primary" style={{ color: colors.blueAccent[100] }}  />}
                 label="Remember me"
               />
               {error && (
@@ -214,21 +258,52 @@ const Login = () => {
               )}
             </div>
             <Button
+              // backgroundColor={colors.primary[500]}
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              //
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: colors.blueAccent[500],
+                "&:hover": {
+                  backgroundColor: colors.primary[800],
+                },
+              }}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    color: colors.blueAccent[100],
+                    "&:hover": {
+                      color: colors.blueAccent[500],
+                    },
+                  }}
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link
+                  to={"/signup"}
+                  variant="body2"
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    color: colors.grey[100],
+                    "&:hover": {
+                      color: colors.blueAccent[500],
+                    },
+                  }}
+                >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
