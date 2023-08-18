@@ -14,7 +14,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/listing/new" element={<New />} />
           <Route path="/listing/:id" element={<SingleListing />} />
-          <Route path="/admin/" element={<Admin />} />
+          <Route path="/admin//*" element={<Admin />} />
         </Routes>
       </Container>
     </div>
