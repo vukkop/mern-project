@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useContext } from "react";
 import TextField from '@mui/material/TextField';
 import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
+import Button from '@mui/material/Button'
+import { ColorModeContext, tokens } from "../../theme";
+import { useTheme } from "@emotion/react";
+import useColorTheme from "../../hooks/FormStyles"
 
 const ListingForm = (props) => {
   const { initialListing, onSubmitProp } = props;
   const [listing, setListing] = useState(initialListing);
+
+  const colorTheme = useColorTheme()
+
+  const inputLabelProps = colorTheme.inputLabelProps
+  const inputProps = colorTheme.inputProps
+  const inputStyling = colorTheme.inputStyling
+  const submitButton = colorTheme.submitButton
+
+
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -51,8 +64,13 @@ const ListingForm = (props) => {
                   label="Name"
                   onChange={onChangeHandler}
                   value={listing.name}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className="mb-3"
                   fullWidth
+                  sx={{
+                    ...colorTheme.inputStyling
+                  }}
                 />
               </div>
               <div>
@@ -62,8 +80,11 @@ const ListingForm = (props) => {
                   label="Number Of Bedrooms"
                   onChange={onChangeHandler}
                   value={listing.numOfBedrooms}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputStyling }}
                   className='pe-2 mb-3'
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '50%',
                   }}
                 />
@@ -73,8 +94,11 @@ const ListingForm = (props) => {
                   label="Number Of Batrooms"
                   onChange={onChangeHandler}
                   value={listing.numOfBathrooms}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputStyling }}
                   className="mb-3"
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '50%',
                   }}
                 />
@@ -86,8 +110,11 @@ const ListingForm = (props) => {
                   label="Price"
                   onChange={onChangeHandler}
                   value={listing.price}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className='pe-2 mb-3'
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '50%',
                   }}
                 />
@@ -97,8 +124,11 @@ const ListingForm = (props) => {
                   label="Size"
                   onChange={onChangeHandler}
                   value={listing.size}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className="mb-3"
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '50%',
                   }}
                 />
@@ -109,8 +139,13 @@ const ListingForm = (props) => {
                   label="Address"
                   onChange={onChangeHandler}
                   value={listing.address}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className="mb-3"
                   fullWidth
+                  sx={{
+                    ...colorTheme.inputStyling
+                  }}
                 />
 
               </div>
@@ -120,8 +155,11 @@ const ListingForm = (props) => {
                   label="City"
                   onChange={onChangeHandler}
                   value={listing.city}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className='pe-2 mb-3'
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '34%',
                   }}
                 />
@@ -130,8 +168,11 @@ const ListingForm = (props) => {
                   label="State"
                   onChange={onChangeHandler}
                   value={listing.state}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className="mb-3"
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '33%',
                   }}
                 />
@@ -140,8 +181,11 @@ const ListingForm = (props) => {
                   label="ZIP code"
                   onChange={onChangeHandler}
                   value={listing.zipCode}
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className='ps-2 mb-3'
                   sx={{
+                    ...colorTheme.inputStyling,
                     width: '33%',
                   }}
                 />
@@ -152,8 +196,13 @@ const ListingForm = (props) => {
                   label="Image Url"
                   onChange={onChangeHandler}
                   value={listing.imgUrl}
-                  className="mb-3"
+                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   fullWidth
+                  className='mb-3'
+                  sx={{
+                    ...colorTheme.inputStyling,
+                  }}
                 />
               </div>
             </FormControl>
@@ -165,14 +214,19 @@ const ListingForm = (props) => {
                 label="Description"
                 onChange={onChangeHandler}
                 value={listing.description}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
                 className="mb-3"
                 multiline
                 rows={11}
                 fullWidth
+                sx={{
+                  ...colorTheme.inputStyling
+                }}
               />
             </div>
-            <div className='d-flex'>
-              <FormControl sx={{ minWidth: 210 }} className="mb-3">
+            <div className='d-flex flex-wrap'>
+              <FormControl fullWidth>
                 <InputLabel id="select-label">Type</InputLabel>
                 <Select
                   labelId="select-label"
@@ -181,8 +235,10 @@ const ListingForm = (props) => {
                   label="Type"
                   onChange={onChangeHandler}
                   className="mb-3"
+                  fullWidth
+
                 >
-                  <MenuItem value={"House"}>House</MenuItem>
+                  <MenuItem value={"House"} >House</MenuItem>
                   <MenuItem value={"Apartment"}>Apartment</MenuItem>
                   <MenuItem value={"Town House"}>Town House</MenuItem>
                   <MenuItem value={"Office"}>Office</MenuItem>
@@ -197,8 +253,7 @@ const ListingForm = (props) => {
           </div>
         </div>
 
-
-        <button type='submit' className="btn btn-primary mt-3 float-end"> Submit</button>
+        <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
 
       </form >
     </div >
