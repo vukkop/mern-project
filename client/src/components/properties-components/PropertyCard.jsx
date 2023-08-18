@@ -3,38 +3,44 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Grid } from '@mui/material';
+import { Box, CardActionArea, Grid } from '@mui/material';
+import { useState } from 'react';
 
-
-const PropertyCard = () => {
-
+const PropertyCard = (props) => {
+    const {prop} = props
+    const [property, setProperty] = useState(prop) 
+    console.log(props)
     return (
-        <div>
+        <div>             
+            
             <Card sx={{ maxWidth: 1120, mx: 'auto', mt: '50px' }} >
                 <CardActionArea sx={{display: 'flex'}}>
-                    <CardMedia
+                    
+                    <CardMedia className='rounded w-25 h-25' sx={{flex: 1}}
                         component="img"
-                        width="300"
+                        width="200"
                         height="220"
-                        image="https://images.mansionglobal.com//im-651825"
+                        image={property.imgUrl}
                         alt=""
                     />
-                    <CardContent>
+                    <CardContent sx={{flex: 3}}>
                         <Typography gutterBottom variant="h5" component="div">
-                            $$$Add price Here$$$
+                            $ {property.price}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            # of bedrooms | # of bathrooms
+                            {property.numOfBedrooms} bedrooms | {property.numOfBathrooms} bathrooms
                         </Typography>
                         <Typography mt={2} variant="body2" color="text.secondary">
-                            !!!Add informational text here!!!
+                            {property.description}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
             </Card>
+            
         </div>
     )
 }
 
 export default PropertyCard
+            
 
