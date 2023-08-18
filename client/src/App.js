@@ -6,6 +6,7 @@ import Landing from "./views/Landing";
 import Admin from "./views/Admin";
 import Container from "@mui/material/Container";
 import Login from "./views/Login";
+import PropertyCard from "./components/properties-components/PropertyCard";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/listing/new" element={<New />} />
           <Route path="/listing/:id" element={<SingleListing />} />
           <Route path="/admin/" element={<Admin />} />
+          <Route path="/propertycard" element={<PropertyCard/>}/>
         </Routes>
     </div>
   );
