@@ -16,7 +16,7 @@ import LogoSVG from "../assets/svg/Logo";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ColorModeContext, tokens } from "../theme";
-import { useTheme } from "@mui/material";
+import { useTheme } from "@emotion/react";
 import useColorTheme from "../hooks/FormStyles";
 
 function Copyright(props) {
@@ -71,7 +71,6 @@ const Login = () => {
       }
       //set the new num
       setBgImageIdx(newIdx);
-
       setTimeout(() => {
         setBgImageIdx(newIdx);
       }, 750);
@@ -166,7 +165,7 @@ const Login = () => {
         square
         sx={{
           background:
-            colorMode === "dark" ? colors.grey[100] : colors.grey[900],
+            colorMode === "light" ? colors.grey[100] : colors.primary[500],
         }}
       >
         <Box
