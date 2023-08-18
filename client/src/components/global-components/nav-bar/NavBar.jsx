@@ -1,6 +1,7 @@
 import * as React from 'react';
 import  { useTheme }  from "@mui/material";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -45,7 +46,7 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: colors.redAccent[500]}}>
+    <AppBar position="static" sx={{backgroundColor: colors.blueAccent[500]}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 10, alignItems: "center" }}>
@@ -62,7 +63,7 @@ function NavBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: colors.grey[100],
               textDecoration: 'none',
             }}
           >
@@ -94,6 +95,7 @@ function NavBar() {
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
+              PaperProps={{sx: {backgroundColor: colors.blueAccent[500]}}}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -117,7 +119,7 @@ function NavBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: colors.grey[100],
               textDecoration: 'none',
             }}
           >
@@ -141,7 +143,7 @@ function NavBar() {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon/> : <LightModeOutlinedIcon/>}
+                {theme.palette.mode === "dark" ? <LightModeOutlinedIcon/> : <DarkModeOutlinedIcon/>}
               </IconButton>
             </Tooltip>
             <Menu
@@ -159,12 +161,11 @@ function NavBar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              PaperProps={{sx: {backgroundColor: colors.blueAccent[500]}}}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link style={{textDecoration: "none", color: colors.grey[100]}} to={"/login"}>Login</Link>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
