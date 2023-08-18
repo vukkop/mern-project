@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deleteById } from '../../Utils/UtilsFunc';
+import Button from '@mui/material/Button'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import {
@@ -79,6 +80,7 @@ const ListingTable = () => {
 
   return (
     <div>
+      <Button onClick={() => navigate("new")} variant="contained">Add New</Button>
       <div style={{ height: 400, width: '80%', margin: 20 }}>
         <DataGrid
           rows={rows}
