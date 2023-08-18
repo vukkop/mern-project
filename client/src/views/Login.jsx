@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
   CssBaseline,
@@ -47,7 +47,7 @@ const Login = () => {
 
   const navigate = useNavigate("");
   const theme = useTheme();
-  console.log(theme);
+  // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const colorTheme = useColorTheme();
@@ -115,7 +115,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         navigate("/admin");
-        console.log(userCredential);
+        // console.log(userCredential);
       })
       .catch((err) => {
         setError(err.message);
@@ -155,6 +155,8 @@ const Login = () => {
           }}
         />
       )}
+      {/* credit: braxton */}
+      {/* {console.log(theme.palette.mode)} */}
       <Grid
         item
         xs={12}
@@ -164,8 +166,9 @@ const Login = () => {
         elevation={6}
         square
         sx={{
-          background:
-            colorMode === "light" ? colors.grey[100] : colors.primary[500],
+          // stuck on this part
+          background: 
+          theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[1000]
         }}
       >
         <Box
@@ -268,7 +271,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link
+                <RouterLink
                   href="#"
                   variant="body2"
                   sx={{
@@ -281,21 +284,15 @@ const Login = () => {
                   }}
                 >
                   Forgot password?
-                </Link>
+                </RouterLink>
               </Grid>
               <Grid item>
-                <Link
+                <RouterLink
                   to={"/signup"}
                   variant="body2"
-                  sx={{
-                    color: colors.grey[100],
-                    "&:hover": {
-                      color: colors.blueAccent[500],
-                    },
-                  }}
                 >
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </RouterLink>
               </Grid>
             </Grid>
             <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
