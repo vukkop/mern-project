@@ -55,7 +55,7 @@ const ListingEdit = () => {
 
   return (
     <div>
-      <h2>Edit</h2>
+      <h4 className='mb-4'>Edit</h4>
       {loaded && (
         <ListingForm
           onSubmitProp={updateListing}
