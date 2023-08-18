@@ -4,7 +4,6 @@ import New from "./views/New";
 import SingleListing from "./views/SingleListing";
 import Landing from "./views/Landing";
 import Admin from "./views/Admin";
-import Container from "@mui/material/Container";
 import Login from "./views/Login";
 import PropertyCard from "./components/properties-components/PropertyCard";
 
