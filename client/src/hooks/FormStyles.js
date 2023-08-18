@@ -35,7 +35,7 @@ const useColorTheme = () => {
       backgroundColor: colors.blueAccent[800],
     },
   };
-
+  
   return { inputLabelProps, inputProps, inputStyling, submitButton };
 };
 
