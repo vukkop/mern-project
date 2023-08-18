@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { deleteById } from '../../Utils/UtilsFunc';
-import Button from '@mui/material/Button'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import {
@@ -19,17 +18,21 @@ const ListingTable = () => {
   const rows = listingList.map((e, i) => ({ ...e, id: i + 1 }))
   const navigate = useNavigate()
   const columns = [
-    { field: 'id', headerName: '#', width: 90 },
-    { field: 'name', headerName: 'Name', width: 120 },
-    { field: 'numOfBedrooms', headerName: '# Bedrooms', width: 150 },
-    { field: 'price', headerName: 'Price', type: 'number', width: 90 },
-    { field: 'description', headerName: 'Description', width: 200 },
-    { field: 'imgUrl', headerName: 'Img Url', width: 90 },
+    { field: 'id', headerName: '#', width: 50 },
+    { field: "isFeatured", headerName: 'Featured', width: 90 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'type', headerName: 'Type', width: 120 },
+    { field: 'numOfBedrooms', headerName: '# Bedrooms', width: 100 },
+    { field: 'numOfBathrooms', headerName: '# Bathrooms', width: 100 },
+    { field: 'price', headerName: 'Price', type: 'number', width: 100 },
+    { field: 'size', headerName: 'Size', type: 'number', width: 100 },
+    { field: 'description', headerName: 'Description', width: 150, sortable: false },
+    { field: 'imgUrl', headerName: 'Img Url', width: 120, sortable: false, },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 120,
       cellClassName: 'actions',
       getActions: (id) => {
         return [
@@ -80,8 +83,7 @@ const ListingTable = () => {
 
   return (
     <div>
-      <Button onClick={() => navigate("new")} variant="contained">Add New</Button>
-      <div style={{ height: 400, width: '80%', margin: 20 }}>
+      <div style={{ width: '100%' }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -93,7 +95,7 @@ const ListingTable = () => {
           pageSizeOptions={[5, 10]}
         />
       </div>
-    </div>
+    </div >
   )
 }
 
