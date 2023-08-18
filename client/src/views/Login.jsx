@@ -1,89 +1,181 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LogoSVG from '../assets/svg/Logo'
-import {auth, app} from "../firebase/firebase"
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { json, useNavigate } from "react-router-dom";
+import { createTheme } from "@mui/material/styles";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  ThemeProvider,
+} from "@mui/material";
+import LogoSVG from "../assets/svg/Logo";
+import { auth } from "../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { createClient } from "pexels";
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate("");
+  const [emailError, setEmailError] = useState(false);
+  const [error, setError] = useState(null);
+  const [bgImageIdx, setBgImageIdx] = useState(0);
+  const [imgArr, setImgArr] = useState([]);
+
+  //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
+  //! co-authors (Immanuel, Braxton)
+  // get a random number from 0-however many imgs are in array
+  const getRandIdx = () => {
+    return Math.floor(Math.random() * imgArr.length);
+  };
+
+  useEffect(() => {
+    //declaring the interval
+    const interval = setInterval(() => {
+      //once this times out do it again
+      // new Idx for image (which is a random #)
+      let newIdx = getRandIdx();
+      // if thant new num == img we're already on, get a new num till its not the same
+      while (newIdx === bgImageIdx) {
+        newIdx = getRandIdx();
+      }
+      //set the new num
+      setBgImageIdx(newIdx);
+    }, 5000);
+    // clear interval so that we start a new interval and changes the background image
+    return () => clearInterval(interval);
+  }, [bgImageIdx, imgArr]);
+
+  useEffect(() => {
+    // Define an asynchronous function to fetch images from the Pexels API
+    const getImage = async (image = "real%20estate", numImage = 15) => {
+      // Construct the API URL with the provided image query and per_page parameter.
+      const url = `https://api.pexels.com/v1/search?query=${image}&per_page=10`;
+      // Make an HTTP GET request to the Pexels API.
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          // Set the Authorization header with the Pexels API key from environment variables.
+          Authorization: process.env.REACT_APP_PEXELS_API_KEY,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      // Update the component's state with the array of fetched photos
+      setImgArr(data.photos);
+      // console.log(data.photos)
+    };
+    // Call the getImage function immediately when the component mounts.
+    getImage();
+    // The empty dependency array [] ensures this effect runs only on component mount and unmount.
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError(null); // to clear Previous errors
+    setEmailError(false);
+    if (!email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      setEmailError(true);
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) =>{
-      navigate('/admin')
-      console.log(userCredential)
-
-    })
-    .catch((err) =>{
-      console.log(err)
-
-
-    });
+      .then((userCredential) => {
+        navigate("/admin");
+        console.log(userCredential);
+      })
+      .catch((err) => {
+        setError(err.message);
+        console.log(err);
+      });
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1490197415175-074fd86b1fcc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
+        {imgArr.length > 0 ? (
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
+            sx={{
+              backgroundImage: `url(${imgArr[bgImageIdx].src.original})`,
+              backgroundRepeat: "no-repeat",
+              backgroundColor: (t) =>
+                t.palette.mode === "light"
+                  ? t.palette.grey[50]
+                  : t.palette.grey[900],
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        ) : (
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
+            sx={{
+              backgroundImage:
+                "url(https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg)",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: (t) =>
+                t.palette.mode === "light"
+                  ? t.palette.grey[50]
+                  : t.palette.grey[900],
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        )}
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <LogoSVG width={75} height={75} sx={{m:1}}/>
+            <LogoSVG width={75} height={75} sx={{ m: 1 }} />
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
@@ -95,6 +187,8 @@ const Login = () => {
                 autoFocus
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={emailError}
+                helperText={emailError ? "Invalid email address" : ""}
               />
               <TextField
                 margin="normal"
@@ -108,10 +202,17 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              <div className="d-flex justify-content-between align-items-center">
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                {error && (
+                  <Typography variant="h6" color="error" align="start">
+                    {error && error.replace("Firebase:", "").trim()}
+                  </Typography>
+                )}
+              </div>
               <Button
                 type="submit"
                 fullWidth
@@ -139,5 +240,5 @@ const Login = () => {
       </Grid>
     </ThemeProvider>
   );
-}
-export default Login
+};
+export default Login;
