@@ -16,7 +16,8 @@ import LogoSVG from "../assets/svg/Logo";
 import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ColorModeContext, tokens } from "../theme";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material";
+import useColorTheme from "../hooks/FormStyles";
 
 function Copyright(props) {
   return (
@@ -48,7 +49,8 @@ const Login = () => {
   const theme = useTheme();
   console.log(theme);
   const colors = tokens(theme.palette.mode);
-  // const colorMode = useContext(ColorModeContext)
+  const colorMode = useContext(ColorModeContext);
+  const colorTheme = useColorTheme();
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
   //! co-authors (Immanuel, Braxton)
@@ -162,7 +164,10 @@ const Login = () => {
         component={Paper}
         elevation={6}
         square
-        sx={{ background: colors.primary[500] }}
+        sx={{
+          background:
+            colorMode === "dark" ? colors.grey[100] : colors.grey[900],
+        }}
       >
         <Box
           sx={{
@@ -173,7 +178,12 @@ const Login = () => {
             alignItems: "center",
           }}
         >
-          <LogoSVG width={75} height={75} color={colors.primary[100]} sx={{ m: 1 }} />
+          <LogoSVG
+            width={75}
+            height={75}
+            color={colors.blueAccent[500]}
+            sx={{ m: 1 }}
+          />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -188,16 +198,8 @@ const Login = () => {
               autoComplete="email"
               autoFocus
               value={email}
-              InputLabelProps={{
-                style: {
-                  color: colors.blueAccent[200],
-                },
-              }}
-              InputProps={{
-                style: {
-                  color: colors.grey[100],
-                },
-              }}
+              InputLabelProps={{ ...colorTheme.inputLabelProps }}
+              InputProps={{ ...colorTheme.inputProps }}
               sx={{
                 mt: 3,
                 mb: 2,
@@ -223,16 +225,8 @@ const Login = () => {
               id="password"
               autoComplete="current-password"
               value={password}
-              InputLabelProps={{
-                style: {
-                  color: colors.blueAccent[200],
-                },
-              }}
-              InputProps={{
-                style: {
-                  color: colors.grey[100],
-                },
-              }}
+              InputLabelProps={{ ...colorTheme.inputLabelProps }}
+              InputProps={{ ...colorTheme.inputProps }}
               sx={{
                 mt: 3,
                 mb: 2,
@@ -248,7 +242,13 @@ const Login = () => {
             />
             <div className="d-flex justify-content-between align-items-center">
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" style={{ color: colors.blueAccent[100] }}  />}
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    style={{ color: colors.blueAccent[100] }}
+                  />
+                }
                 label="Remember me"
               />
               {error && (
@@ -263,14 +263,7 @@ const Login = () => {
               fullWidth
               variant="contained"
               //
-              sx={{
-                mt: 3,
-                mb: 2,
-                backgroundColor: colors.blueAccent[500],
-                "&:hover": {
-                  backgroundColor: colors.primary[800],
-                },
-              }}
+              sx={{ ...colorTheme.submitButton }}
             >
               Sign In
             </Button>
@@ -296,8 +289,6 @@ const Login = () => {
                   to={"/signup"}
                   variant="body2"
                   sx={{
-                    mt: 3,
-                    mb: 2,
                     color: colors.grey[100],
                     "&:hover": {
                       color: colors.blueAccent[500],
@@ -308,7 +299,7 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
           </Box>
         </Box>
       </Grid>
