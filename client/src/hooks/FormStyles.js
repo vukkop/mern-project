@@ -35,8 +35,34 @@ const useColorTheme = () => {
       backgroundColor: colors.blueAccent[800],
     },
   };
-  
-  return { inputLabelProps, inputProps, inputStyling, submitButton };
+
+  const checkBox = {
+    color: colors.blueAccent[200],
+    "&.Mui-checked": {
+      color: colors.blueAccent[200],
+    },
+  };
+
+  const checkBoxLabel = {
+    color: colors.blueAccent[200],
+  };
+
+  const selectLabel = {
+    color: colors.blueAccent[200],
+    "&.Mui-focused": {
+      color: colors.blueAccent[200],
+    },
+  };
+
+  return {
+    inputLabelProps,
+    inputProps,
+    inputStyling,
+    submitButton,
+    checkBox,
+    checkBoxLabel,
+    selectLabel,
+  };
 };
 
 export default useColorTheme;

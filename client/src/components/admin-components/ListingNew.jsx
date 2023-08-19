@@ -10,9 +10,9 @@ const ListingNew = () => {
   const newListing = {
     name: '',
     type: '',
-    numOfBedrooms: 0,
-    numOfBathrooms: 0,
-    size: 0,
+    numOfBedrooms: '',
+    numOfBathrooms: '',
+    size: '',
     description: '',
     price: '',
     isFeatured: false,
