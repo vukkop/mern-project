@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
   CssBaseline,
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Paper,
   Box,
   Grid,
@@ -18,24 +17,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { ColorModeContext, tokens } from "../theme";
 import { useTheme } from "@emotion/react";
 import useColorTheme from "../hooks/FormStyles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://github.com/vukkop/mern-project">
-        RBIV
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../components/global-components/copyright/Copyright";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,7 +29,7 @@ const Login = () => {
 
   const navigate = useNavigate("");
   const theme = useTheme();
-  console.log(theme);
+  // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const colorTheme = useColorTheme();
@@ -115,7 +97,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         navigate("/admin");
-        console.log(userCredential);
+        // console.log(userCredential);
       })
       .catch((err) => {
         setError(err.message);
@@ -155,6 +137,8 @@ const Login = () => {
           }}
         />
       )}
+      {/* credit: braxton */}
+      {/* {console.log(theme.palette.mode)} */}
       <Grid
         item
         xs={12}
@@ -164,8 +148,8 @@ const Login = () => {
         elevation={6}
         square
         sx={{
-          background:
-            colorMode === "light" ? colors.grey[100] : colors.primary[500],
+          background: 
+          theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[1000]
         }}
       >
         <Box
@@ -183,7 +167,7 @@ const Login = () => {
             color={colors.blueAccent[500]}
             sx={{ m: 1 }}
           />
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
             Sign in
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -199,17 +183,7 @@ const Login = () => {
               value={email}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{
-                mt: 3,
-                mb: 2,
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused": {
-                    "& fieldset": {
-                      borderColor: colors.blueAccent[100],
-                    },
-                  },
-                },
-              }}
+              sx={{...colorTheme.inputStyling }}
               onChange={(e) => setEmail(e.target.value)}
               error={emailError}
               helperText={emailError ? "Invalid email address" : ""}
@@ -226,17 +200,7 @@ const Login = () => {
               value={password}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{
-                mt: 3,
-                mb: 2,
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused": {
-                    "& fieldset": {
-                      borderColor: colors.blueAccent[100],
-                    },
-                  },
-                },
-              }}
+              sx={{...colorTheme.inputStyling }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="d-flex justify-content-between align-items-center">
@@ -268,7 +232,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link
+                <RouterLink
                   href="#"
                   variant="body2"
                   sx={{
@@ -281,21 +245,15 @@ const Login = () => {
                   }}
                 >
                   Forgot password?
-                </Link>
+                </RouterLink>
               </Grid>
               <Grid item>
-                <Link
+                <RouterLink
                   to={"/signup"}
                   variant="body2"
-                  sx={{
-                    color: colors.grey[100],
-                    "&:hover": {
-                      color: colors.blueAccent[500],
-                    },
-                  }}
                 >
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </RouterLink>
               </Grid>
             </Grid>
             <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
