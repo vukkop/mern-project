@@ -36,10 +36,31 @@ const Landing = () => {
         setListingList(res.data)
       }).catch((err) => console.log(err))
   }
+
+  const mainFeaturedPost = {
+    title: "It's about your lifestyle...",
+    description:
+      "Turning dreams into addresses. Where Every House Becomes a Home and Every Client a Friend. Discovering Space, Creating Memories your Real Estate Partner.",
+    image: 'https://source.unsplash.com/random?wallpapers',
+    imageText: 'main image description',
+    linkText: 'Continue reading…',
+  };
+
+// 1. "Unlocking Doors to Your Dream Home and a Bright Future."
+// 2. "Where Every House Becomes a Home and Every Client a Friend."
+// 3. "Elevating Real Estate, One Exceptional Property at a Time."
+// 4. "Your Trust, Our Priority – Navigating Your Real Estate Journey."
+// 5. "Discovering Space, Creating Memories – Your Real Estate Partner."
+// 6. "Opening New Doors to Endless Possibilities in Real Estate."
+// 7. "From Listings to Lifelong Connections – Your Real Estate Family."
+// 8. "Guiding Your Path to Prosperity through Premier Real Estate."
+// 9. "Real Estate Expertise, Personalized for Your Unique Journey."
+// 10. "Investing in Your Tomorrow, Today – Your Real Estate Ally."
+
   return (
     <div>
-      <NavBar/>
-      <Hero/>
+      <NavBar />
+      <Hero post={mainFeaturedPost}/>
     </div>
   )
 }
