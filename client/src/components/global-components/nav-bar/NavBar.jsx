@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { ColorModeContext, tokens } from "../../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -51,7 +51,7 @@ function NavBar() {
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 10, alignItems: "center" }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: "center" }}>
             <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography

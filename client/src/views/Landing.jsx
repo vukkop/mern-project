@@ -2,8 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { deleteById } from "../Utils/UtilsFunc";
 import NavBar from "../components/global-components/nav-bar/NavBar"
+import { Box, Grid } from "@mui/material";
+import { useTheme } from "@mui/material";
+import { useContext } from "react";
+import { ColorModeContext, tokens } from "../theme";
+import Hero from "../components/landing-components/Hero";
 
 const Landing = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
 
   const [listingList, setListingList] = useState([]);
   const [toaster, setToaster] = useState('');
@@ -28,10 +36,10 @@ const Landing = () => {
         setListingList(res.data)
       }).catch((err) => console.log(err))
   }
-  // will finish it when i want
   return (
     <div>
       <NavBar/>
+      <Hero/>
     </div>
   )
 }
