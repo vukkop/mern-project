@@ -6,7 +6,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Paper,
   Box,
   Grid,
@@ -18,24 +17,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { ColorModeContext, tokens } from "../theme";
 import { useTheme } from "@emotion/react";
 import useColorTheme from "../hooks/FormStyles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://github.com/vukkop/mern-project">
-        RBIV
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../components/global-components/copyright/Copyright";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -166,7 +148,6 @@ const Login = () => {
         elevation={6}
         square
         sx={{
-          // stuck on this part
           background: 
           theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[1000]
         }}
@@ -186,7 +167,7 @@ const Login = () => {
             color={colors.blueAccent[500]}
             sx={{ m: 1 }}
           />
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
             Sign in
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -202,17 +183,7 @@ const Login = () => {
               value={email}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{
-                mt: 3,
-                mb: 2,
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused": {
-                    "& fieldset": {
-                      borderColor: colors.blueAccent[100],
-                    },
-                  },
-                },
-              }}
+              sx={{...colorTheme.inputStyling }}
               onChange={(e) => setEmail(e.target.value)}
               error={emailError}
               helperText={emailError ? "Invalid email address" : ""}
@@ -229,17 +200,7 @@ const Login = () => {
               value={password}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{
-                mt: 3,
-                mb: 2,
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused": {
-                    "& fieldset": {
-                      borderColor: colors.blueAccent[100],
-                    },
-                  },
-                },
-              }}
+              sx={{...colorTheme.inputStyling }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="d-flex justify-content-between align-items-center">
