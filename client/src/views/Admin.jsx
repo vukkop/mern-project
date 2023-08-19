@@ -9,6 +9,7 @@ import useColorTheme from "../hooks/FormStyles"
 
 const Admin = () => {
   const navigate = useNavigate()
+  const currentRoute = window.location.pathname;
   const colorTheme = useColorTheme()
 
   return (
@@ -18,7 +19,10 @@ const Admin = () => {
       <div className='container mt-4'>
         <div className='d-flex justify-content-between mb-5'>
           <h2>Listings</h2>
-          <Button onClick={() => navigate("new")} variant="contained" sx={{ ...colorTheme.submitButton }}><i className="fa-solid fa-plus me-2"></i>Add New</Button>
+          {currentRoute === '/admin'
+            ? <Button onClick={() => navigate("new")} variant="contained" sx={{ ...colorTheme.submitButton }}><i className="fa-solid fa-plus me-2"></i>Add New</Button>
+            : <Button onClick={() => navigate("/admin")} variant="contained" color='secondary' >Back</Button>
+          }
         </div>
 
         <Routes>
