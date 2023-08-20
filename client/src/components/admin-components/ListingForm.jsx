@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
 import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
 import Button from '@mui/material/Button'
-import { ColorModeContext, tokens } from "../../theme";
-import { useTheme } from "@emotion/react";
 import useColorTheme from "../../hooks/FormStyles"
 
 const ListingForm = (props) => {
@@ -11,13 +9,6 @@ const ListingForm = (props) => {
   const [listing, setListing] = useState(initialListing);
 
   const colorTheme = useColorTheme()
-
-  const inputLabelProps = colorTheme.inputLabelProps
-  const inputProps = colorTheme.inputProps
-  const inputStyling = colorTheme.inputStyling
-  const submitButton = colorTheme.submitButton
-
-
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -49,7 +40,6 @@ const ListingForm = (props) => {
       setListing((prev) =>
         ({ ...prev, [name]: value }))
     }
-
   }
 
   return (
@@ -170,7 +160,7 @@ const ListingForm = (props) => {
                   value={listing.state}
                   InputLabelProps={{ ...colorTheme.inputLabelProps }}
                   InputProps={{ ...colorTheme.inputProps }}
-                  className="mb-3"
+                  className="mb-3 pe-2"
                   sx={{
                     ...colorTheme.inputStyling,
                     width: '33%',
@@ -178,12 +168,12 @@ const ListingForm = (props) => {
                 />
                 <TextField
                   name='zipCode'
-                  label="ZIP code"
+                  label="Zip code"
                   onChange={onChangeHandler}
                   value={listing.zipCode}
                   InputLabelProps={{ ...colorTheme.inputLabelProps }}
                   InputProps={{ ...colorTheme.inputProps }}
-                  className='ps-2 mb-3'
+                  className=' mb-3'
                   sx={{
                     ...colorTheme.inputStyling,
                     width: '33%',
@@ -226,8 +216,9 @@ const ListingForm = (props) => {
               />
             </div>
             <div className='d-flex flex-wrap'>
-              <FormControl fullWidth>
-                <InputLabel id="select-label">Type</InputLabel>
+              <FormControl fullWidth
+                sx={{ ...colorTheme.inputStyling }}>
+                <InputLabel sx={{ ...colorTheme.selectLabel }} id="select-label">Type</InputLabel>
                 <Select
                   labelId="select-label"
                   name='type'
@@ -235,8 +226,6 @@ const ListingForm = (props) => {
                   label="Type"
                   onChange={onChangeHandler}
                   className="mb-3"
-                  fullWidth
-
                 >
                   <MenuItem value={"House"} >House</MenuItem>
                   <MenuItem value={"Apartment"}>Apartment</MenuItem>
@@ -244,17 +233,17 @@ const ListingForm = (props) => {
                   <MenuItem value={"Office"}>Office</MenuItem>
                 </Select>
               </FormControl>
-              <FormControlLabel className='ms-3' control={
+              <FormControlLabel sx={{ ...colorTheme.checkBoxLabel }} className='ms-3' control={
                 <Checkbox name='isFeatured' checked={listing.isFeatured}
-                  onChange={onChangeHandler}
+                  onChange={onChangeHandler} sx={{ ...colorTheme.checkBox }}
                 />
               } label="Featured" />
             </div>
           </div>
         </div>
-
-        <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
-
+        <div>
+          <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
+        </div>
       </form >
     </div >
   )

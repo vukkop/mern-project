@@ -18,16 +18,17 @@ const ListingTable = () => {
   const rows = listingList.map((e, i) => ({ ...e, id: i + 1 }))
   const navigate = useNavigate()
   const columns = [
-    { field: 'id', headerName: '#', width: 50 },
+    { field: 'id', headerName: '#', width: 70 },
     { field: "isFeatured", headerName: 'Featured', width: 90 },
-    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'name', headerName: 'Name', width: 150 },
     { field: 'type', headerName: 'Type', width: 120 },
     { field: 'numOfBedrooms', headerName: '# Bedrooms', width: 100 },
     { field: 'numOfBathrooms', headerName: '# Bathrooms', width: 100 },
     { field: 'price', headerName: 'Price', type: 'number', width: 100 },
     { field: 'size', headerName: 'Size', type: 'number', width: 100 },
-    { field: 'description', headerName: 'Description', width: 150, sortable: false },
-    { field: 'imgUrl', headerName: 'Img Url', width: 120, sortable: false, },
+    { field: 'address', headerName: 'Address', width: 150, sortable: false },
+    { field: 'city', headerName: 'City', width: 90, sortable: false, },
+    { field: 'state', headerName: 'State', width: 70, sortable: false, },
     {
       field: 'actions',
       type: 'actions',
@@ -41,13 +42,13 @@ const ListingTable = () => {
             label="Edit"
             className="textPrimary"
             onClick={() => handleEditClick(id.row._id)}
-            color="inherit"
+            color="secondary"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={() => handleDeleteClick(id.row._id)}
-            color="inherit"
+            color="error"
           />,
         ];
       },
@@ -80,7 +81,6 @@ const ListingTable = () => {
     navigate(`${id}/edit`)
   }
 
-
   return (
     <div>
       <div style={{ width: '100%' }}>
@@ -95,6 +95,7 @@ const ListingTable = () => {
           pageSizeOptions={[5, 10]}
         />
       </div>
+
     </div >
   )
 }
