@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -9,9 +9,11 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import LogoSVG from "../assets/svg/Logo";
-import { ColorModeContext, tokens } from "../theme";
+import { auth } from "../firebase/firebase";
+import { tokens } from "../theme";
 import { useTheme } from "@emotion/react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 
@@ -22,16 +24,15 @@ const Registration = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  // const navigate = useNavigate("");
+  const navigate = useNavigate();
   const theme = useTheme();
-  // console.log(theme);
   const colors = tokens(theme.palette.mode);
-  // const colorMode = useContext(ColorModeContext);
   const colorTheme = useColorTheme();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setEmailError(false);
+
     if (!email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
       setEmailError(true);
       return;
@@ -41,17 +42,20 @@ const Registration = () => {
       setPasswordsMatch(false);
       return;
     }
-
-    // Clear previous errors and perform further actions
     setPasswordsMatch(true);
-    // Add your logic here for registration, such as creating a user account
 
-    // For demonstration purposes, log the registration data
-    console.log({
-      email,
-      password,
-      confirmPassword,
-    });
+    try {
+      const newUser = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = newUser.user;
+      // console.log("registration successful", user)
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration Error:", err);
+    }
   };
 
   return (
@@ -80,7 +84,9 @@ const Registration = () => {
         square
         sx={{
           background:
-            theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[1000],
+            theme.palette.mode === "dark"
+              ? colors.primary[500]
+              : colors.grey[1000],
         }}
       >
         <Box
@@ -113,7 +119,7 @@ const Registration = () => {
               value={email}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{...colorTheme.inputStyling }}
+              sx={{ ...colorTheme.inputStyling }}
               onChange={(e) => setEmail(e.target.value)}
               error={emailError}
               helperText={emailError ? "Invalid email address" : ""}
@@ -130,7 +136,7 @@ const Registration = () => {
               value={password}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{...colorTheme.inputStyling }}
+              sx={{ ...colorTheme.inputStyling }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
@@ -148,7 +154,7 @@ const Registration = () => {
               sx={{
                 mt: 3,
                 mb: 2,
-                ...colorTheme.inputStyling 
+                ...colorTheme.inputStyling,
               }}
               error={!passwordsMatch}
               helperText={!passwordsMatch && "Passwords do not match"}
@@ -157,13 +163,13 @@ const Registration = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{...colorTheme.submitButton }}
+              sx={{ ...colorTheme.submitButton }}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-              <RouterLink to ={"/login"} variant="body2">
+                <RouterLink to={"/login"} variant="body2">
                   Already have an account? Sign in
                 </RouterLink>
               </Grid>
