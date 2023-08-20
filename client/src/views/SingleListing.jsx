@@ -5,28 +5,39 @@ import axios from "axios";
 
 const SingleListing = () => {
   const { id } = useParams()
-  const [listing, setListing] = useState({ name: "" })
+  const [listing, setListing] = useState({
+    name: '',
+    type: '',
+    numOfBedrooms: '',
+    numOfBathrooms: '',
+    size: '',
+    description: '',
+    price: '',
+    isFeatured: false,
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    imgUrl: '',
+  })
 
   useEffect(() => {
-    // getDetails();
+    getDetails();
   }, [id]);
 
-  // const getDetails = () => {
-  //   axios
-  //     .get(`http://localhost:8000/api/listings/${id}`)
-  //     .then((res) => {
-  //       setListing(res.data)
-  //     })
-  // }
+  const getDetails = () => {
+    axios
+      .get(`http://localhost:8000/api/listing/${id}`)
+      .then((res) => {
+        setListing(res.data)
+      })
+  }
 
 
   return (
     <div>
-
-
-
       <h1>Display something</h1>
-
+      <h3>{listing.name}</h3>
 
     </div>
   )
