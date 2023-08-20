@@ -26,7 +26,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [bgImageIdx, setBgImageIdx] = useState(0);
   const [imgArr, setImgArr] = useState([]);
-
+  const [bgImgString, setBgImgString] = useState('https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg');
   const navigate = useNavigate("");
   const theme = useTheme();
   // console.log(theme);
@@ -39,26 +39,6 @@ const Login = () => {
   const getRandIdx = () => {
     return Math.floor(Math.random() * imgArr.length);
   };
-
-  useEffect(() => {
-    //declaring the interval
-    const interval = setInterval(() => {
-      //once this times out do it again
-      // new Idx for image (which is a random #)
-      let newIdx = getRandIdx();
-      // if thant new num == img we're already on, get a new num till its not the same
-      while (newIdx === bgImageIdx) {
-        newIdx = getRandIdx();
-      }
-      //set the new num
-      setBgImageIdx(newIdx);
-      setTimeout(() => {
-        setBgImageIdx(newIdx);
-      }, 750);
-    }, 5000);
-    // clear interval so that we start a new interval and changes the background image
-    return () => clearInterval(interval);
-  }, [bgImageIdx, imgArr]);
 
   useEffect(() => {
     // Define an asynchronous function to fetch images from the Pexels API
@@ -84,6 +64,27 @@ const Login = () => {
     // The empty dependency array [] ensures this effect runs only on component mount and unmount.
   }, []);
 
+  useEffect(() => {
+    //declaring the interval
+    const interval = setInterval(() => {
+      //once this times out do it again
+      // new Idx for image (which is a random #)
+      let newIdx = getRandIdx();
+      // if thant new num == img we're already on, get a new num till its not the same
+      while (newIdx === bgImageIdx) {
+        newIdx = getRandIdx();
+      }
+      //set the new num
+      setBgImageIdx(newIdx);
+      setTimeout(() => {
+        setBgImageIdx(newIdx);
+        setBgImgString(imgArr[newIdx].src.original);
+      }, 750);
+    }, 5000);
+    // clear interval so that we start a new interval and changes the background image
+    return () => clearInterval(interval);
+  }, [bgImageIdx, imgArr]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null); // to clear Previous errors
@@ -107,35 +108,19 @@ const Login = () => {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
-      {imgArr.length > 0 ? (
         <Grid
           item
           xs={false}
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${imgArr[bgImageIdx].src.original})`,
+            backgroundImage: `url(${bgImgString})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
             transition: "background-image 1.25s ease-in-out",
           }}
         />
-      ) : (
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      )}
       {/* credit: braxton */}
       {/* {console.log(theme.palette.mode)} */}
       <Grid
