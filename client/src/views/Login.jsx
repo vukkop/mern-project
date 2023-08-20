@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -11,11 +11,11 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import LogoSVG from "../assets/svg/Logo";
 import { auth } from "../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { ColorModeContext, tokens } from "../theme";
+import { tokens } from "../theme";
 import { useTheme } from "@emotion/react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 
@@ -31,7 +31,6 @@ const Login = () => {
   const theme = useTheme();
   // console.log(theme);
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
   const colorTheme = useColorTheme();
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
@@ -148,8 +147,10 @@ const Login = () => {
         elevation={6}
         square
         sx={{
-          background: 
-          theme.palette.mode === "dark" ? colors.primary[500] : colors.grey[1000]
+          background:
+            theme.palette.mode === "dark"
+              ? colors.primary[500]
+              : colors.grey[1000],
         }}
       >
         <Box
@@ -183,7 +184,7 @@ const Login = () => {
               value={email}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{...colorTheme.inputStyling }}
+              sx={{ ...colorTheme.inputStyling }}
               onChange={(e) => setEmail(e.target.value)}
               error={emailError}
               helperText={emailError ? "Invalid email address" : ""}
@@ -200,7 +201,7 @@ const Login = () => {
               value={password}
               InputLabelProps={{ ...colorTheme.inputLabelProps }}
               InputProps={{ ...colorTheme.inputProps }}
-              sx={{...colorTheme.inputStyling }}
+              sx={{ ...colorTheme.inputStyling }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <div className="d-flex justify-content-between align-items-center">
@@ -248,10 +249,7 @@ const Login = () => {
                 </RouterLink>
               </Grid>
               <Grid item>
-                <RouterLink
-                  to={"/signup"}
-                  variant="body2"
-                >
+                <RouterLink to={"/signup"} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </RouterLink>
               </Grid>
