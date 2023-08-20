@@ -8,16 +8,16 @@ const SingleListing = () => {
   const [listing, setListing] = useState({ name: "" })
 
   useEffect(() => {
-    getDetails();
+    // getDetails();
   }, [id]);
 
-  const getDetails = () => {
-    axios
-      .get(`http://localhost:8000/api/listings/${id}`)
-      .then((res) => {
-        setListing(res.data)
-      })
-  }
+  // const getDetails = () => {
+  //   axios
+  //     .get(`http://localhost:8000/api/listings/${id}`)
+  //     .then((res) => {
+  //       setListing(res.data)
+  //     })
+  // }
 
 
   return (
