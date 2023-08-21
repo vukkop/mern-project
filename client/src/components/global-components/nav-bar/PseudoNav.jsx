@@ -23,7 +23,7 @@ import NavStyles from "../../../hooks/NavHooks"
 const pages = ['Home', 'Properties', "About", "Contact"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function NavBar() {
+function PseudoNav() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -123,9 +123,6 @@ function NavBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/broken-image.jpg" />
-              </IconButton>
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
               </IconButton>
@@ -155,4 +152,4 @@ function NavBar() {
     </AppBar>
   );
 }
-export default NavBar;
+export default PseudoNav;

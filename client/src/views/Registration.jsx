@@ -17,7 +17,7 @@ import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 
-const Registration = () => {
+const Registration = ({setNavShouldRender}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -28,6 +28,8 @@ const Registration = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
+
+  setNavShouldRender(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
