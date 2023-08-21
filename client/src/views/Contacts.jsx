@@ -67,7 +67,7 @@ const Contacts = () => {
             backgroundImage: `url(${bgImage})`
           }}>
           <Grid sx={{
-            backgroundColor: alpha(colors.blueAccent[500], 0.92),
+            backgroundColor: alpha(colors.blueAccent[500], 0.82),
             width: "100%",
             height: "100%",
             position: 'relative',
@@ -77,8 +77,8 @@ const Contacts = () => {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
-                backdropFilter: 'blur(3px)',
-                boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.9)",
+                backdropFilter: 'blur(0px)',
+                boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.8)",
                 zIndex: 2,
               }}
             />
@@ -94,45 +94,44 @@ const Contacts = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                mt: { xs: 1, md: 20 },
-                px: { md: 20, lg: 40, xl: 60 }
+                mt: { xs: 1, md: 5},
+                px: {md: 10, lg: 25, xl: 45 }
               }}>
                 <Box sx={{ position: "relative", }}>
-                  <Typography variant="h1" component="h1" fontWeight="bold" sx={{fontSize: "4rem"}}>
+                  <Typography variant="h1" component="h1" fontWeight="bold" sx={{fontSize: {xs: "2rem",sm:"4rem"}}}>
                     Get In Touch
                   </Typography>
                   <Typography variant="h3" component="h3"
                     sx={{
                       mt: 3,
-                      display: { xs: "none", md: "block" }
+                      display: {xs: "none", md: "block"}
                     }}>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, saepe ullam rem iure, labore delectus tempora accusamus
                   </Typography>
                   {/* this is the blue box */}
                   <Box sx={{
-                    display: "flex",
+                    display: {xs: "block", md: "flex"},
+                    //? borderRadius: {xs: 10, sm: 0, md: 10, lg: 0, xl: 10}, line is for testing break points
                     borderRadius: 10,
                     position: "absolute",
-                    top: 275,
-                    right: -150,
+                    top: {xs: 100,sm: 125, md: 300 , lg: 300, xl: 300},
+                    right: {xs: -83,sm: -190, md: 0, lg: -50, xl: -300},
                     backgroundColor: colors.blueAccent[900],
-                    height: "600%",
-                    width: "125%",
+                    height: {xs: "1500%",sm: "650%", md:"350%" ,lg: "350%" ,xl: "450%"},
+                    width: {xs: "190%",sm: "200%", md:"100%" ,lg: "120%" ,xl: "150%"},
                     boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.9)",
                   }}>
                     <Box sx={{
-                      ml: 10,
-                      padding: 5,
+                      ml: {xs: 0, md:3, lg: 10},
+                      padding: {xs: 2, md: 5},
                       justifyContent: "space-between",
-                      width: "60%"
+                      width: {xs: "100%", md: "60%"}
                     }}>
                       <Typography variant="h2" component="h2" fontWeight="bold">
                         Send us a Message
                       </Typography>
                       <Box sx={{ mt: 5 }}>
-                        <form ref={form} onSubmit={handleSubmit}>
-                          <FormControl>
-                            <div>
+                        <Box  component="form" ref={form} noValidate onSubmit={handleSubmit}>
                               <TextField
                                 name='name'
                                 label="Name"
@@ -146,8 +145,6 @@ const Contacts = () => {
                                   ...colorTheme.inputStyling
                                 }}
                               />
-                            </div>
-                            <div>
                               <TextField
                                 name='email'
                                 type='email'
@@ -189,7 +186,6 @@ const Contacts = () => {
                                   ...colorTheme.inputStyling,
                                 }}
                               />
-                            </div>
                             <TextField
                               name='message'
                               label="Message"
@@ -205,26 +201,29 @@ const Contacts = () => {
                                 ...colorTheme.inputStyling
                               }}
                             />
-                            <div>
-                              <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
-                            </div>
-                          </FormControl>
-                        </form>
+                              <Button 
+                              type='submit' 
+                              className="float-end" 
+                              sx={{ 
+                                ...colorTheme.submitButton }} 
+                              variant="contained">
+                                Submit
+                              </Button>
+                        </Box>
                       </Box>
                     </Box>
                     <Box sx={{
-                      borderTopRightRadius: 40,
+                      borderTopRightRadius: {sm: 0, md: 40},
                       borderBottomRightRadius: 40,
-                      padding: 10,
-                      width: "40%",
+                      borderBottomLeftRadius: {sm: 40, md: 0},
+                      padding: {md:2, lg:10},
+                      width: {sm: "100%", md: "40%"},
                       backgroundColor: colors.grey[300]
                     }}>
-                      <Typography variant="h2" component="h2" fontWeight="bold" sx={{
-                        textAlign: "center",
-                      }}>
+                      <Typography variant="h2" component="h2" fontWeight="bold" sx={{textAlign: "center"}}>
                         Contact Information
                       </Typography>
-                      <div className= 'text-center mt-5'>
+                      <div className= 'text-center mt-1'>
                         <Box className="align-self-center">
                           <div className="mb-4 text-center">
                             <h4>Address:</h4>
