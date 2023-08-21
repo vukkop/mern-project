@@ -17,21 +17,16 @@ const SingleListingCarousel = ({ images }) => {
       description: "Hello World!",
       imgUrl: "https://images.unsplash.com/photo-1598228723793-52759bba239c?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvdXNlfGVufDB8fDB8fHww&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60"
     },
-    {
-      name: "Random Name #3",
-      description: "Hello World!",
-      imgUrl: "https://media.istockphoto.com/id/1357529194/photo/3d-rendering-of-a-modern-styled-living-room-with-fireplace.jpg?s=612x612&amp;w=0&amp;k=20&amp;c=bBBhHQnZLal9xoH9fGhAEg33CDVF0msBfB7l9cLTU_s="
-    }
   ]
 
   return (
-    <Carousel>
+    <Carousel >
       {
         items.map((item, i) =>
           <Paper key={i}>
+            <img height={500} src={item.imgUrl} alt={item.name} />
             <h2>{item.name}</h2>
             <p>{item.description}</p>
-            <img src={item.imgUrl} alt={item.name} />
 
 
           </Paper>)
