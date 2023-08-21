@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { auth } from "../firebase/firebase";
-import { tokens } from "../theme";
+import { tokens } from "../context/theme";
 import { useTheme } from "@emotion/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import LogoSVG from "../assets/svg/Logo";

@@ -7,7 +7,7 @@ import useColorTheme from "../hooks/FormStyles"
 import emailjs from "@emailjs/browser";
 import bgImage from "../assets/img/cityImage.jpg";
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../theme";
+import { ColorModeContext, tokens } from "../context/theme";
 import { useTheme } from "@mui/material/styles";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
