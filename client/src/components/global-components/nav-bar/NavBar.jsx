@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../../theme";
@@ -20,7 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
 import NavStyles from "../../../hooks/NavHooks"
 
-const pages = ['Home', 'Properties', "About", "Contact"];
+const pages = ['Home', 'Properties', "About", "Contacts"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
@@ -28,6 +28,8 @@ function NavBar() {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const navStyle = NavStyles();
+
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,6 +48,17 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navFunc = (page) => {
+    console.log(typeof page)
+    if (page == "Home") {
+      navigate(`/`);
+      handleCloseNavMenu()
+    } else {
+      navigate(`/${page.toLowerCase()}`);
+      handleCloseNavMenu()
+    }
+  }
 
   return (
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
@@ -91,8 +104,14 @@ function NavBar() {
             >
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography color={colors.grey[100]} textAlign="center">{page}</Typography>
+                <MenuItem key={page} onClick={handleCloseNavMenu} sx={{p:0}}>
+                  <Button size="large" onClick={() => navFunc(page)} textAlign="center" style={{
+                    textDecoration: 'none', 
+                    color: colors.grey[100],
+                    width: "100%",
+                    }}>
+                    {page}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
@@ -113,7 +132,8 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={()=> navFunc(page)}
+                
                 sx={{ my: 2, color: colors.grey[100], display: 'block' }}
               >
                 {page}
