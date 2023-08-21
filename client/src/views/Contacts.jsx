@@ -1,14 +1,9 @@
 import React, { useState, useRef } from "react";
 import TextField from '@mui/material/TextField';
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Box } from '@mui/material';
+import { FormControl, Box } from '@mui/material';
 import Button from '@mui/material/Button'
 import useColorTheme from "../hooks/FormStyles"
 import emailjs from '@emailjs/browser';
-//service_dxwz7kk
-
-// template_3yti0li
-
-// I4r1Du7Ym2fA7cxI-
 
 const Contacts = () => {
   const [contactForm, setContactForm] = useState({
@@ -21,12 +16,8 @@ const Contacts = () => {
   const form = useRef()
   const colorTheme = useColorTheme()
 
-
   const sendEmail = (e) => {
-    e.preventDefault();
-    console.log(form);
-
-    emailjs.sendForm('service_dxwz7kk', 'template_3yti0li', form.current, 'I4r1Du7Ym2fA7cxI-')
+    emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, form.current, process.env.REACT_APP_EMAILJS_PUBLIC_KEY)
       .then((result) => {
         console.log(result.text);
       }, (error) => {
@@ -34,20 +25,9 @@ const Contacts = () => {
       });
   };
 
-
   const handleSubmit = e => {
     e.preventDefault();
-    // const formInput = {
-    //   name: e.target.name.value,
-    //   email: e.target.email.value,
-    //   phoneNumber: e.target.phoneNumber.value,
-    //   subject: e.target.subject.value,
-    //   message: e.target.message.value,
-    // }
-    // console.log(formInput);
-
     sendEmail(e)
-
     setContactForm({
       name: '',
       email: '',
@@ -172,17 +152,10 @@ const Contacts = () => {
                 <h4>Phone:</h4>
                 <h5><a href="tel:2341234567" className="text-decoration-none color-red text-white">+1 234-123-4567</a></h5>
               </div>
-
-
-
             </Box>
-
           </div>
         </div >
-
       </form >
-
-
 
     </div >
   )
