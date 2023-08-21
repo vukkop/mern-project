@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { ColorModeContext, useMode } from "./theme";
+import { ColorModeContext, useMode } from "./context/theme";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import New from "./views/New";
