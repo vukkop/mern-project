@@ -5,7 +5,7 @@ import NavBar from "../components/global-components/nav-bar/NavBar"
 import { Box, Grid } from "@mui/material";
 import { useTheme } from "@mui/material";
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../theme";
+import { ColorModeContext, tokens } from "../context/theme";
 import Hero from "../components/landing-components/Hero";
 
 const Landing = () => {

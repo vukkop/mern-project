@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../theme";
+import { ColorModeContext, tokens } from "../context/theme";
 import { useTheme } from "@mui/material/styles";
 
 const NavStyles = () => {
