@@ -19,7 +19,7 @@ import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 
-const Login = () => {
+const Login = ({setNavShouldRender}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -29,11 +29,14 @@ const Login = () => {
   const [bgImgString, setBgImgString] = useState(
     "https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg"
   );
+  
   const navigate = useNavigate("");
   const theme = useTheme();
   // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
+
+  setNavShouldRender(false);
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
   //! co-authors (Immanuel, Braxton)
