@@ -26,8 +26,10 @@ const Login = ({setNavShouldRender}) => {
   const [error, setError] = useState(null);
   const [bgImageIdx, setBgImageIdx] = useState(0);
   const [imgArr, setImgArr] = useState([]);
-
-
+  const [bgImgString, setBgImgString] = useState(
+    "https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg"
+  );
+  
   const navigate = useNavigate("");
   const theme = useTheme();
   // console.log(theme);
@@ -44,48 +46,61 @@ const Login = ({setNavShouldRender}) => {
   };
 
   useEffect(() => {
-    //declaring the interval
-    const interval = setInterval(() => {
-      //once this times out do it again
-      // new Idx for image (which is a random #)
-      let newIdx = getRandIdx();
-      // if thant new num == img we're already on, get a new num till its not the same
-      while (newIdx === bgImageIdx) {
-        newIdx = getRandIdx();
-      }
-      //set the new num
-      setBgImageIdx(newIdx);
-      setTimeout(() => {
-        setBgImageIdx(newIdx);
-      }, 750);
-    }, 5000);
-    // clear interval so that we start a new interval and changes the background image
-    return () => clearInterval(interval);
-  }, [bgImageIdx, imgArr]);
-
-  useEffect(() => {
     // Define an asynchronous function to fetch images from the Pexels API
     const getImage = async (image = "house", numImage = 15) => {
       // Construct the API URL with the provided image query and per_page parameter.
       const url = `https://api.pexels.com/v1/search?query=${image}&per_page=${numImage}`;
       // Make an HTTP GET request to the Pexels API.
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          // Set the Authorization header with the Pexels API key from environment variables.
-          Authorization: process.env.REACT_APP_PEXELS_API_KEY,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      // Update the component's state with the array of fetched photos
-      setImgArr(data.photos);
-      // console.log(data.photos)
+      // try catch block so if the fetch method fails we can fix it
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            // Set the Authorization header with the Pexels API key from environment variables.
+            Authorization: process.env.REACT_APP_PEXELS_API_KEY,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          setImgArr(data.photos);
+        } else {
+          console.error(await response.json());
+        }
+      } catch (error) {
+        console.error(error);
+      }
     };
     // Call the getImage function immediately when the component mounts.
     getImage();
     // The empty dependency array [] ensures this effect runs only on component mount and unmount.
   }, []);
+
+  useEffect(() => {
+    if (imgArr.length > 0) {
+      //declaring the interval
+      const interval = setInterval(() => {
+        //once this times out do it again
+        // new Idx for image (which is a random #)
+        let newIdx = getRandIdx();
+        // if thant new num == img we're already on, get a new num till its not the same
+        while (newIdx === bgImageIdx) {
+          newIdx = getRandIdx();
+        }
+        //set the new num
+        setBgImageIdx(newIdx);
+        setTimeout(() => {
+          setBgImageIdx(newIdx);
+          setBgImgString(imgArr[newIdx].src.original);
+        }, 750);
+      }, 5000);
+      // clear interval so that we start a new interval and changes the background image
+      return () => clearInterval(interval);
+    }else{
+      console.log("No Images to cycle")
+    }
+  }, [bgImageIdx, imgArr]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,35 +125,19 @@ const Login = ({setNavShouldRender}) => {
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
-      {imgArr.length > 0 ? (
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: `url(${imgArr[bgImageIdx].src.original})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            transition: "background-image 1.25s ease-in-out",
-          }}
-        />
-      ) : (
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://images.pexels.com/photos/2980955/pexels-photo-2980955.jpeg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-      )}
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: `url(${bgImgString})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          transition: "background-image 1.25s ease-in-out",
+        }}
+      />
       {/* credit: braxton */}
       {/* {console.log(theme.palette.mode)} */}
       <Grid

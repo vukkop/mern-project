@@ -53,8 +53,8 @@ const Registration = ({setNavShouldRender}) => {
         password
       );
       const user = newUser.user;
-      // console.log("registration successful", user)
-      navigate("/login");
+      console.log("registration successful", user)
+      navigate("/admin");
     } catch (err) {
       console.error("Registration Error:", err);
     }
