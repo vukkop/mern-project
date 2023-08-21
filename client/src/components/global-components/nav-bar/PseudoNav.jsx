@@ -23,12 +23,11 @@ import NavStyles from "../../../hooks/NavHooks"
 const pages = ['Home', 'Properties', "About", "Contacts"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function NavBar() {
+function PseudoNav() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const navStyle = NavStyles();
-
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -50,14 +49,7 @@ function NavBar() {
   };
 
   const navFunc = (page) => {
-    console.log(typeof page)
-    if (page == "Home") {
-      navigate(`/`);
-      handleCloseNavMenu()
-    } else {
-      navigate(`/${page.toLowerCase()}`);
-      handleCloseNavMenu()
-    }
+    navigate(`/${page.toLowerCase()}`);
   }
 
   return (
@@ -104,14 +96,10 @@ function NavBar() {
             >
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu} sx={{p:0}}>
-                  <Button size="large" onClick={() => navFunc(page)} textAlign="center" style={{
-                    textDecoration: 'none', 
-                    color: colors.grey[100],
-                    width: "100%",
-                    }}>
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Link to={`/${page.toLowerCase()}`} textAlign="center" style={{textDecoration: 'none', color: colors.grey[100]}}>
                     {page}
-                  </Button>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -133,19 +121,16 @@ function NavBar() {
               <Button
                 key={page}
                 onClick={()=> navFunc(page)}
-                
+              
                 sx={{ my: 2, color: colors.grey[100], display: 'block' }}
               >
-                {page}
+              {page}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/broken-image.jpg" />
-              </IconButton>
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
               </IconButton>
@@ -175,4 +160,4 @@ function NavBar() {
     </AppBar>
   );
 }
-export default NavBar;
+export default PseudoNav;
