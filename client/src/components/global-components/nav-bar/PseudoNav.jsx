@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../../theme";
@@ -20,7 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
 import NavStyles from "../../../hooks/NavHooks"
 
-const pages = ['Home', 'Properties', "About", "Contact"];
+const pages = ['Home', 'Properties', "About", "Contacts"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function PseudoNav() {
@@ -28,6 +28,7 @@ function PseudoNav() {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const navStyle = NavStyles();
+  const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -46,6 +47,10 @@ function PseudoNav() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navFunc = (page) => {
+    navigate(`/${page.toLowerCase()}`);
+  }
 
   return (
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
@@ -92,7 +97,9 @@ function PseudoNav() {
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography color={colors.grey[100]} textAlign="center">{page}</Typography>
+                  <Link to={`/${page.toLowerCase()}`} textAlign="center" style={{textDecoration: 'none', color: colors.grey[100]}}>
+                    {page}
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -113,10 +120,11 @@ function PseudoNav() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={()=> navFunc(page)}
+              
                 sx={{ my: 2, color: colors.grey[100], display: 'block' }}
               >
-                {page}
+              {page}
               </Button>
             ))}
           </Box>
