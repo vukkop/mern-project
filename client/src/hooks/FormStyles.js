@@ -62,6 +62,7 @@ const useColorTheme = () => {
     checkBox,
     checkBoxLabel,
     selectLabel,
+    colors,
   };
 };
 
