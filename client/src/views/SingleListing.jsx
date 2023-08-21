@@ -37,8 +37,7 @@ const SingleListing = () => {
 
   return (
     <div>
-      <h1>Display something</h1>
-      <h3>{listing.name}</h3>
+      {/* <h3>{listing.name}</h3> */}
       <SingleListingCarousel images={listing.imgUrl} />
 
 
