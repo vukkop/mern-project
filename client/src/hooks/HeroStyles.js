@@ -1,6 +1,6 @@
 import { alpha } from "@mui/material"
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../theme";
+import { ColorModeContext, tokens } from "../context/theme";
 import { useTheme } from "@mui/material/styles";
 import bgImg from "../assets/img/heroImage.jpg";
 
