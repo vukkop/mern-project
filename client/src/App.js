@@ -1,6 +1,6 @@
 import "./App.css";
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -18,6 +18,14 @@ import PseudoNav from "./components/global-components/nav-bar/PseudoNav";
 function App() {
   const [theme, colorMode] = useMode();
   const [navShouldRender, setNavShouldRender] = useState(true);
+  const currentPath = useLocation().pathname;
+
+  useEffect(() => {
+    const shouldRenderNavBar = currentPath !== '/login' && currentPath !== '/signup';
+    setNavShouldRender(shouldRenderNavBar);
+  }, [currentPath]);
+  
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
