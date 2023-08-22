@@ -23,23 +23,92 @@ const Registration = ({
   component: RouteComponent,
   ...rest
 }) => {
+
   const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [bgImageIdx, setBgImageIdx] = useState(0);
+  const [imgArr, setImgArr] = useState([]);
+  const [bgImgString, setBgImgString] = useState(
+    "https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg"
+  );
 
-  const { currentUser } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate = useNavigate("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
+  const { currentUser } = useContext(AuthContext);
 
-  setNavShouldRender(false);
+  useEffect(() =>{
+    setNavShouldRender(false);
+  }, [])
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const getRandIdx = () => {
+    return Math.floor(Math.random() * imgArr.length);
+  };
+
+  useEffect(() => {
+    // Define an asynchronous function to fetch images from the Pexels API
+    const getImage = async (image = "real%20estate", numImage = 15) => {
+      // Construct the API URL with the provided image query and per_page parameter.
+      const url = `https://api.pexels.com/v1/search?query=${image}&per_page=${numImage}`;
+      // Make an HTTP GET request to the Pexels API.
+      // try catch block so if the fetch method fails we can fix it
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            // Set the Authorization header with the Pexels API key from environment variables.
+            Authorization: process.env.REACT_APP_PEXELS_API_KEY,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          setImgArr(data.photos);
+        } else {
+          console.error(await response.json());
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    // Call the getImage function immediately when the component mounts.
+    getImage();
+    // The empty dependency array [] ensures this effect runs only on component mount and unmount.
+  }, []);
+
+  useEffect(() => {
+    if (imgArr.length > 0) {
+      //declaring the interval
+      const interval = setInterval(() => {
+        //once this times out do it again
+        // new Idx for image (which is a random #)
+        let newIdx = getRandIdx();
+        // if thant new num == img we're already on, get a new num till its not the same
+        while (newIdx === bgImageIdx) {
+          newIdx = getRandIdx();
+        }
+        //set the new num
+        setBgImageIdx(newIdx);
+        setTimeout(() => {
+          setBgImageIdx(newIdx);
+          setBgImgString(imgArr[newIdx].src.original);
+        }, 750);
+      }, 5000);
+      // clear interval so that we start a new interval and changes the background image
+      return () => clearInterval(interval);
+    }else{
+      // console.log("No Images to cycle")
+    }
+  }, [bgImageIdx, imgArr]);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setEmailError(false);
 
     if (!email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
@@ -68,12 +137,11 @@ const Registration = ({
   };
   console.log("render");
 
-
-  useEffect(()=> {
+  useEffect(() => {
     currentUser ? navigate("/admin") : setShouldLoad(true);
-  }, [currentUser])
+  }, [currentUser]);
 
-  if(shouldLoad) {
+  if (shouldLoad) {
     return (
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -83,8 +151,7 @@ const Registration = ({
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+            backgroundImage: `url(${bgImgString})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -132,6 +199,7 @@ const Registration = ({
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                autoFocus
                 value={email}
                 InputLabelProps={{ ...colorTheme.inputLabelProps }}
                 InputProps={{ ...colorTheme.inputProps }}
