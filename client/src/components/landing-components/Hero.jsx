@@ -20,7 +20,7 @@ function Hero(props) {
 
   const handleRedirect = () => {
     //change this later to catalog
-    navigate('/login');
+    navigate('/properties');
   }
 
   return (
