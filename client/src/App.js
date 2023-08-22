@@ -1,5 +1,4 @@
-import "./App.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ColorModeContext, useMode } from "./context/theme";
 import { CssBaseline } from "@mui/material";
@@ -14,42 +13,38 @@ import Registration from "./views/Registration";
 import Contacts from "./views/Contacts";
 import NavBar from "./components/global-components/nav-bar/NavBar";
 import PseudoNav from "./components/global-components/nav-bar/PseudoNav";
+import { AuthProvider } from "./context/authContext";
 
 function App() {
   const [theme, colorMode] = useMode();
   const [navShouldRender, setNavShouldRender] = useState(true);
-  const currentPath = useLocation().pathname;
+  const location = useLocation();
 
   useEffect(() => {
-    const shouldRenderNavBar = currentPath !== '/login' && currentPath !== '/signup';
+    const shouldRenderNavBar = location.pathname !== "/login" && location.pathname !== "/signup";
     setNavShouldRender(shouldRenderNavBar);
-  }, [currentPath]);
-  
+  }, [location]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="App">
-          {navShouldRender ? <NavBar /> : <PseudoNav />}
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route
-              path="/login"
-              element={<Login setNavShouldRender={setNavShouldRender} />}
-            />
-            <Route
-              path="/signup"
-              element={<Registration setNavShouldRender={setNavShouldRender} />}
-            />
-            <Route path="/listing/new" element={<New />} />
-            <Route path="/listing/:id" element={<SingleListing />} />
-            <Route path="/admin//*" element={<Admin />} />
-            <Route path="/properties" element={<Properties />} />
-            <Route path="/contacts" element={<Contacts />} />
-          </Routes>
-        </div>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className="App">
+            {navShouldRender ? <NavBar /> : <PseudoNav />}
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login setNavShouldRender={setNavShouldRender} />} />
+              <Route path="/signup" element={<Registration setNavShouldRender={setNavShouldRender} />} />
+              <Route path="/listing/new" element={<New />} />
+              <Route path="/listing/:id" element={<SingleListing />} />
+              <Route path="/admin//*" element={<Admin />} />
+              <Route path="/properties" element={<Properties />} />
+              <Route path="/contacts" element={<Contacts />} />
+            </Routes>
+          </div>
+        </ThemeProvider>
+      </AuthProvider>
     </ColorModeContext.Provider>
   );
 }
