@@ -1,24 +1,29 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Box, CardActionArea, Grid, Icon } from '@mui/material';
-import { useState } from 'react';
+import React, {useContext, useState} from 'react';
+import { useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import BedroomParentOutlinedIcon from '@mui/icons-material/BedroomParentOutlined';
+import { ColorModeContext, tokens } from "../../context/theme";
 
 
 
 const PropertyCard = (props) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const colorMode = useContext(ColorModeContext);
     const { prop } = props
     const [property, setProperty] = useState(prop)
-    console.log(props)
     
     return (
-        <div>
-            <Card sx={{ maxWidth: 1120, mx: 'auto', mt: '50px' }} >
+        <Grid>
+            <Card sx={{ 
+                width: "85%", 
+                mx: 'auto', 
+                mt: '50px', 
+                backgroundColor: colors.greenAccent[900],
+                boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.7)",
+                p: 3,
+                }} >
                 <Link className="link-offset-2 link-underline link-underline-opacity-0" underline="none" to={`/listing/${property._id}`}>
                     <CardActionArea sx={{ display: 'flex' }}  >
                         <CardMedia className='rounded w-25 h-25' sx={{ flex: 1 }}
@@ -42,7 +47,7 @@ const PropertyCard = (props) => {
                     </CardActionArea>
                 </Link>
             </Card>
-        </div>
+        </Grid>
     )
 }
 
