@@ -19,14 +19,18 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
 import NavStyles from "../../../hooks/NavHooks"
+import { AuthContext } from "../../../context/authContext";
+
 
 const pages = ['Home', 'Properties', "About", "Contacts"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 function NavBar() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const { setCurrentUser } = useContext(AuthContext);
   const navStyle = NavStyles();
 
   const navigate = useNavigate();
@@ -60,11 +64,18 @@ function NavBar() {
     }
   }
 
+  const Logout = () => {
+    setCurrentUser(null)
+    localStorage.clear()
+  }
+
+
   return (
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: "center" }}>
+            <h3 onClick={Logout}>Logout</h3>
             <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography
@@ -105,8 +116,9 @@ function NavBar() {
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu} sx={{p:0}}>
-                  <Button size="large" onClick={() => navFunc(page)} textAlign="center" style={{
+                  <Button size="large" onClick={() => navFunc(page)} style={{
                     textDecoration: 'none', 
+                    textalign: 'center',
                     color: colors.grey[100],
                     width: "100%",
                     }}>
@@ -141,14 +153,16 @@ function NavBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0}}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/broken-image.jpg" />
-              </IconButton>
-              <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-              </IconButton>
+              <>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar src="/broken-image.jpg" />
+                </IconButton>
+                <IconButton onClick={colorMode.toggleColorMode}>
+                  {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+                </IconButton>
+              </>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}

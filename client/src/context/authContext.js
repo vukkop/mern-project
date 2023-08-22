@@ -4,24 +4,16 @@ import { app } from '../firebase/firebase'
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [pending, setPending] = useState(true);
+    const [currentUser, setCurrentUser] = useState(() => {
+        return localStorage.getItem("uid") || null
+    } );
+    
 
-    useEffect(() => {
-        app.auth().onAuthStateChanged((user) =>{
-            setCurrentUser(user)
-            setPending(false);
-        });
-    }, []);
-
-    if(pending){
-        return <>Loading...</>
-    }
 
     return (
         <AuthContext.Provider
         value={{
-            currentUser
+            currentUser, setCurrentUser
         }}
         >
             {children}

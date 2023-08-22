@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Routes, useNavigate, Link } from 'react-router-dom';
 import { Button} from '@mui/material';
 import { AuthContext } from '../context/authContext';
@@ -13,7 +13,11 @@ const Admin = ({ component: RouteComponent, ...rest }) => {
   const currentRoute = window.location.pathname;
   const colorTheme = useColorTheme();
 
-  if (!!currentUser) {
+  useEffect(() => {
+    if(!currentUser){
+      navigate("/login")
+    }
+  }, [currentUser])
     return (
       <div>
         <div className="container mt-4">
@@ -38,15 +42,5 @@ const Admin = ({ component: RouteComponent, ...rest }) => {
         </div>
       </div>
     );
-  } else {
-    return (
-      <div className="container mt-4">
-        <img src="https://i.redd.it/644sxuwgx9a01.jpg" alt="Redirecting" />
-        <Button variant="contained" color="primary" sx={{ backgroundColor: "#FF5733", color: "white" }} component={Link} to="/login">
-          Go to Login
-        </Button>
-      </div>
-    );
-  }
 };
 export default Admin;
