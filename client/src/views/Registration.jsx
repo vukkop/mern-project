@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -23,6 +23,7 @@ const Registration = ({
   component: RouteComponent,
   ...rest
 }) => {
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -65,133 +66,136 @@ const Registration = ({
       console.error("Registration Error:", err);
     }
   };
-  // console.log(!!currentUser);
+  console.log("render");
 
-  if (currentUser){
-    navigate('/admin')
-  }
 
-  return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage:
-            "url(https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        component={Paper}
-        elevation={6}
-        square
-        sx={{
-          background:
-            theme.palette.mode === "dark"
-              ? colors.primary[500]
-              : colors.grey[1000],
-        }}
-      >
-        <Box
+  useEffect(()=> {
+    currentUser ? navigate("/admin") : setShouldLoad(true);
+  }, [currentUser])
+
+  if(shouldLoad) {
+    return (
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage:
+              "url(https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{
+            background:
+              theme.palette.mode === "dark"
+                ? colors.primary[500]
+                : colors.grey[1000],
           }}
         >
-          <LogoSVG
-            width={75}
-            height={75}
-            color={colors.blueAccent[500]}
-            sx={{ m: 1 }}
-          />
-          <Typography component="h1" variant="h4">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              InputLabelProps={{ ...colorTheme.inputLabelProps }}
-              InputProps={{ ...colorTheme.inputProps }}
-              sx={{ ...colorTheme.inputStyling }}
-              onChange={(e) => setEmail(e.target.value)}
-              error={emailError}
-              helperText={emailError ? "Invalid email address" : ""}
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <LogoSVG
+              width={75}
+              height={75}
+              color={colors.blueAccent[500]}
+              sx={{ m: 1 }}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="new-password"
-              value={password}
-              InputLabelProps={{ ...colorTheme.inputLabelProps }}
-              InputProps={{ ...colorTheme.inputProps }}
-              sx={{ ...colorTheme.inputStyling }}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <TextField
-              required
-              fullWidth
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
-              autoComplete="new-password"
-              value={confirmPassword}
-              InputLabelProps={{ ...colorTheme.inputLabelProps }}
-              InputProps={{ ...colorTheme.inputProps }}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              sx={{
-                mt: 3,
-                mb: 2,
-                ...colorTheme.inputStyling,
-              }}
-              error={!passwordsMatch}
-              helperText={!passwordsMatch && "Passwords do not match"}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ ...colorTheme.submitButton }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <RouterLink to={"/login"} variant="body2">
-                  Already have an account? Sign in
-                </RouterLink>
+            <Typography component="h1" variant="h4">
+              Sign up
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
+                sx={{ ...colorTheme.inputStyling }}
+                onChange={(e) => setEmail(e.target.value)}
+                error={emailError}
+                helperText={emailError ? "Invalid email address" : ""}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                value={password}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
+                sx={{ ...colorTheme.inputStyling }}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <TextField
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="new-password"
+                value={confirmPassword}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  ...colorTheme.inputStyling,
+                }}
+                error={!passwordsMatch}
+                helperText={!passwordsMatch && "Passwords do not match"}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ ...colorTheme.submitButton }}
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <RouterLink to={"/login"} variant="body2">
+                    Already have an account? Sign in
+                  </RouterLink>
+                </Grid>
               </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
+              <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  );
+    );
+  }
 };
 export default Registration;
