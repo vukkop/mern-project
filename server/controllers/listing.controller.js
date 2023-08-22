@@ -2,6 +2,7 @@ const { Listing } = require("../models/listing.model");
 
 module.exports.getAllListings = (request, response) => {
   Listing.find()
+    .populate("images")
     .then((allListings) => {
       response.json(allListings);
     })
@@ -10,7 +11,9 @@ module.exports.getAllListings = (request, response) => {
 
 module.exports.getOneListing = async (request, response) => {
   try {
-    const oneListing = await Listing.findOne({ _id: request.params.id });
+    const oneListing = await Listing.findOne({
+      _id: request.params.id,
+    }).populate("images");
     response.json(oneListing);
   } catch (err) {
     response.status(400).json(err);

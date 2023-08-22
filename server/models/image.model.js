@@ -5,7 +5,7 @@ const ImageSchema = mongoose.Schema(
   {
     imgName: {
       type: String,
-      required: [true, "Image Url is required."],
+      required: [true, "Image name is required."],
     },
     url: {
       type: String,

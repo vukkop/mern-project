@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import TextField from '@mui/material/TextField';
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import Button from '@mui/material/Button'
 import useColorTheme from "../../hooks/FormStyles"
-import UploadImage from './UploadImage'
+import UploadImageModal from './UploadImageModal'
 
 const ListingForm = (props) => {
   const { initialListing, onSubmitProp } = props;
   const [listing, setListing] = useState(initialListing);
-
+  const [isOpen, setIsOpen] = useState(false);
   const colorTheme = useColorTheme()
 
   const handleSubmit = e => {
@@ -27,8 +27,8 @@ const ListingForm = (props) => {
       // city: '',
       // state: '',
       // zipCode: '',
-      // imgUrl: '',
     })
+    setIsOpen(true)
   }
 
   const onChangeHandler = (e) => {
@@ -181,21 +181,6 @@ const ListingForm = (props) => {
                   }}
                 />
               </div>
-              <div>
-                <TextField
-                  name='imgUrl'
-                  label="Image Url"
-                  onChange={onChangeHandler}
-                  value={listing.imgUrl}
-                  InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                  InputProps={{ ...colorTheme.inputProps }}
-                  fullWidth
-                  className='mb-3'
-                  sx={{
-                    ...colorTheme.inputStyling,
-                  }}
-                />
-              </div>
             </FormControl>
           </div>
           <div className='col-6'>
@@ -248,7 +233,9 @@ const ListingForm = (props) => {
       </form >
 
       <div className="row mt-5">
-        <UploadImage />
+        <Button color='secondary' onClick={() => setIsOpen(!isOpen)}>Button</Button>
+        {isOpen && <UploadImageModal />}
+
       </div>
     </div >
 

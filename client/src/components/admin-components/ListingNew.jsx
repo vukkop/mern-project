@@ -26,7 +26,7 @@ const ListingNew = () => {
   const createListing = (listing) => {
     axios.post("http://localhost:8000/api/listing", listing)
       .then(() => {
-        navigate('/admin')
+        console.log("hi");
       })
       .catch((err) => {
         const errorResponse = err.response.data.errors;
