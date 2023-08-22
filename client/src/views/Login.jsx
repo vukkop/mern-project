@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -18,6 +18,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
+import { AuthContext } from "../context/authContext";
 
 const Login = ({setNavShouldRender}) => {
   const [email, setEmail] = useState("");
@@ -35,8 +36,11 @@ const Login = ({setNavShouldRender}) => {
   // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
 
-  setNavShouldRender(false);
+  useEffect(() =>{
+    setNavShouldRender(false);
+  }, [])
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
   //! co-authors (Immanuel, Braxton)
@@ -98,7 +102,7 @@ const Login = ({setNavShouldRender}) => {
       // clear interval so that we start a new interval and changes the background image
       return () => clearInterval(interval);
     }else{
-      console.log("No Images to cycle")
+      // console.log("No Images to cycle")
     }
   }, [bgImageIdx, imgArr]);
 
@@ -110,17 +114,26 @@ const Login = ({setNavShouldRender}) => {
       setEmailError(true);
       return;
     }
-
+    
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        navigate("/admin");
         // console.log(userCredential);
+        setCurrentUser(userCredential.user.uid)
+        localStorage.setItem("uid", userCredential.user.uid)
+        navigate("/admin");
       })
       .catch((err) => {
         setError(err.message);
-        console.log(err);
+        console.error(err);
       });
   };
+  
+  useEffect(()=> {
+    if(currentUser){
+      navigate("/admin")
+    }
+  }, [currentUser])
+  
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>

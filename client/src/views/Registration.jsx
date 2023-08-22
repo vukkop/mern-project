@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -16,14 +16,20 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
+import { AuthContext } from "../context/authContext";
 
-const Registration = ({setNavShouldRender}) => {
+const Registration = ({
+  setNavShouldRender,
+  component: RouteComponent,
+  ...rest
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -53,12 +59,17 @@ const Registration = ({setNavShouldRender}) => {
         password
       );
       const user = newUser.user;
-      console.log("registration successful", user)
+      // console.log("registration successful", user);
       navigate("/admin");
     } catch (err) {
       console.error("Registration Error:", err);
     }
   };
+  // console.log(!!currentUser);
+
+  if (currentUser){
+    navigate('/admin')
+  }
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
@@ -183,5 +194,4 @@ const Registration = ({setNavShouldRender}) => {
     </Grid>
   );
 };
-
 export default Registration;
