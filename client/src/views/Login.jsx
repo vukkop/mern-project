@@ -21,6 +21,7 @@ import Copyright from "../components/global-components/copyright/Copyright";
 import { AuthContext } from "../context/authContext";
 
 const Login = ({setNavShouldRender}) => {
+  
   const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +35,6 @@ const Login = ({setNavShouldRender}) => {
   
   const navigate = useNavigate("");
   const theme = useTheme();
-  // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
   const { currentUser, setCurrentUser } = useContext(AuthContext);
