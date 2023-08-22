@@ -21,6 +21,7 @@ import Copyright from "../components/global-components/copyright/Copyright";
 import { AuthContext } from "../context/authContext";
 
 const Login = ({setNavShouldRender}) => {
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -131,149 +132,152 @@ const Login = ({setNavShouldRender}) => {
   useEffect(()=> {
     if(currentUser){
       navigate("/admin")
+    } else {
+      setShouldLoad(true);
     }
   }, [currentUser])
   
-
-  return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: `url(${bgImgString})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          transition: "background-image 1.25s ease-in-out",
-        }}
-      />
-      {/* credit: braxton */}
-      {/* {console.log(theme.palette.mode)} */}
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        component={Paper}
-        elevation={6}
-        square
-        sx={{
-          background:
-            theme.palette.mode === "dark"
-              ? colors.primary[500]
-              : colors.grey[1000],
-        }}
-      >
-        <Box
+  if(shouldLoad) {
+    return (
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage: `url(${bgImgString})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            transition: "background-image 1.25s ease-in-out",
+          }}
+        />
+        {/* credit: braxton */}
+        {/* {console.log(theme.palette.mode)} */}
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{
+            background:
+              theme.palette.mode === "dark"
+                ? colors.primary[500]
+                : colors.grey[1000],
           }}
         >
-          <LogoSVG
-            width={75}
-            height={75}
-            color={colors.blueAccent[500]}
-            sx={{ m: 1 }}
-          />
-          <Typography component="h1" variant="h4">
-            Sign in
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              InputLabelProps={{ ...colorTheme.inputLabelProps }}
-              InputProps={{ ...colorTheme.inputProps }}
-              sx={{ ...colorTheme.inputStyling }}
-              onChange={(e) => setEmail(e.target.value)}
-              error={emailError}
-              helperText={emailError ? "Invalid email address" : ""}
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <LogoSVG
+              width={75}
+              height={75}
+              color={colors.blueAccent[500]}
+              sx={{ m: 1 }}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              InputLabelProps={{ ...colorTheme.inputLabelProps }}
-              InputProps={{ ...colorTheme.inputProps }}
-              sx={{ ...colorTheme.inputStyling }}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <div className="d-flex justify-content-between align-items-center">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="remember"
-                    color="primary"
-                    style={{ color: colors.blueAccent[100] }}
-                  />
-                }
-                label="Remember me"
+            <Typography component="h1" variant="h4">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
+                sx={{ ...colorTheme.inputStyling }}
+                onChange={(e) => setEmail(e.target.value)}
+                error={emailError}
+                helperText={emailError ? "Invalid email address" : ""}
               />
-              {error && (
-                <Typography variant="h6" color="error" align="start">
-                  {error && error.replace("Firebase:", "").trim()}
-                </Typography>
-              )}
-            </div>
-            <Button
-              // backgroundColor={colors.primary[500]}
-              type="submit"
-              fullWidth
-              variant="contained"
-              //
-              sx={{ ...colorTheme.submitButton }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <RouterLink
-                  href="#"
-                  variant="body2"
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    color: colors.blueAccent[100],
-                    "&:hover": {
-                      color: colors.blueAccent[500],
-                    },
-                  }}
-                >
-                  Forgot password?
-                </RouterLink>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                InputLabelProps={{ ...colorTheme.inputLabelProps }}
+                InputProps={{ ...colorTheme.inputProps }}
+                sx={{ ...colorTheme.inputStyling }}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div className="d-flex justify-content-between align-items-center">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value="remember"
+                      color="primary"
+                      style={{ color: colors.blueAccent[100] }}
+                    />
+                  }
+                  label="Remember me"
+                />
+                {error && (
+                  <Typography variant="h6" color="error" align="start">
+                    {error && error.replace("Firebase:", "").trim()}
+                  </Typography>
+                )}
+              </div>
+              <Button
+                // backgroundColor={colors.primary[500]}
+                type="submit"
+                fullWidth
+                variant="contained"
+                //
+                sx={{ ...colorTheme.submitButton }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <RouterLink
+                    href="#"
+                    variant="body2"
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      color: colors.blueAccent[100],
+                      "&:hover": {
+                        color: colors.blueAccent[500],
+                      },
+                    }}
+                  >
+                    Forgot password?
+                  </RouterLink>
+                </Grid>
+                <Grid item>
+                  <RouterLink to={"/signup"} variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </RouterLink>
+                </Grid>
               </Grid>
-              <Grid item>
-                <RouterLink to={"/signup"} variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </RouterLink>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
+              <Copyright sx={{ mt: 5, color: colors.blueAccent[500] }} />
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  );
+    );
+  }
 };
 export default Login;
