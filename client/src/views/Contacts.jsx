@@ -23,8 +23,8 @@ const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const form = useRef()
   const colorTheme = useColorTheme()
+  const form = useRef()
 
   const sendEmail = (e) => {
     emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, form.current, process.env.REACT_APP_EMAILJS_PUBLIC_KEY)
@@ -58,7 +58,7 @@ const Contacts = () => {
       <Grid container justifyContent={"center"} sx={{ borderRadius: 10 }}>
         <Grid item
           sx={{
-            mt: 15,
+            mt: {xs: 2, sm: 5, md: 15},
             height: "80%",
             width: "97vw",
             backgroundSize: 'cover',
@@ -97,7 +97,7 @@ const Contacts = () => {
                 mt: { xs: 1, md: 5},
                 px: {md: 10, lg: 25, xl: 45 }
               }}>
-                <Box sx={{ position: "relative", }}>
+                <Box sx={{ position: "relative" }}>
                   <Typography variant="h1" component="h1" fontWeight="bold" sx={{fontSize: {xs: "2rem",sm:"4rem"}}}>
                     Get In Touch
                   </Typography>
@@ -215,8 +215,8 @@ const Contacts = () => {
                     <Box sx={{
                       borderTopRightRadius: {sm: 0, md: 40},
                       borderBottomRightRadius: 40,
-                      borderBottomLeftRadius: {sm: 40, md: 0},
-                      padding: {md:2, lg:10},
+                      borderBottomLeftRadius: {xs: 40, md: 0},
+                      padding: {xs: 3, md:2, lg:10},
                       width: {sm: "100%", md: "40%"},
                       backgroundColor: colors.grey[300]
                     }}>
