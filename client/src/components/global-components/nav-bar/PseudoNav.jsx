@@ -97,7 +97,7 @@ function PseudoNav() {
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link to={`/${page.toLowerCase()}`} textAlign="center" style={{textDecoration: 'none', color: colors.grey[100]}}>
+                  <Link to={`/${page.toLowerCase()}`}  style={{textDecoration: 'none', textAlign: 'center', color: colors.grey[100]}}>
                     {page}
                   </Link>
                 </MenuItem>
@@ -129,7 +129,7 @@ function PseudoNav() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0}}>
             <Tooltip title="Open settings">
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
