@@ -1,10 +1,19 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
-import { Paper } from '@mui/material'
-
+import { Box, Paper, Grid, Typography, List, ListItem, ListItemText, colors, Divider } from '@mui/material'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import FolderIcon from '@mui/icons-material/Folder'
+import RoomIcon from '@mui/icons-material/Room';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import BathtubIcon from '@mui/icons-material/Bathtub';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import HomeIcon from '@mui/icons-material/Home';
+import SingleBedIcon from '@mui/icons-material/SingleBed';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 
 const SingleListingCarousel = ({ images }) => {
   console.log(images);
+
 
   var items = [
     {
@@ -20,18 +29,81 @@ const SingleListingCarousel = ({ images }) => {
   ]
 
   return (
-    <Carousel >
-      {
-        items.map((item, i) =>
-          <Paper key={i}>
-            <img height={500} src={item.imgUrl} alt={item.name} />
-            <h2>{item.name}</h2>
-            <p>{item.description}</p>
+    <Box>
+      <Carousel animation='slide' >
+        {
+          items.map((item, i) =>
+            <Paper key={i} sx={{ display: "flex", flexDirection: 'column', alignItems: "center", p: 3, backgroundColor: "transparent"}} >
+              <img style={{ height: "700px" }} src={item.imgUrl} alt={item.name} />
+              <Divider sx={{inset: "none"}}/>
+              <Grid item xs={12} md={6} sx={{display: "flex"}}>
+                <Box component="div">
+                  <List>
+                    <ListItem>
+                        <RoomIcon />
+                      <ListItemText 
+                        primary="Location: "
+                      />
+                    </ListItem>
+                    <ListItem>
+                        <SquareFootIcon />
+                      <ListItemText
+                        primary="Sq. feet: "
+                      />
+                    </ListItem>
+                    <ListItem>
+                        <BathtubIcon />
+                      <ListItemText
+                        primary="Bathrooms: "
+                      />
+                    </ListItem>
+                    <ListItem>
+                        <AttachMoneyIcon />
+                      <ListItemText
+                        primary="Price: "
+                      />
+                    </ListItem>
+                  </List>
+                </Box>
+                <Box>
+                  <List>
+                    <ListItem>
+                        <HomeIcon />
+                      <ListItemText
+                        primary="Type: "
+                      />
+                    </ListItem>
+                    <ListItem>
+                        <SingleBedIcon />
+                      <ListItemText
+                        primary="Bedrooms: "
+                      />
+                    </ListItem>
+                    <ListItem>
+                        <DeviceThermostatIcon />
+                      <ListItemText
+                        primary="Utilities: "
+                      />
+                    </ListItem>
+                  </List>
+                </Box>
+              </Grid>
+              <Typography>
+                Description
+              </Typography>
+            </Paper>)
+        }
+      </Carousel>
+    </Box >
 
 
-          </Paper>)
-      }
-    </Carousel>
+
+
+
+
+
+
+
   )
 }
 
