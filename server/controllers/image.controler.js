@@ -1,100 +1,63 @@
-// Require the cloudinary library
-const cloudinary = require("cloudinary").v2;
+const { Image } = require("../models/image.model");
+const { Listing } = require("../models/listing.model");
 
-// Return "https" URLs by setting secure: true
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
-});
-
-// Log the configuration
-// console.log(cloudinary.config());
-
-/////////////////////////
-// Uploads an image file
-/////////////////////////
-const uploadImage = async (imagePath) => {
-  // Use the uploaded file's name as the asset's public ID and
-  // allow overwriting the asset with new versions
-  const options = {
-    use_filename: true,
-    unique_filename: false,
-    overwrite: true,
-  };
-
+module.exports.getAllImages = async (request, response) => {
   try {
-    // Upload the image
-    const result = await cloudinary.uploader.upload(imagePath, options);
-    console.log(result);
-    return result.public_id;
-  } catch (error) {
-    console.error(error);
+    const allImages = await Image.find().then((allImages) => {
+      response.json(allImages);
+    });
+  } catch (err) {
+    response.status(400).json(err);
   }
 };
 
-/////////////////////////////////////
-// Gets details of an uploaded image
-/////////////////////////////////////
-const getAssetInfo = async (publicId) => {
-  // Return colors in the response
-  const options = {
-    colors: true,
-  };
+module.exports.getImagesForOneListing = async (request, response) => {
+  Image.find({ listing: request.params.listingId })
+    .then((images) => response.json(images))
+    .catch((err) => response.status(400).json(err));
+};
 
+module.exports.createImageList = (request, response) => {
+  const listingID = req.params.listingId;
+  const newImageList = new Comment(req.body);
+  newImageList.listing = listingID;
+  newImageList
+    .save()
+    .then((imageList) => {
+      const listing = Listing.findOne({ _id: listingID }).then(
+        (foundListing) => {
+          foundListing.images.push(newImageList);
+          foundListing.save().then((response) => res.json(response));
+        }
+      );
+    })
+    .catch((err) => res.status(400).json(err));
+};
+
+module.exports.updateImage = async (request, response) => {
   try {
-    // Get details about the asset
-    const result = await cloudinary.api.resource(publicId, options);
-    console.log(result);
-    return result.colors;
-  } catch (error) {
-    console.error(error);
+    const updateImage = await Image.findOneAndUpdate(
+      { _id: request.params.id },
+      request.body,
+      { new: true, runValidators: true }
+    );
+    response.json(updateImage);
+  } catch (err) {
+    response.status(400).json(err);
   }
 };
 
-//////////////////////////////////////////////////////////////
-// Creates an HTML image tag with a transformation that
-// results in a circular thumbnail crop of the image
-// focused on the faces, applying an outline of the
-// first color, and setting a background of the second color.
-//////////////////////////////////////////////////////////////
-const createImageTag = (publicId, ...colors) => {
-  // Set the effect color and background color
-  const [effectColor, backgroundColor] = colors;
+// its a one to one in reference
 
-  // Create an image tag with transformations applied to the src URL
-  let imageTag = cloudinary.image(publicId, {
-    transformation: [
-      { width: 250, height: 250, gravity: "faces", crop: "thumb" },
-      { radius: "max" },
-      { effect: "outline:10", color: effectColor },
-      { background: backgroundColor },
-    ],
-  });
-
-  return imageTag;
+module.exports.deleteImageFromAListing = async (request, response) => {
+  try {
+    const listingId = request.params.listingID;
+    const deleteImage = await Image.findOneAndDelete({
+      _id: request.params.imageId,
+    });
+    listing.images.pull(deleteImage._id);
+    await listing.save();
+  } catch (err) {
+    response.status(400).json(err);
+  }
 };
-
-//////////////////
-//
-// Main function
-//
-//////////////////
-(async () => {
-  // Set the image to upload
-  const imagePath =
-    "https://cloudinary-devs.github.io/cld-docs-assets/assets/images/happy_people.jpg";
-
-  // Upload the image
-  const publicId = await uploadImage(imagePath);
-
-  // Get the colors in the image
-  const colors = await getAssetInfo(publicId);
-
-  // Create an image tag, using two of the colors in a transformation
-  const imageTag = await createImageTag(publicId, colors[0][0], colors[1][0]);
-
-  // Log the image tag to the console
-  console.log(imageTag);
-})();
