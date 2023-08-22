@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const ListingSchema = mongoose.Schema(
   {
@@ -55,10 +56,12 @@ const ListingSchema = mongoose.Schema(
       type: String,
       required: [true, "ZIP code is required."],
     },
-    imgUrl: {
-      type: String,
-      required: [true, "Image Url is required."],
-    },
+    images: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Image",
+      },
+    ],
   },
   { timestamps: true }
 );

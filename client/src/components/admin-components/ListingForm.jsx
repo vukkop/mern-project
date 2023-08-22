@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
 import Button from '@mui/material/Button'
 import useColorTheme from "../../hooks/FormStyles"
+import UploadImage from './UploadImage'
 
 const ListingForm = (props) => {
   const { initialListing, onSubmitProp } = props;
@@ -245,7 +246,14 @@ const ListingForm = (props) => {
           <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
         </div>
       </form >
+
+      <div className="row mt-5">
+        <UploadImage />
+      </div>
     </div >
+
+
+
   )
 }
 
