@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
+import { alpha, useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import BedroomParentOutlinedIcon from '@mui/icons-material/BedroomParentOutlined';
@@ -17,14 +17,14 @@ const PropertyCard = (props) => {
     return (
         <Grid>
             <Card sx={{ 
-                width: "85%", 
-                mx: 'auto', 
-                mt: '50px', 
-                backgroundColor: colors.greenAccent[900],
+                width: "85%",
+                mx: 'auto',
+                mt: 10, 
+                backgroundColor: alpha(colors.blueAccent[500], .1),
                 boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.7)",
                 p: 3,
                 }} >
-                <Link className="link-offset-2 link-underline link-underline-opacity-0" underline="none" to={`/listing/${property._id}`}>
+                <Link underline="none" to={`/listing/${property._id}`}>
                     <CardActionArea sx={{ display: 'flex' }}  >
                         <CardMedia className='rounded w-25 h-25' sx={{ flex: 1 }}
                             component="img"
