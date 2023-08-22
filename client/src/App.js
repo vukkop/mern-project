@@ -14,6 +14,7 @@ import Contacts from "./views/Contacts";
 import NavBar from "./components/global-components/nav-bar/NavBar";
 import PseudoNav from "./components/global-components/nav-bar/PseudoNav";
 import { AuthProvider } from "./context/authContext";
+import About from "./views/About";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -41,6 +42,7 @@ function App() {
               <Route path="/admin//*" element={<Admin />} />
               <Route path="/properties" element={<Properties />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/about" element={<About/>}/>
             </Routes>
           </div>
         </ThemeProvider>
