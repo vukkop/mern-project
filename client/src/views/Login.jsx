@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import {
   Button,
@@ -18,6 +18,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import LogoSVG from "../assets/svg/Logo";
 import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
+import { AuthContext } from "../context/authContext";
 
 const Login = ({setNavShouldRender}) => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ const Login = ({setNavShouldRender}) => {
   // console.log(theme);
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
+  const { currentUser } = useContext(AuthContext);
 
   setNavShouldRender(false);
 
@@ -121,6 +123,10 @@ const Login = ({setNavShouldRender}) => {
         console.log(err);
       });
   };
+
+  if(currentUser){
+    navigate("/admin")
+  }
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
