@@ -20,7 +20,7 @@ import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 import { AuthContext } from "../context/authContext";
 
-const Login = ({setNavShouldRender}) => {
+const Login = () => {
   
   const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
@@ -37,11 +37,7 @@ const Login = ({setNavShouldRender}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
-
-  useEffect(() =>{
-    setNavShouldRender(false);
-  }, [])
+  const { currentUser, setCurrentUser, setCurrentUserEmail } = useContext(AuthContext);
 
   //! line 51 to line 113, line 119,126  written by !!!![[[[[PHTEVE N]]]]]!!!!
   //! co-authors (Immanuel, Braxton)
@@ -119,8 +115,11 @@ const Login = ({setNavShouldRender}) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // console.log(userCredential);
+
         setCurrentUser(userCredential.user.uid)
         localStorage.setItem("uid", userCredential.user.uid)
+        setCurrentUserEmail(userCredential.user.email)
+        localStorage.setItem("email", userCredential.user.email)
         navigate("/admin");
       })
       .catch((err) => {

@@ -19,7 +19,6 @@ import Copyright from "../components/global-components/copyright/Copyright";
 import { AuthContext } from "../context/authContext";
 
 const Registration = ({
-  setNavShouldRender,
   component: RouteComponent,
   ...rest
 }) => {
@@ -40,12 +39,8 @@ const Registration = ({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
-  const { currentUser } = useContext(AuthContext);
-
-  useEffect(() =>{
-    setNavShouldRender(false);
-  }, [])
-
+  const { currentUser, setCurrentUser, setCurrentUserEmail } = useContext(AuthContext);
+  
   const getRandIdx = () => {
     return Math.floor(Math.random() * imgArr.length);
   };
@@ -128,7 +123,11 @@ const Registration = ({
         email,
         password
       );
-      const user = newUser.user;
+
+        setCurrentUser(newUser.user.uid)
+        localStorage.setItem("uid", newUser.user.uid)
+        setCurrentUserEmail(newUser.user.email)
+        localStorage.setItem("email", newUser.user.email)
       // console.log("registration successful", user);
       navigate("/admin");
     } catch (err) {
