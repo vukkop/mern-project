@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Alert, AlertTitle } from '@mui/material';
 import ListingForm from './ListingForm'
+import UploadImageModal from './UploadImageModal'
+
 
 const ListingNew = () => {
   const [errors, setErrors] = useState([]);
-  const navigate = useNavigate()
+  const [formSubmit, setFormSubmit] = useState("");
+  const navigate = useNavigate();
   const newListing = {
     name: '',
     type: '',
@@ -20,26 +23,36 @@ const ListingNew = () => {
     city: '',
     state: '',
     zipCode: '',
-    imgUrl: '',
+    images: [
+      {
+        cloudId: "",
+        imgUrl: "",
+        name: "",
+      },
+    ]
   }
 
   const createListing = (listing) => {
     axios.post("http://localhost:8000/api/listing", listing)
-      .then(() => {
-        navigate('/admin')
+      .then((res) => {
+        console.log(res.data._id);
+
+        setFormSubmit(res.data._id);
+
       })
       .catch((err) => {
-        const errorResponse = err.response.data.errors;
-        const errorArr = [];
-        for (const key of Object.keys(errorResponse)) {
-          errorArr.push(errorResponse[key].message)
-        }
-        setErrors(errorArr)
-        if (errorArr.length > 0) {
-          setTimeout(() => {
-            setErrors([]);
-          }, 4000);
-        }
+        console.log(err);
+        // const errorResponse = err.response.data.errors;
+        // const errorArr = [];
+        // for (const key of Object.keys(errorResponse)) {
+        //   errorArr.push(errorResponse[key].message)
+        // }
+        // setErrors(errorArr)
+        // if (errorArr.length > 0) {
+        //   setTimeout(() => {
+        //     setErrors([]);
+        //   }, 4000);
+        // }
       })
   }
 
@@ -50,6 +63,12 @@ const ListingNew = () => {
         onSubmitProp={createListing}
         initialListing={newListing}
       />
+      {
+        formSubmit && 
+      <div className="row mt-5">
+        <UploadImageModal listingId = {formSubmit}/>
+      </div>
+      }
 
       {
         errors.length > 0
