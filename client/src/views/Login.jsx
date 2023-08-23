@@ -251,7 +251,7 @@ const Login = () => {
               <Grid container>
                 <Grid item xs>
                   <RouterLink
-                    href="#"
+                    to={"/reset"}
                     variant="body2"
                     sx={{
                       mt: 3,

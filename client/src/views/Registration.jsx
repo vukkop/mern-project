@@ -18,11 +18,7 @@ import useColorTheme from "../hooks/FormStyles";
 import Copyright from "../components/global-components/copyright/Copyright";
 import { AuthContext } from "../context/authContext";
 
-const Registration = ({
-  component: RouteComponent,
-  ...rest
-}) => {
-
+const Registration = ({ component: RouteComponent, ...rest }) => {
   const [shouldLoad, setShouldLoad] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +35,9 @@ const Registration = ({
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
-  const { currentUser, setCurrentUser, setCurrentUserEmail } = useContext(AuthContext);
-  
+  const { currentUser, setCurrentUser, setCurrentUserEmail } =
+    useContext(AuthContext);
+
   const getRandIdx = () => {
     return Math.floor(Math.random() * imgArr.length);
   };
@@ -97,11 +94,11 @@ const Registration = ({
       }, 5000);
       // clear interval so that we start a new interval and changes the background image
       return () => clearInterval(interval);
-    }else{
+    } else {
       // console.log("No Images to cycle")
     }
   }, [bgImageIdx, imgArr]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailError(false);
@@ -124,18 +121,17 @@ const Registration = ({
         password
       );
 
-        setCurrentUser(newUser.user.uid)
-        localStorage.setItem("uid", newUser.user.uid)
-        setCurrentUserEmail(newUser.user.email)
-        localStorage.setItem("email", newUser.user.email)
+      setCurrentUser(newUser.user.uid);
+      localStorage.setItem("uid", newUser.user.uid);
+      setCurrentUserEmail(newUser.user.email);
+      localStorage.setItem("email", newUser.user.email);
       // console.log("registration successful", user);
       navigate("/admin");
     } catch (err) {
       console.error("Registration Error:", err);
     }
   };
-  console.log("render");
-
+  
   useEffect(() => {
     currentUser ? navigate("/admin") : setShouldLoad(true);
   }, [currentUser]);
