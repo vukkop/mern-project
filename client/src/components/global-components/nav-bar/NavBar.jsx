@@ -30,7 +30,7 @@ function NavBar() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const { setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser, currentUserEmail, setCurrentUserEmail } = useContext(AuthContext);
   const navStyle = NavStyles();
 
   const navigate = useNavigate();
@@ -54,8 +54,9 @@ function NavBar() {
   };
 
   const navFunc = (page) => {
-    console.log(typeof page)
+    console.log(typeof page, page)
     if (page == "Home") {
+      console.log("Going Home")
       navigate(`/`);
       handleCloseNavMenu()
     } else {
@@ -63,10 +64,15 @@ function NavBar() {
       handleCloseNavMenu()
     }
   }
+  const goHome = () =>{
+    navigate('/')
+  }
 
   const Logout = () => {
     setCurrentUser(null)
+    setCurrentUserEmail(null)
     localStorage.clear()
+    navigate('/login')
   }
 
 
@@ -75,14 +81,14 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: "center" }}>
-            <h3 onClick={Logout}>Logout</h3>
+            
             <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={goHome}
             sx={navStyle.sxObj}
           >
             RBIV
@@ -180,7 +186,10 @@ function NavBar() {
               PaperProps={{ sx: { backgroundColor: colors.blueAccent[500] } }}
             >
               <MenuItem onClick={handleCloseUserMenu}>
-                <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>Login</Link>
+                <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>User : {currentUserEmail}</Link>  
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+              <p onClick={Logout}>Logout</p>
               </MenuItem>
             </Menu>
           </Box>

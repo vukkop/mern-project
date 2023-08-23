@@ -49,7 +49,15 @@ function PseudoNav() {
   };
 
   const navFunc = (page) => {
-    navigate(`/${page.toLowerCase()}`);
+    console.log(typeof page, page)
+    if (page == "Home") {
+      console.log("Going Home")
+      navigate(`/`);
+      handleCloseNavMenu()
+    } else {
+      navigate(`/${page.toLowerCase()}`);
+      handleCloseNavMenu()
+    }
   }
 
   return (

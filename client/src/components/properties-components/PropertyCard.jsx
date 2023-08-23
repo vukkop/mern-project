@@ -7,6 +7,8 @@ import { ColorModeContext, tokens } from "../../context/theme";
 
 
 
+
+
 const PropertyCard = (props) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
