@@ -15,10 +15,10 @@ import NavBar from "./components/global-components/nav-bar/NavBar";
 import PseudoNav from "./components/global-components/nav-bar/PseudoNav";
 import About from "./views/About";
 import { AuthContext } from "./context/authContext";
+import PasswordReset from "./views/PasswordReset";
 
 function App() {
   const [theme, colorMode] = useMode();
-
   const [navShouldRender, setNavShouldRender] = useState(true);
   const location = useLocation();
   const { currentUser } = useContext(AuthContext);
@@ -26,6 +26,8 @@ function App() {
   useEffect(() => {
     if (!currentUser) {
       setNavShouldRender(false);
+    }else{
+      setNavShouldRender(true);
     }
   }, [location, currentUser]);
 
@@ -39,12 +41,13 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Registration />} />
+            <Route path="/reset" element={<PasswordReset />} />
             <Route path="/listing/new" element={<New />} />
             <Route path="/listing/:id" element={<SingleListing />} />
             <Route path="/admin//*" element={<Admin />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/contacts" element={<Contacts />} />
-            <Route path="/about" element={<About/>}/>
+            <Route path="/about" element={<About />} />
           </Routes>
         </div>
       </ThemeProvider>

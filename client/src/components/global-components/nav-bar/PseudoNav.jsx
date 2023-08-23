@@ -19,9 +19,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
 import NavStyles from "../../../hooks/NavHooks"
+import Login from "../../../views/Login";
 
-const pages = ['Home', 'Properties', "About", "Contacts"];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'Properties', "About", "Contact"];
 
 function PseudoNav() {
   const theme = useTheme();
@@ -35,9 +35,6 @@ function PseudoNav() {
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -58,6 +55,9 @@ function PseudoNav() {
       navigate(`/${page.toLowerCase()}`);
       handleCloseNavMenu()
     }
+  }
+  const login = () => {
+    navigate('/login')
   }
 
   return (
@@ -139,29 +139,11 @@ function PseudoNav() {
 
           <Box sx={{ flexGrow: 0}}>
             <Tooltip title="Open settings">
+            <Button style={{ textDecoration: "none", color: colors.grey[100] }} onClick={()=> login()}>Login</Button>
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top', horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top', horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-              PaperProps={{ sx: { backgroundColor: colors.blueAccent[500] } }}
-            >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>Login</Link>
-              </MenuItem>
-            </Menu>
           </Box>
         </Toolbar>
       </Container>
