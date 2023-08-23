@@ -6,12 +6,12 @@ import { tokens, ColorModeContext } from '../../context/theme';
 import { useState } from 'react';
 import FilterSearch from './FilterSearch';
 
-const SearchBar = () => {
+const SearchBar = ({filterObj, setFilterObj}) => {
     const theme = useTheme();
     const colorTheme = useColorTheme();
     const colors = tokens(theme.palette.mode);
     const [filterOpen, setFilterOpen] = useState(false);
-    const [filterTerm, setFilterTerm] = useState('');
+
 
     const handleOpenFilter = () => {
         setFilterOpen(true);
@@ -21,8 +21,8 @@ const SearchBar = () => {
         setFilterOpen(false);
     };
 
-    const handleApplyFilter = (term) => {
-        setFilterTerm(term);
+    const handleApplyFilter = (filterObj) => {
+        setFilterObj(filterObj);
     };
 
     return (

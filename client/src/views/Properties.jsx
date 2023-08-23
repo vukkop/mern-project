@@ -7,6 +7,8 @@ import SearchBar from '../components/search-components/SearchBar'
 const Properties = () => {
   const [propertiesList, setPropertiesList] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [filterObj, setFilterObj] = useState({});
+  const [filteredProperties, setFilteredProperties] = useState([]);
 
   useEffect(()=>{
     getPropertyList();
@@ -23,10 +25,40 @@ const Properties = () => {
           console.log(err)
         });
   }
+  
+  useEffect(()=>{
+    console.log(filterObj)
+  }, [filterObj])
+
+
+  // this function should check the filter object, and then appropraitely apply the filters to the properties list
+  const filterProperties = () => {
+    for(const key in filterObj) {
+      switch(key){
+        case 'priceRange':
+          // filter properties by price range
+          break;
+        case 'bedrooms':
+          // filter properties by number of bedrooms
+          break;
+        case 'bathrooms':
+          // filter properties by number of bathrooms
+          break;
+        case 'homeType':
+          // filter properties by home type
+          break;
+        case 'includePets':
+          // filter properties by whether or not pets are allowed
+          break;
+        default:
+          break;
+          }      
+    }
+  }
 
   return (
     <div >
-      <SearchBar/>
+      <SearchBar filterObj = {filterObj} setFilterObj={setFilterObj} />
       {propertiesList.map((prop, i)=>
       loaded && 
       (<PropertyCard key={i} prop={prop} />)
@@ -35,6 +67,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
-      
-      
+export default Properties;
