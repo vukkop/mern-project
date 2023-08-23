@@ -58,8 +58,9 @@ const ListingSchema = mongoose.Schema(
     },
     images: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Image",
+        cloudId: String,
+        imgUrl: String,
+        name: String,
       },
     ],
   },

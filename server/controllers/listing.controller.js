@@ -11,9 +11,7 @@ module.exports.getAllListings = (request, response) => {
 
 module.exports.getOneListing = async (request, response) => {
   try {
-    const oneListing = await Listing.findOne({
-      _id: request.params.id,
-    }).populate("images");
+    const oneListing = await Listing.findOne({ _id: request.params.id });
     response.json(oneListing);
   } catch (err) {
     response.status(400).json(err);

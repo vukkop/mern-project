@@ -1,63 +1,93 @@
-const { Image } = require("../models/image.model");
 const { Listing } = require("../models/listing.model");
-
-module.exports.getAllImages = async (request, response) => {
-  try {
-    const allImages = await Image.find().then((allImages) => {
-      response.json(allImages);
-    });
-  } catch (err) {
-    response.status(400).json(err);
-  }
-};
-
-module.exports.getImagesForOneListing = async (request, response) => {
-  Image.find({ listing: request.params.listingId })
-    .then((images) => response.json(images))
-    .catch((err) => response.status(400).json(err));
-};
-
-module.exports.createImageList = (request, response) => {
-  const listingID = req.params.listingId;
-  const newImageList = new Comment(req.body);
-  newImageList.listing = listingID;
-  newImageList
-    .save()
-    .then((imageList) => {
-      const listing = Listing.findOne({ _id: listingID }).then(
-        (foundListing) => {
-          foundListing.images.push(newImageList);
-          foundListing.save().then((response) => res.json(response));
-        }
-      );
-    })
-    .catch((err) => res.status(400).json(err));
-};
-
-module.exports.updateImage = async (request, response) => {
-  try {
-    const updateImage = await Image.findOneAndUpdate(
-      { _id: request.params.id },
-      request.body,
-      { new: true, runValidators: true }
-    );
-    response.json(updateImage);
-  } catch (err) {
-    response.status(400).json(err);
-  }
-};
+import { cleanupDeletedImage } from "../helpers/imageHelpers";
+import { updateImageList } from "../helpers/imageHelpers";
 
 // its a one to one in reference
+// sample req body
+// req.body = {
+//   imgId: '1234',
+//   listingId: '12345',
+//   imgUrl: 'something',
+//   imgName: 'testyboi',
+// }
+module.exports.addImageToListing = async (req, res) => {
+  try {
+    const imgObj = {
+      imgId: request.body.imgId,
+      listingId: request.body.listingId,
+      imgUrl: request.body.imgUrl,
+      name: request.body.imgName,
+    };
+
+    const status = await addImage(imgObj);
+  } catch (err) {
+    response.status(500).json(err);
+  }
+
+  // same thing as delete, but easier
+  // already saved to cloudinary, response body should have properties for image
+  // look up listing
+  // create the object from req body
+  // use the .push method to add the new obj in
+  // save the listing (listing.findandupdate)
+  // if all goes well 200 response
+};
+
+module.exports.updateImage = async (req, res) => {
+  try {
+    const imgObj = {
+      imgId: request.body.imgId,
+      listingId: request.body.listingId,
+      imgUrl: request.body.imgUrl,
+      name: request.body.imgName,
+    };
+
+    const status = await updateImageList(imgObj);
+  } catch (err) {
+    response.status(500).json(err);
+  }
+  // if not already updated in cloudinary, create a helper that updates the cloudinary properties
+  // create imgObj from req body (again)
+  // the following logic can probably be abstracted from the already built function
+  // ***find the listing, grab the array
+  // ***find the matching imgobj in the array
+  // consider abstracting those two functions as new helpers in the file
+  // this will allow you to call the same functions within the individual helpers
+  // ez pz
+  // update the values in it
+  // save the listing with the new array (listing.findandupdate)
+  // if all goes well 200 response
+};
 
 module.exports.deleteImageFromAListing = async (request, response) => {
   try {
-    const listingId = request.params.listingID;
-    const deleteImage = await Image.findOneAndDelete({
-      _id: request.params.imageId,
-    });
-    listing.images.pull(deleteImage._id);
-    await listing.save();
+    // we need to build the imgObj from the req body:
+    const imgObj = {
+      imgId: request.body.imgId,
+      listingId: request.body.listingId,
+      imgUrl: request.body.imgUrl,
+      name: request.body.imgName,
+    };
+    // creating so we can add to it later
+    let msg = "";
+    // creating a var thats set to the return of cleanupDeletedImage
+    // this will return an obj that has 2 keys that hopfully are both true
+    const status = await cleanupDeletedImage(imgObj);
+    //
+    if (status.cloudDelete && status.cleanListing) {
+      return response.status(200).json("WE DID IT");
+    }
+    if (!status.cloudDelete) {
+      msg += "Unable to delete from Cloudinary.";
+    }
+    if (!status.cleanListing) {
+      msg += " Unable to delete from listing array in DB.";
+    }
+    return response.status(400).json(msg);
   } catch (err) {
-    response.status(400).json(err);
+    // this will catch any errors thrown in cleanupDeletedImage
+    response.status(500).json(err);
   }
 };
+
+//TODO:
