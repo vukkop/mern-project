@@ -28,6 +28,10 @@ const Properties = () => {
   
   useEffect(()=>{
     console.log(filterObj)
+    if(filterObj.priceRange) {
+      filterProperties();
+    }
+    console.log(propertiesList)
   }, [filterObj])
 
 
@@ -55,7 +59,12 @@ const Properties = () => {
           // using this we should be able to only select properties where the price is
           // not lower than index 0, but also not higher than index 1
           // THIS IS SELECTION BY REMOVAL.  IF IT DOES NOT MATCH, WE GET IT OUT IF THE ARRAY.
-          
+          if(filterObj[key][0] === 0 && filterObj[key][1] === 5000000)
+          continue;
+
+          const pricePropArr = propertiesList.filter((prop)=> filterObj[key][1] >= prop.price && prop.price >= filterObj[key][0])
+          setPropertiesList(pricePropArr)
+          console.log(pricePropArr)
           break;
         case 'bedrooms':
           // default is 0, so we will always include all bedrooms if they don't select          
@@ -66,14 +75,29 @@ const Properties = () => {
           }
           // now that we know it's got something in it, we need to filter out the ones that don't match
           // we can use the filter method to do this
-          const newPropArr = propertiesList.filter((prop)=>{prop.numOfBedrooms >= filterObj[key]})
-          setPropertiesList(newPropArr);
+          const bedPropArr = propertiesList.filter((prop)=>prop.numOfBedrooms >= filterObj[key])
+          setPropertiesList(bedPropArr);
           break;
         case 'bathrooms':
           // default is 0, to keep filtering inclusive
           // filter properties by number of bathrooms
+          if(filterObj[key] === 0){
+            continue;
+          }
+          const bathPropArr = propertiesList.filter((prop)=>prop.numOfBathrooms >= filterObj[key])
+          setPropertiesList(bathPropArr);
           break;
         case 'homeType':
+          if(filterObj[key].length === 0){
+            continue;
+          }
+          //We need to match the array of home types to match up with the filter array
+          //step 1 each property can only have one home type
+          //step 2 we need to check each property and see if the home type of the property doesnt match any of the home type
+          //step 3 if we find one that doesnt match we need to get rid of it. 
+          const typePropArr = propertiesList.filter((prop)=>filterObj[key].includes(prop.type))
+          console.log(filterObj[key], typePropArr)
+          setPropertiesList(typePropArr);
           // default is empty array, so we can include all home types if they match the 
           // filter properties by home type
           break;

@@ -18,8 +18,8 @@ import {
 
 const FilterSearch = ({ open, onClose, applyFilter }) => {
     const [priceRange, setPriceRange] = useState([0, 5000000]);
-    const [bedrooms, setBedrooms] = useState('');
-    const [bathrooms, setBathrooms] = useState('');
+    const [bedrooms, setBedrooms] = useState(0);
+    const [bathrooms, setBathrooms] = useState(0);
     const [homeType, setHomeType] = useState([]);
     const [includePets, setIncludePets] = useState(false);
 
@@ -85,10 +85,10 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         value={homeType}
                         onChange={handleHomeTypeChange}
                     >
-                        <MenuItem value="single-family">Single Family</MenuItem>
-                        <MenuItem value="townhome">Townhome</MenuItem>
-                        <MenuItem value="apartment">Apartment</MenuItem>
-                        <MenuItem value="multi-family">Multi Family</MenuItem>
+                        <MenuItem value="Home">House</MenuItem>
+                        <MenuItem value="Town House">Townhome</MenuItem>
+                        <MenuItem value="Apartment">Apartment</MenuItem>
+                        <MenuItem value="Office">Office</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControlLabel
