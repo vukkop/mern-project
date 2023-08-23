@@ -104,7 +104,6 @@ const PasswordReset = ({ component: RouteComponent, ...rest }) => {
       setEmailError(true);
       return;
     }
-    console.log(sendPasswordResetEmail(auth, email));
     sendPasswordResetEmail(auth, email)
       .then(() => {
         console.log(sendPasswordResetEmail(auth, email));
