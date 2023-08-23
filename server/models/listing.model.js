@@ -58,9 +58,10 @@ const ListingSchema = mongoose.Schema(
     },
     images: [
       {
-        cloudId: String,
         imgUrl: String,
+        listingId: String,
         name: String,
+        publicId: String,
       },
     ],
   },

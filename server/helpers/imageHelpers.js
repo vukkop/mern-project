@@ -1,4 +1,13 @@
+const cloudinary  = require("cloudinary").v2
 const { Listing } = require("../models/listing.model");
+
+cloudinary.config({
+  cloud_name: "Vuk i need you api keys",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true
+})
+
 // sample image object
 const sampleImgObj = {
   imgId: "1234",
@@ -15,7 +24,7 @@ const ActionEnum = {
 
 //this will take in an array of image objects (at least 1), and then clean up the DB so we don't reference images that no longer exist
 // We will also use this to ping the cloudinary API in the background so we manage our usage
-export const cleanupDeletedImage = async (imageObj) => {
+const cleanupDeletedImage = async (imageObj) => {
   // creating headers?
   const status = {
     cloudDelete: false,
@@ -23,7 +32,6 @@ export const cleanupDeletedImage = async (imageObj) => {
   };
 
   // setting a var to the value of whatever is returned for deleteFromCloud function
-  // bubble the error??
   try {
     const deletedFromCloud = await deleteFromCloudinary(imageObj.imgId);
     if (deletedFromCloud) {
@@ -46,7 +54,7 @@ export const cleanupDeletedImage = async (imageObj) => {
     // both can return a new array
     // *** THE BELOW LOGIC WAS ABSTRACTED TO A FUNCTION
     // listing = Listing.findOne(imageObj.listingId);
-    // // loop through images array inside the listting
+    // loop through images array inside the listing
     // for (let i = 0; i < listing.images.length; i++) {
     //   if (listing.images[i].cloudId === imageObj.imgId) {
     //     listing.images.splice(i, 1);
@@ -70,7 +78,6 @@ export const cleanupDeletedImage = async (imageObj) => {
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
-  // getting the
 
   // we know the listingId is part of the imgObj, so we can use that to query our mongo DB for the listing object
   // once we have the listing object, we can then look for our images array, and check to see if any of the values in that array match our imgId
@@ -79,7 +86,7 @@ export const cleanupDeletedImage = async (imageObj) => {
   // once we remove the image from the array, we still need to update the listing in mongo so that it doesn't forget our changes to the listing
   // if the listing updates successfully, then we know next time it is called to display the listing, it won't have this image attached anymore
   // this is why we set our status to true for cleanListing so that the function calling this (cleanupDeletedImage)
-  // knows that the listing is good to be called agian by the front end
+  // knows that the listing is good to be called again by the front end
   // once we have a result from saving the new array for the listing, we can change (or not change) the cleanListing status as req
   // at this point we need to check if cloudDelete status is true,
   // if it is NOT, we need to make sure the promise IS resolved, and we aren't waiting on a return from the function
@@ -97,15 +104,9 @@ const deleteFromCloudinary = async (imgId) => {
   //api call here to delete by id if it exists
   try {
     // call the delete
-    const deleted = await fetch("cloudinaryAPIcall", {
-      headers: {
-        auth: process.env.CLOUDINARYAPIKEY,
-        content: "Application/Json",
-      },
-      Body: {
-        id: imgId,
-      },
-    });
+    const deleted = await cloudinary.v2.uploader.destroy("imgId")
+      .then()
+    
     if (deleted) {
       return true;
     }
@@ -116,21 +117,23 @@ const deleteFromCloudinary = async (imgId) => {
 
 // ABSTRACTING FROM THE DELETE HELPER
 // SEE COMMENTS FOR WHY/HOW
+// this func takes in the action and imgObj and wil return an updated listing with a new image array
+// * note: this does not update mongoDB with the listing
 const updateImgArray = async (action, imageObj) => {
   const listing = Listing.findOne(imageObj.listingId);
-  // loop through images array inside the listting
+  // loop through images array inside the listing
   for (let i = 0; i < listing.images.length; i++) {
     if (listing.images[i].cloudId === imageObj.imgId) {
       listing.images.splice(i, 1);
     }
     if (action === ActionEnum.update) {
       listing.images.push(imageObj);
-    }
+    } 
   }
   return listing;
 };
 
-export const updateImageList = async (imageObj) => {
+const updateImageList = async (imageObj) => {
   const status = {
     updateListing: false,
   };
@@ -156,30 +159,33 @@ export const updateImageList = async (imageObj) => {
   return status;
 };
 
-export const addImage = async (imageObj) => {
-  const status = {
-    addImage: false,
-  };
+const addImage = async (imageObj) => {
   let listing;
   try {
-    listing = Listing.findOne(imageObj.listingId);
-    listing.images = [];
+    listing = await Listing.findOne({_id: imageObj.listingId});
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    console.log(listing);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     listing.images.push(imageObj);
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
 
   try {
-    const updateListing = await Listing.findOneAndUpdate(
+    await Listing.findOneAndUpdate(
       { _id: imageObj.listingId },
       listing,
       { new: true, runValidators: true }
     );
-    if (updateListing) {
-      status.updateListing = true;
-    }
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
-  return status;
+  return true;
 };
+
+
+module.exports = {
+  cleanupDeletedImage,
+  addImage,
+  updateImageList
+}

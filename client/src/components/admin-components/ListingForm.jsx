@@ -82,7 +82,7 @@ const ListingForm = (props) => {
                 <TextField
                   name='numOfBathrooms'
                   type='number'
-                  label="Number Of Batrooms"
+                  label="Number Of Bathrooms"
                   onChange={onChangeHandler}
                   value={listing.numOfBathrooms}
                   InputLabelProps={{ ...colorTheme.inputLabelProps }}
@@ -232,11 +232,11 @@ const ListingForm = (props) => {
         </div>
       </form >
 
-      <div className="row mt-5">
+      {/* <div className="row mt-5">
         <Button color='secondary' onClick={() => setIsOpen(!isOpen)}>Button</Button>
         {isOpen && <UploadImageModal />}
 
-      </div>
+      </div> */}
     </div >
 
 

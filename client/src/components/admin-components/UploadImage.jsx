@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@mui/material'
 import useColorTheme from "../../hooks/FormStyles"
 import { MuiFileInput } from 'mui-file-input'
 
-const UploadImage = () => {
+const UploadImage = (props) => {
   const [value, setValue] = React.useState(null)
   const [imageSelected, setImageSelected] = useState("")
   const [imageArray, setImageArray] = useState([])
@@ -21,9 +21,26 @@ const UploadImage = () => {
     formData.append("file", imageSelected)
     formData.append("upload_preset", "mern_project")
 
-    axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/upload`, formData).then((res) => {
-      const imgUrl = res.data.secure_url
-      setImageArray([...imageArray, imgUrl])
+    axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/upload`, formData)
+      .then((res) => {
+      console.log("$$$$$$$$$$$$$$$$$$HI ROBERT*******************")
+      console.log(props.listingId);
+      const imgObject = {
+        listingId: props.listingId,
+        publicId: res.data.public_id,
+        imgUrl: res.data.secure_url,
+        name: res.data.original_filename
+      }
+      axios.post('http://localhost:8000/api/image/add', imgObject)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    })
+    .catch((err) => {
+      console.log(err);
     })
   }
 
@@ -34,12 +51,13 @@ const UploadImage = () => {
   }
 
   const handleContiniue = () => {
-    axios.post(`https://api.`)
+    axios.post(`http:///api/image/add`)
     navigate("/admin")
   }
 
   return (
-    <Box>
+    <div>
+      {JSON.stringify(props.listingId)}
       <h1>HI from upload</h1>
       <Box sx={{
         display: "flex",
@@ -72,7 +90,7 @@ const UploadImage = () => {
         </ul>
         <Button color='secondary' onClick={handleContiniue}>Continue</Button>
       </Box>
-    </Box>
+    </div>
   )
 }
 

@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-const UploadImageModal = () => {
+const UploadImageModal = ({listingId}) => {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
   const colorTheme = useColorTheme()
@@ -30,7 +30,7 @@ const UploadImageModal = () => {
       >
         <Box sx={style}>
 
-          <UploadImage />
+        <UploadImage listingId = {listingId} />
 
         </Box>
       </Modal>
