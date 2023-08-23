@@ -39,12 +39,19 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
         setHomeType(event.target.value);
     };
 
+    const handleResetFilter = ()=> {
+        setPriceRange([0, 5000000]);
+        setBathrooms(0);
+        setBedrooms(0);
+        setHomeType([]);
+        handleApplyFilter();
+    }
     return (
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Search Filter</DialogTitle>
             <DialogContent>
                 <FormControl fullWidth >
-                    <InputLabel id="bedrooms-label">Bedrooms</InputLabel>
+                    <InputLabel id="bedrooms-label">Minimum Bedrooms</InputLabel>
                     <Select
                         labelId="bedrooms-label"
                         value={bedrooms}
@@ -59,7 +66,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                     </Select>
                 </FormControl>
                 <FormControl fullWidth sx={{mt: 2}}>
-                    <InputLabel id="bathrooms-label">Bathrooms</InputLabel>
+                    <InputLabel id="bathrooms-label">Minimum Bathrooms</InputLabel>
                     <Select
                         labelId="bathrooms-label"
                         value={bathrooms}
@@ -113,6 +120,9 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                 </FormControl>
                 <Button variant="contained" color="primary" onClick={handleApplyFilter}>
                     Apply Filter
+                </Button>
+                <Button variant="contained" color="primary" onClick={handleResetFilter}>
+                    Reset Filters
                 </Button>
             </DialogContent>
         </Dialog>

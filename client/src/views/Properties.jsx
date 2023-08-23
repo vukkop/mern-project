@@ -29,14 +29,11 @@ const Properties = () => {
     setLoaded(false);
     if(filterObj.priceRange) {
       filterProperties();
-    }   
+    }  
+    setLoaded(true) 
   }, [filterObj])
 
-  useEffect(()=>{
-    if(propertiesList.length > 0){
-      setLoaded(true);
-    }
-  }, [propertiesList]);
+  
 
 
   const filterProperties = () => {
@@ -47,25 +44,25 @@ const Properties = () => {
         case 'priceRange':
           if(filterObj[key][0] === 0 && filterObj[key][1] === 5000000)
           continue;
-          newPropArr = propertiesList.filter((prop)=> filterObj[key][1] >= prop.price && prop.price >= filterObj[key][0])
+          newPropArr = newPropArr.filter((prop)=> filterObj[key][1] >= prop.price && prop.price >= filterObj[key][0])
           break;
         case 'bedrooms':
           if(filterObj[key] === 0){
             continue;
           }
-          newPropArr = propertiesList.filter((prop)=>prop.numOfBedrooms >= filterObj[key])
+          newPropArr = newPropArr.filter((prop)=>prop.numOfBedrooms >= filterObj[key])
           break;
         case 'bathrooms':
           if(filterObj[key] === 0){
             continue;
           }
-          newPropArr = propertiesList.filter((prop)=>prop.numOfBathrooms >= filterObj[key])
+          newPropArr = newPropArr.filter((prop)=>prop.numOfBathrooms >= filterObj[key])
           break;
         case 'homeType':
           if(filterObj[key].length === 0){
             continue;
           }
-          newPropArr = propertiesList.filter((prop)=>filterObj[key].includes(prop.type))
+          newPropArr = newPropArr.filter((prop)=>filterObj[key].includes(prop.type))
           break;
         case 'includePets':
           break;
