@@ -14,14 +14,22 @@ import {
     Checkbox,
     FormGroup,
     FormLabel,
+    useTheme,
+    Box,
 } from '@mui/material';
+import useColorTheme from '../../hooks/FormStyles';
+import { tokens } from '../../context/theme';
+
 
 const FilterSearch = ({ open, onClose, applyFilter }) => {
+    const theme = useTheme();
     const [priceRange, setPriceRange] = useState([0, 5000000]);
-    const [bedrooms, setBedrooms] = useState(0);
-    const [bathrooms, setBathrooms] = useState(0);
+    const [bedrooms, setBedrooms] = useState("");
+    const [bathrooms, setBathrooms] = useState("");
     const [homeType, setHomeType] = useState([]);
     const [includePets, setIncludePets] = useState(false);
+    const colorTheme = useColorTheme();
+    const colors = tokens(theme.palette.mode);
 
     const handleApplyFilter = () => {
         const filterData = {
@@ -39,55 +47,70 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
         setHomeType(event.target.value);
     };
 
-    const handleResetFilter = ()=> {
+
+    const handleResetFilter = () => {
         setPriceRange([0, 5000000]);
-        setBathrooms(0);
-        setBedrooms(0);
+        setBathrooms("");
+        setBedrooms("");
         setHomeType([]);
-        handleApplyFilter();
+        const filterData = {
+            priceRange: [0, 5000000],
+            bedrooms: 0,
+            bathrooms: 0,
+            homeType: [],
+            includePets: false,
+        };
+        applyFilter(filterData);
     }
     return (
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Search Filter</DialogTitle>
             <DialogContent>
-                <FormControl fullWidth >
-                    <InputLabel id="bedrooms-label">Minimum Bedrooms</InputLabel>
-                    <Select
-                        labelId="bedrooms-label"
+                <FormControl fullWidth sx={{ mt: 2 }} >
+                    
+                    <TextField
+                        label="Bedrooms"
                         value={bedrooms}
+                        select
+                        fullWidth
                         onChange={(e) => setBedrooms(e.target.value)}
                     >
-                        <MenuItem value="">Any</MenuItem>
-                        <MenuItem value={1}>1</MenuItem>
-                        <MenuItem value={2}>2</MenuItem>
-                        <MenuItem value={3}>3</MenuItem>
-                        <MenuItem value={4}>4</MenuItem>
+                        <MenuItem value="">Bedrooms</MenuItem>
+                        <MenuItem value={0}>Any</MenuItem>
+                        <MenuItem value={1}>1+</MenuItem>
+                        <MenuItem value={2}>2+</MenuItem>
+                        <MenuItem value={3}>3+</MenuItem>
+                        <MenuItem value={4}>4+</MenuItem>
                         <MenuItem value={5}>5+</MenuItem>
-                    </Select>
+                    </TextField>
                 </FormControl>
-                <FormControl fullWidth sx={{mt: 2}}>
-                    <InputLabel id="bathrooms-label">Minimum Bathrooms</InputLabel>
-                    <Select
-                        labelId="bathrooms-label"
+                <FormControl fullWidth sx={{ mt: 3 }}>
+                    
+                    <TextField
+                        label="Bathrooms"
                         value={bathrooms}
+                        select
+                        fullWidth
                         onChange={(e) => setBathrooms(e.target.value)}
                     >
-                        <MenuItem value="">Any</MenuItem>
-                        <MenuItem value={1}>1</MenuItem>
-                        <MenuItem value={1.5}>1.5</MenuItem>
-                        <MenuItem value={2}>2</MenuItem>
-                        <MenuItem value={2.5}>2.5</MenuItem>
-                        <MenuItem value={3}>3</MenuItem>
-                        <MenuItem value={3.5}>3.5</MenuItem>
-                        <MenuItem value={4}>4</MenuItem>
-                        <MenuItem value={4.5}>4.5</MenuItem>
+                        <MenuItem value="">Bathrooms</MenuItem>
+                        <MenuItem value={0}>Any</MenuItem>
+                        <MenuItem value={1}>1+</MenuItem>
+                        <MenuItem value={1.5}>1.5+</MenuItem>
+                        <MenuItem value={2}>2+</MenuItem>
+                        <MenuItem value={2.5}>2.5+</MenuItem>
+                        <MenuItem value={3}>3+</MenuItem>
+                        <MenuItem value={3.5}>3.5+</MenuItem>
+                        <MenuItem value={4}>4+</MenuItem>
+                        <MenuItem value={4.5}>4.5+</MenuItem>
                         <MenuItem value={5}>5+</MenuItem>
-                    </Select>
+                    </TextField>
                 </FormControl>
-                <FormControl fullWidth sx={{mt: 2}}>
-                    <InputLabel id="home-type-label">Home Type</InputLabel>
-                    <Select
-                        labelId="home-type-label"
+                <FormControl fullWidth sx={{ mt: 3 }}>
+                    
+                    <TextField
+                        fullWidth
+                        label="Home Type"
                         multiple
                         value={homeType}
                         onChange={handleHomeTypeChange}
@@ -96,20 +119,13 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         <MenuItem value="Town House">Townhome</MenuItem>
                         <MenuItem value="Apartment">Apartment</MenuItem>
                         <MenuItem value="Office">Office</MenuItem>
-                    </Select>
+                    </TextField>
                 </FormControl>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={includePets}
-                            onChange={(e) => setIncludePets(e.target.checked)}
-                        />
-                    }
-                    label="Include Pets"
-                />
+
                 <FormControl fullWidth>
                     <FormLabel>Price Range</FormLabel>
                     <Slider
+                        style={{ color: colors.grey[100] }}
                         value={priceRange}
                         onChange={(e, newValue) => setPriceRange(newValue)}
                         valueLabelDisplay="auto"
@@ -118,10 +134,25 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         max={900000}
                     />
                 </FormControl>
-                <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+
+                <Button onClick={handleApplyFilter}
+                    variant="outlined"
+                    size='small'
+                    sx={{
+                        ...colorTheme.submitButton,
+                        width: '100px',
+                        m: 1
+                    }} style={{ color: colors.grey[100] }}>
                     Apply Filter
                 </Button>
-                <Button variant="contained" color="primary" onClick={handleResetFilter}>
+                <Button onClick={handleResetFilter}
+                    variant="outlined"
+                    size='small'
+                    sx={{
+                        ...colorTheme.submitButton,
+                        width: '100px',
+                        m: 1
+                    }} style={{ color: colors.grey[100] }}>
                     Reset Filters
                 </Button>
             </DialogContent>
@@ -130,3 +161,5 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
 };
 
 export default FilterSearch;
+
+

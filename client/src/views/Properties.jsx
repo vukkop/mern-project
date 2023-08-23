@@ -8,8 +8,11 @@ const Properties = () => {
   const [propertiesList, setPropertiesList] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [filterObj, setFilterObj] = useState({});
+  const [basePropList, setBasePropList] = useState([]);
 
-
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
 
   useEffect(()=>{
     getPropertyList();
@@ -18,7 +21,8 @@ const Properties = () => {
     axios
         .get("http://localhost:8000/api/listing/all")
         .then((res)=>{
-          setPropertiesList(res.data)          
+          setPropertiesList(res.data)
+          setBasePropList(res.data)          
         })
         .catch((err)=>{
           console.log(err)
@@ -27,17 +31,17 @@ const Properties = () => {
   
   useEffect(()=>{
     setLoaded(false);
-    if(filterObj.priceRange) {
-      filterProperties();
-    }  
-    setLoaded(true) 
-  }, [filterObj])
+    filterProperties();
+    }, [filterObj])
 
-  
+  useEffect(()=>{
+    setLoaded(true);
+  }, [propertiesList])
 
 
   const filterProperties = () => {
-    let newPropArr = [...propertiesList];
+    sleep(2)
+    let newPropArr = [...basePropList];
     for(const key in filterObj) {
       switch(key){
 
@@ -47,13 +51,13 @@ const Properties = () => {
           newPropArr = newPropArr.filter((prop)=> filterObj[key][1] >= prop.price && prop.price >= filterObj[key][0])
           break;
         case 'bedrooms':
-          if(filterObj[key] === 0){
+          if(filterObj[key] === 0 || filterObj[key] === ""){
             continue;
           }
           newPropArr = newPropArr.filter((prop)=>prop.numOfBedrooms >= filterObj[key])
           break;
         case 'bathrooms':
-          if(filterObj[key] === 0){
+          if(filterObj[key] === 0 || filterObj[key] === ""){
             continue;
           }
           newPropArr = newPropArr.filter((prop)=>prop.numOfBathrooms >= filterObj[key])
