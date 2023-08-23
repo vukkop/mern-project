@@ -22,9 +22,7 @@ import NavStyles from "../../../hooks/NavHooks"
 import { AuthContext } from "../../../context/authContext";
 
 
-const pages = ['Home', 'Properties', "About", "Contacts"];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
+const pages = ['Home', 'Properties', "About", "Contact"];
 
 function NavBar() {
   const theme = useTheme();
@@ -188,9 +186,11 @@ function NavBar() {
               <MenuItem onClick={handleCloseUserMenu}>
                 <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>User : {currentUserEmail}</Link>  
               </MenuItem>
+              <Link onClick={Logout}>
               <MenuItem onClick={handleCloseUserMenu}>
-              <p onClick={Logout}>Logout</p>
+                <Link style={{ textDecoration: "none", textAlign: "center", color: colors.grey[100] }}>Logout</Link>
               </MenuItem>
+              </Link>
             </Menu>
           </Box>
         </Toolbar>
