@@ -19,7 +19,6 @@ import PasswordReset from "./views/PasswordReset";
 
 function App() {
   const [theme, colorMode] = useMode();
-
   const [navShouldRender, setNavShouldRender] = useState(true);
   const location = useLocation();
   const { currentUser } = useContext(AuthContext);
@@ -27,6 +26,8 @@ function App() {
   useEffect(() => {
     if (!currentUser) {
       setNavShouldRender(false);
+    }else{
+      setNavShouldRender(true);
     }
   }, [location, currentUser]);
 
