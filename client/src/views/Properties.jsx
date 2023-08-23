@@ -2,6 +2,7 @@ import React from 'react'
 import PropertyCard from '../components/properties-components/PropertyCard'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import SearchBar from '../components/search-components/SearchBar'
 
 const Properties = () => {
   const [propertiesList, setPropertiesList] = useState([]);
@@ -25,6 +26,7 @@ const Properties = () => {
 
   return (
     <div >
+      <SearchBar/>
       {propertiesList.map((prop, i)=>
       loaded && 
       (<PropertyCard key={i} prop={prop} />)

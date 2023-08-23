@@ -54,6 +54,21 @@ const useColorTheme = () => {
     },
   };
 
+  const uploadImageBtn = {
+    backgroundColor: colors.greenAccent[500],
+    "&:hover": {
+      backgroundColor: colors.greenAccent[700],
+    },
+    px: 5,
+  };
+
+  const fileBtn = {
+    backgroundColor: colors.redAccent[500],
+    "&:hover": {
+      backgroundColor: colors.redAccent[700],
+    },
+  };
+
   return {
     inputLabelProps,
     inputProps,
@@ -63,6 +78,8 @@ const useColorTheme = () => {
     checkBoxLabel,
     selectLabel,
     colors,
+    uploadImageBtn,
+    fileBtn,
   };
 };
 

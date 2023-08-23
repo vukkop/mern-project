@@ -1,23 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Container, Typography, Paper, Box, Button } from '@mui/material';
 import { tokens } from '../../context/theme';
-import HeroStyles from '../../hooks/HeroStyles';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material';
 import useColorTheme from '../../hooks/FormStyles';
 import bgImg from "../../assets/img/Newest.jpg";
 import { alpha } from "@mui/material"
 
-const AboutHero = (props) => {
+const AboutHero = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const HeroStyle = HeroStyles();
     const navigate = useNavigate();
-    const { post } = props;
-    const heroStyle = HeroStyles();
     const colorTheme = useColorTheme();
 
-    var item =
+    const item =
     {
         mt: { xs: 5, lg: 10 },
         mx: { xs: 0, sm: 5 },
@@ -32,7 +28,7 @@ const AboutHero = (props) => {
         backgroundPosition: 'center',
         backgroundImage: `url(${bgImg})`,
     }
-    var itemText ={
+    const itemText ={
             borderBottomRightRadius: {xs: 0, md: 40},
             borderTopLeftRadius: {xs: 0, md: 40},
             ml: {xs: 0, md: 2},
