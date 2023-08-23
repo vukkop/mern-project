@@ -3,11 +3,27 @@ import { Box, Input, Grid, FormControl, Button, useTheme } from '@mui/material'
 import useColorTheme from '../../hooks/FormStyles';
 import TextField from '@mui/material/TextField';
 import { tokens, ColorModeContext } from '../../context/theme';
+import { useState } from 'react';
+import FilterSearch from './FilterSearch';
 
 const SearchBar = () => {
     const theme = useTheme();
     const colorTheme = useColorTheme();
     const colors = tokens(theme.palette.mode);
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [filterTerm, setFilterTerm] = useState('');
+
+    const handleOpenFilter = () => {
+        setFilterOpen(true);
+    };
+
+    const handleCloseFilter = () => {
+        setFilterOpen(false);
+    };
+
+    const handleApplyFilter = (term) => {
+        setFilterTerm(term);
+    };
 
     return (
         <FormControl sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 2, mt: 3 }}>
@@ -20,12 +36,18 @@ const SearchBar = () => {
                     ...colorTheme.inputStyling
                 }}
             />
-            <Button variant="outlined"
+            <Button onClick={handleOpenFilter}
+                variant="outlined"
                 size='medium'
                 sx={{
                     ...colorTheme.submitButton,
                     width: '100px'
                 }} style={{ color: colors.grey[100] }}>Filter</Button>
+            <FilterSearch
+                open={filterOpen}
+                onClose={handleCloseFilter}
+                applyFilter={handleApplyFilter}
+            />
             <Button variant="outlined"
                 size='medium'
                 sx={{
