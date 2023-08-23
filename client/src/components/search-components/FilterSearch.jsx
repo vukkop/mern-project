@@ -64,8 +64,8 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
     }
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Search Filter</DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{p:5}}>
+                <DialogTitle sx={{color: colors.greenAccent[500], p:0, mb: 2, fontSize: "2rem"}}>Search Filter</DialogTitle>
                 <FormControl fullWidth sx={{ mt: 2 }} >
                     
                     <TextField
@@ -74,6 +74,22 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         select
                         fullWidth
                         onChange={(e) => setBedrooms(e.target.value)}
+                        InputLabelProps={{
+                            style: {
+                                color: colors.greenAccent[500]
+                            }
+                        }}
+                        inputProps={{
+                            ...colorTheme.inputProps
+                        }}
+                        sx={{    
+                            "& .MuiOutlinedInput-root": {
+                            "&.Mui-focused": {
+                              "& fieldset": {
+                                borderColor: colors.greenAccent[500],
+                              },
+                            },
+                          },}}
                     >
                         <MenuItem value="">Bedrooms</MenuItem>
                         <MenuItem value={0}>Any</MenuItem>
@@ -92,6 +108,22 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         select
                         fullWidth
                         onChange={(e) => setBathrooms(e.target.value)}
+                        InputLabelProps={{
+                            style: {
+                                color: colors.greenAccent[500]
+                            }
+                        }}
+                        inputProps={{
+                            ...colorTheme.inputProps
+                        }}
+                        sx={{    
+                            "& .MuiOutlinedInput-root": {
+                            "&.Mui-focused": {
+                              "& fieldset": {
+                                borderColor: colors.greenAccent[500],
+                              },
+                            },
+                          },}}
                     >
                         <MenuItem value="">Bathrooms</MenuItem>
                         <MenuItem value={0}>Any</MenuItem>
@@ -111,9 +143,28 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                     <TextField
                         fullWidth
                         label="Home Type"
-                        multiple
+                        select
+                        SelectProps={{
+                            multiple: true
+                        }}
                         value={homeType}
                         onChange={handleHomeTypeChange}
+                        InputLabelProps={{
+                            style: {
+                                color: colors.greenAccent[500]
+                            }
+                        }}
+                        inputProps={{
+                            color: "white"
+                        }}
+                        sx={{    
+                            "& .MuiOutlinedInput-root": {
+                            "&.Mui-focused": {
+                              "& fieldset": {
+                                borderColor: colors.greenAccent[500],
+                              },
+                            },
+                          },}}
                     >
                         <MenuItem value="Home">House</MenuItem>
                         <MenuItem value="Town House">Townhome</MenuItem>
@@ -123,9 +174,9 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                 </FormControl>
 
                 <FormControl fullWidth>
-                    <FormLabel>Price Range</FormLabel>
+                    <FormLabel sx={{mt:2, mb: 1, color: colors.greenAccent[500]}}>Price Range</FormLabel>
                     <Slider
-                        style={{ color: colors.grey[100] }}
+                        style={{ color: colors.greenAccent[500] }}
                         value={priceRange}
                         onChange={(e, newValue) => setPriceRange(newValue)}
                         valueLabelDisplay="auto"
@@ -134,27 +185,24 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         max={900000}
                     />
                 </FormControl>
-
-                <Button onClick={handleApplyFilter}
-                    variant="outlined"
-                    size='small'
-                    sx={{
-                        ...colorTheme.submitButton,
-                        width: '100px',
-                        m: 1
-                    }} style={{ color: colors.grey[100] }}>
-                    Apply Filter
-                </Button>
-                <Button onClick={handleResetFilter}
-                    variant="outlined"
-                    size='small'
-                    sx={{
-                        ...colorTheme.submitButton,
-                        width: '100px',
-                        m: 1
-                    }} style={{ color: colors.grey[100] }}>
-                    Reset Filters
-                </Button>
+                    <Box justifyContent={"space-between"} sx={{mt: 5}}>
+                        <Button onClick={handleApplyFilter}
+                            variant='contained'
+                            color="secondary"
+                            size='small'
+                            sx={{width: '100px', mr: 4}}
+                        >
+                            Apply Filter
+                        </Button>
+                        <Button onClick={handleResetFilter}
+                            variant='contained'
+                            color="secondary"
+                            size='small'
+                            sx={{width: '100px'}} 
+                        >
+                            Reset Filters
+                        </Button>
+                    </Box>
             </DialogContent>
         </Dialog>
     );
