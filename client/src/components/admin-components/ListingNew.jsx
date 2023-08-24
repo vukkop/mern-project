@@ -7,6 +7,7 @@ import UploadImageModal from './UploadImageModal'
 
 
 const ListingNew = () => {
+  const [imageArray, setImageArray] = useState([])
   const [errors, setErrors] = useState([]);
   const [formSubmit, setFormSubmit] = useState("");
   const navigate = useNavigate();
@@ -23,36 +24,26 @@ const ListingNew = () => {
     city: '',
     state: '',
     zipCode: '',
-    images: [
-      {
-        cloudId: "",
-        imgUrl: "",
-        name: "",
-      },
-    ]
+    images: [],
   }
 
   const createListing = (listing) => {
     axios.post("http://localhost:8000/api/listing", listing)
       .then((res) => {
-        console.log(res.data._id);
-
         setFormSubmit(res.data._id);
-
       })
       .catch((err) => {
-        console.log(err);
-        // const errorResponse = err.response.data.errors;
-        // const errorArr = [];
-        // for (const key of Object.keys(errorResponse)) {
-        //   errorArr.push(errorResponse[key].message)
-        // }
-        // setErrors(errorArr)
-        // if (errorArr.length > 0) {
-        //   setTimeout(() => {
-        //     setErrors([]);
-        //   }, 4000);
-        // }
+        const errorResponse = err.response.data.errors;
+        const errorArr = [];
+        for (const key of Object.keys(errorResponse)) {
+          errorArr.push(errorResponse[key].message)
+        }
+        setErrors(errorArr)
+        if (errorArr.length > 0) {
+          setTimeout(() => {
+            setErrors([]);
+          }, 4000);
+        }
       })
   }
 
@@ -63,11 +54,15 @@ const ListingNew = () => {
         onSubmitProp={createListing}
         initialListing={newListing}
       />
+
+      {/* We could implement this when we create edit image functionality - This should not be in our MVP - VUK
+      {imageArray.map((e, i) => <img className='rounded' style={{ height: "100px" }} src={e.imgUrl} />)} */}
+
       {
-        formSubmit && 
-      <div className="row mt-5">
-        <UploadImageModal listingId = {formSubmit}/>
-      </div>
+        formSubmit &&
+        <div className="row mt-5">
+          <UploadImageModal listingId={formSubmit} imageArray={imageArray} setImageArray={setImageArray} />
+        </div>
       }
 
       {

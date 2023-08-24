@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
+import { alpha, useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import BedroomParentOutlinedIcon from '@mui/icons-material/BedroomParentOutlined';
@@ -18,24 +18,26 @@ const PropertyCard = (props) => {
     
     return (
         <Grid>
-            <Card sx={{ 
-                width: "85%", 
-                mx: 'auto', 
-                mt: '50px', 
-                backgroundColor: colors.greenAccent[900],
-                boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.7)",
-                p: 3,
-                }} >
-                <Link className="link-offset-2 link-underline link-underline-opacity-0" underline="none" to={`/listing/${property._id}`}>
-                    <CardActionArea sx={{ display: 'flex' }}  >
-                        <CardMedia className='rounded w-25 h-25' sx={{ flex: 1 }}
+            <Link 
+            style={{textDecoration: "none"}} 
+            to={`/listing/${property._id}`}
+            >
+                <Card sx={{ 
+                    width: "85%",
+                    mx: 'auto',
+                    mt: 10, 
+                    backgroundColor: alpha(colors.blueAccent[500], .1),
+                    boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.7)",
+                    p: 3,
+                    }} >
+                    <CardActionArea sx={{ display: 'flex' }}>
+                        <CardMedia sx={{flex: 1}}
                             component="img"
                             width="200"
                             height="220"
                             image={property.imgUrl}
-                            alt=""
                         />
-                        <CardContent sx={{ flex: 3 }}>
+                        <CardContent sx={{ flex: 3, px: 10}}>
                             <Typography gutterBottom variant="h4" component="div">
                                 $ {property.price}
                             </Typography>
@@ -47,8 +49,8 @@ const PropertyCard = (props) => {
                             </Typography>
                         </CardContent>
                     </CardActionArea>
-                </Link>
-            </Card>
+                </Card>
+            </Link>
         </Grid>
     )
 }

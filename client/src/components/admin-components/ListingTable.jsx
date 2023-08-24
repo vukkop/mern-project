@@ -55,7 +55,6 @@ const ListingTable = () => {
     },
   ];
 
-
   useEffect(() => {
     getList();
   }, []);
@@ -77,7 +76,6 @@ const ListingTable = () => {
     }, 4000);
   }
   const handleEditClick = (id) => {
-    console.log(id);
     navigate(`${id}/edit`)
   }
 
@@ -95,7 +93,6 @@ const ListingTable = () => {
           pageSizeOptions={[5, 10]}
         />
       </div>
-
     </div >
   )
 }
