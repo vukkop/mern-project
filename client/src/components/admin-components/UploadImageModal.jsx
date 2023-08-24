@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 import useColorTheme from '../../hooks/FormStyles';
 import UploadImage from './UploadImage'
 
-
-
-const UploadImageModal = ({listingId, imageArray, setImageArray}) => {
+const UploadImageModal = ({ listingId, imageArray, setImageArray }) => {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false);
   const colorTheme = useColorTheme()
@@ -27,10 +25,10 @@ const UploadImageModal = ({listingId, imageArray, setImageArray}) => {
     <Modal
       open={open}
       onClose={handleClose}
-      sx={{backgroundColor: alpha(colorTheme.colors.greenAccent[900], .09)}}
+      sx={{ backgroundColor: alpha(colorTheme.colors.greenAccent[900], .09) }}
     >
       <Box sx={style}>
-      <UploadImage listingId = {listingId} imageArray={imageArray} setImageArray={setImageArray} />
+        <UploadImage listingId={listingId} imageArray={imageArray} setImageArray={setImageArray} />
       </Box>
     </Modal>
   )
