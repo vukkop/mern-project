@@ -42,7 +42,7 @@ const AboutHero = () => {
     }
 
     const handleRedirect = () => {
-        navigate('/contacts')
+        navigate('/contact')
     }
 
     return (

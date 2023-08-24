@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { alpha, useTheme, Card, CardContent, CardMedia, Typography, Box, CardActionArea, Grid, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
 import BathtubIcon from '@mui/icons-material/Bathtub';
@@ -15,29 +15,30 @@ const PropertyCard = (props) => {
     const colorMode = useContext(ColorModeContext);
     const { prop } = props
     const [property, setProperty] = useState(prop)
-    
+
     return (
         <Grid>
-            <Link 
-            style={{textDecoration: "none"}} 
-            to={`/listing/${property._id}`}
+            <Link
+                style={{ textDecoration: "none" }}
+                to={`/listing/${property._id}`}
             >
-                <Card sx={{ 
+                <Card sx={{
                     width: "85%",
                     mx: 'auto',
-                    mt: 10, 
+                    mt: 10,
                     backgroundColor: alpha(colors.blueAccent[500], .1),
                     boxShadow: "5px 10px 10px rgba(0, 0, 0, 0.7)",
                     p: 3,
-                    }} >
+                }} >
                     <CardActionArea sx={{ display: 'flex' }}>
-                        <CardMedia sx={{flex: 1}}
+                        <CardMedia sx={{ flex: 1 }}
                             component="img"
                             width="200"
                             height="220"
-                            image={property.imgUrl}
+                            image={property.images.length > 0 &&
+                                property.images[0].imgUrl}
                         />
-                        <CardContent sx={{ flex: 3, px: 10}}>
+                        <CardContent sx={{ flex: 3, px: 10 }}>
                             <Typography gutterBottom variant="h4" component="div">
                                 $ {property.price}
                             </Typography>
