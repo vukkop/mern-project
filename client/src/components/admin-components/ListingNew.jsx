@@ -24,13 +24,7 @@ const ListingNew = () => {
     city: '',
     state: '',
     zipCode: '',
-    images: [
-      {
-        cloudId: "",
-        imgUrl: "",
-        name: "",
-      },
-    ]
+    images: [],
   }
 
   const createListing = (listing) => {
@@ -61,10 +55,8 @@ const ListingNew = () => {
         initialListing={newListing}
       />
 
-
       {/* We could implement this when we create edit image functionality - This should not be in our MVP - VUK
       {imageArray.map((e, i) => <img className='rounded' style={{ height: "100px" }} src={e.imgUrl} />)} */}
-
 
       {
         formSubmit &&
