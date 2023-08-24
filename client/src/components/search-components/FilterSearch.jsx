@@ -185,7 +185,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         valueLabelDisplay="auto"
                         valueLabelFormat={(value) => `$${value}`}
                         min={0}
-                        max={900000}
+                        max={1900000}
                         step={25000}
                     />
                 </FormControl>
