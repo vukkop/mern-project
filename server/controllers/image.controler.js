@@ -22,7 +22,6 @@ module.exports.addImageToListing = async (req, res) => {
       name: req.body.name,
       publicId: req.body.publicId,
     };
-    console.log(imgObj);
     const status = await addImage(imgObj);
     if (status) {
       res.status(200).json("Image added to listing");

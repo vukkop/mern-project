@@ -15,18 +15,18 @@ const ListingForm = (props) => {
     e.preventDefault();
     onSubmitProp(listing);
     setListing({
-      // name: '',
-      // type: '',
-      // numOfBedrooms: 0,
-      // numOfBathrooms: 0,
-      // size: 0,
-      // description: '',
-      // price: '',
-      // isFeatured: false,
-      // address: '',
-      // city: '',
-      // state: '',
-      // zipCode: '',
+      name: '',
+      type: '',
+      numOfBedrooms: 0,
+      numOfBathrooms: 0,
+      size: 0,
+      description: '',
+      price: '',
+      isFeatured: false,
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
     })
     setIsOpen(true)
   }

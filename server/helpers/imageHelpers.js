@@ -27,16 +27,10 @@ const addImage = async (imageObj) => {
   let listing;
   try {
     listing = await Listing.findOne({ _id: imageObj.listingId });
-    for (let i = 0; i < listing.images.length; i++) {
-      if (listing.images[i].imgUrl === "") {
-        listing.images.splice(i, 1);
-      }
-    }
     listing.images.push(imageObj);
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
-
   try {
     await Listing.findOneAndUpdate({ _id: imageObj.listingId }, listing, {
       new: true,
@@ -60,7 +54,6 @@ const updateImageList = async (imageObj) => {
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
-
   try {
     const updateListing = await Listing.findOneAndUpdate(
       { _id: imageObj.listingId },
@@ -85,7 +78,6 @@ const cleanupDeletedImage = async (imageObj) => {
     cloudDelete: false,
     cleanListing: false,
   };
-
   // setting a var to the value of whatever is returned for deleteFromCloud function
   try {
     const deletedFromCloud = await deleteFromCloudinary(imageObj.imgId);
@@ -120,7 +112,6 @@ const cleanupDeletedImage = async (imageObj) => {
   } catch (error) {
     throw new Error(error.message ? error.message : error);
   }
-
   try {
     const updateListing = await Listing.findOneAndUpdate(
       { _id: imageObj.listingId },

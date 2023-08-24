@@ -24,13 +24,7 @@ const ListingNew = () => {
     city: '',
     state: '',
     zipCode: '',
-    images: [
-      {
-        cloudId: "",
-        imgUrl: "",
-        name: "",
-      },
-    ]
+    images: [],
   }
 
   const createListing = (listing) => {
@@ -64,12 +58,12 @@ const ListingNew = () => {
         onSubmitProp={createListing}
         initialListing={newListing}
       />
-      {imageArray.map((e, i) => <img className='rounded h-25' src={e.imgUrl}/>)}
+      {imageArray.map((e, i) => <img className='rounded h-25' src={e.imgUrl} />)}
       {
-        formSubmit && 
-      <div className="row mt-5">
-        <UploadImageModal listingId = {formSubmit} imageArray={imageArray} setImageArray={setImageArray}/>
-      </div>
+        formSubmit &&
+        <div className="row mt-5">
+          <UploadImageModal listingId={formSubmit} imageArray={imageArray} setImageArray={setImageArray} />
+        </div>
       }
 
       {
