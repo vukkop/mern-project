@@ -2,14 +2,15 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Typography, ImageList, ImageListItem } from '@mui/material'
 import useColorTheme from "../../hooks/FormStyles"
 import { MuiFileInput } from 'mui-file-input'
+import { width } from '@mui/system'
 
-const UploadImage = (props) => {
+const UploadImage = ({listingId, imageArray, setImageArray}) => {
   const [value, setValue] = React.useState(null)
   const [imageSelected, setImageSelected] = useState("")
-  const [imageArray, setImageArray] = useState([])
+  
 
   const navigate = useNavigate()
 
@@ -22,43 +23,42 @@ const UploadImage = (props) => {
     formData.append("upload_preset", "mern_project")
 
     axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/upload`, formData)
-      .then((res) => {
-      console.log("$$$$$$$$$$$$$$$$$$HI ROBERT*******************")
-      console.log(props.listingId);
-      const imgObject = {
-        listingId: props.listingId,
-        publicId: res.data.public_id,
-        imgUrl: res.data.secure_url,
-        name: res.data.original_filename
-      }
-      axios.post('http://localhost:8000/api/image/add', imgObject)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    })
+    .then((res) => {
+        const imgObject = {
+          listingId: listingId,
+          publicId: res.data.public_id,
+          imgUrl: res.data.secure_url,
+          name: res.data.original_filename
+        }
+        return imgObject
+      })
+    .then((imgObject) => {
+        setImageArray(
+          prevState => 
+            [...prevState, imgObject]
+        )
+        return imgObject
+      })
+    .then((imgObject) => {
+        axios.post('http://localhost:8000/api/image/add', imgObject)
+      })
+    
     .catch((err) => {
       console.log(err);
     })
   }
 
   const handleChange = (newValue) => {
-    console.log(newValue);
     setImageSelected(newValue)
     setValue(newValue)
   }
 
-  const handleContiniue = () => {
-    axios.post(`http:///api/image/add`)
+  const handleContinue = () => {
     navigate("/admin")
   }
 
   return (
-    <div>
-      {JSON.stringify(props.listingId)}
-      <h1>HI from upload</h1>
+    <Box>
       <Box sx={{
         display: "flex",
         justifyContent: "center",
@@ -68,29 +68,63 @@ const UploadImage = (props) => {
       }}>
         <Typography variant='h1' sx={{
           fontSize: "3rem",
-          color: colorTheme.colors.redAccent[500],
+          color: colorTheme.colors.grey[100],
           fontWeight: 500
         }}>
           Upload an Image!
         </Typography>
-        <MuiFileInput
-          value={value}
-          onChange={(e) => handleChange(e)}
-          sx={{ backgroundColor: colorTheme.colors.redAccent[500] }} />
+          <Box sx={{width: "80%"}}>
+          <MuiFileInput
+            value={value}
+            onChange={(e) => handleChange(e)}
+            sx={{ 
+              backgroundColor: colorTheme.colors.greenAccent[500],
+              color: colorTheme.colors.grey[100]
+            }} 
+          />
 
-        <Button
-          className='float-end'
-          onClick={uploadImage}
-          sx={{ ...colorTheme.uploadImageBtn }}>
+          <Button
+            className='float-end'
+            onClick={uploadImage}
+            sx={{ 
+              ...colorTheme.uploadImageBtn, 
+              mt: 5, 
+              height: 50,
+              color: "white"
+            }}
+            fullWidth
+          >
           Upload
-        </Button>
+          </Button>
+        </Box>
 
-        <ul>
-          {imageArray.map((e, i) => <li key={i}>{e}</li>)}
-        </ul>
-        <Button color='secondary' onClick={handleContiniue}>Continue</Button>
+        <Box sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          p:3,
+          gap: 4
+        }}>
+            <ImageList 
+            sx={{ width: 450, height: 400 }} 
+            cols={3} 
+            Height={164}
+            gap={10}
+            >
+              {imageArray.map((item) => (
+                <ImageListItem key={item.img}>
+                  <img
+                    src={`${item.imgUrl}?w=164&h=164&fit=crop&auto=format`}
+                    srcSet={`${item.imgUrl}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.name}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </Box>
+        <Button color='secondary' onClick={handleContinue}>Continue</Button>
       </Box>
-    </div>
+    </Box>
   )
 }
 

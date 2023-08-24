@@ -7,6 +7,7 @@ import UploadImageModal from './UploadImageModal'
 
 
 const ListingNew = () => {
+  const [imageArray, setImageArray] = useState([])
   const [errors, setErrors] = useState([]);
   const [formSubmit, setFormSubmit] = useState("");
   const navigate = useNavigate();
@@ -63,10 +64,11 @@ const ListingNew = () => {
         onSubmitProp={createListing}
         initialListing={newListing}
       />
+      {imageArray.map((e, i) => <img className='rounded h-25' src={e.imgUrl}/>)}
       {
         formSubmit && 
       <div className="row mt-5">
-        <UploadImageModal listingId = {formSubmit}/>
+        <UploadImageModal listingId = {formSubmit} imageArray={imageArray} setImageArray={setImageArray}/>
       </div>
       }
 
