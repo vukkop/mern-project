@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Alert, AlertTitle } from '@mui/material'
+import { Box, ImageList, ImageListItem } from '@mui/material'
 import ListingForm from './ListingForm'
 import UploadImageModal from './UploadImageModal'
 
@@ -89,6 +90,30 @@ const ListingEdit = () => {
           )}
         </Alert>
       }
+
+      <Box sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        p: 3,
+        gap: 4
+      }}>
+        <ImageList
+          sx={{ width: 450, }}
+          cols={5}
+          rowHeight={90}
+        >
+          {listing.images.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                src={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format`}
+                srcSet={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.name}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
     </div>
   )
 }
