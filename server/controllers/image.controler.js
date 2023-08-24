@@ -1,6 +1,9 @@
 const { Listing } = require("../models/listing.model");
-const { updateImageList, addImage, cleanupDeletedImage } = require("../helpers/imageHelpers");
-
+const {
+  updateImageList,
+  addImage,
+  cleanupDeletedImage,
+} = require("../helpers/imageHelpers");
 
 // its a one to one for reference
 // sample req body
@@ -10,6 +13,7 @@ const { updateImageList, addImage, cleanupDeletedImage } = require("../helpers/i
 //   imgUrl: 'something',
 //   imgName: 'testyboi',
 // }
+
 module.exports.addImageToListing = async (req, res) => {
   try {
     const imgObj = {
@@ -18,10 +22,9 @@ module.exports.addImageToListing = async (req, res) => {
       name: req.body.name,
       publicId: req.body.publicId,
     };
-    console.log(imgObj)
     const status = await addImage(imgObj);
     if (status) {
-      res.status(200).json("Image added to listing")
+      res.status(200).json("Image added to listing");
     }
   } catch (err) {
     res.status(500).json(err);
@@ -44,10 +47,9 @@ module.exports.updateImage = async (req, res) => {
       imgUrl: req.body.imgUrl,
       name: req.body.imgName,
     };
-
     const status = await updateImageList(imgObj);
     if (status) {
-      res.status(200).json("Image was updated!")
+      res.status(200).json("Image was updated!");
     }
   } catch (err) {
     res.status(500).json(err);

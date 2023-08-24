@@ -46,7 +46,7 @@ function App() {
             <Route path="/listing/:id" element={<SingleListing />} />
             <Route path="/admin//*" element={<Admin />} />
             <Route path="/properties" element={<Properties />} />
-            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/contact" element={<Contacts />} />
             <Route path="/about" element={<About />} />
           </Routes>
         </div>

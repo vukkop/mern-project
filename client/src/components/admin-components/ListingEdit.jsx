@@ -2,17 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Alert, AlertTitle } from '@mui/material'
+import { Box, ImageList, ImageListItem } from '@mui/material'
 import ListingForm from './ListingForm'
+import UploadImageModal from './UploadImageModal'
 
 const ListingEdit = () => {
-
   const [listing, setListing] = useState({
     name: '',
-    numOfBedrooms: 0,
+    type: '',
+    numOfBedrooms: '',
+    numOfBathrooms: '',
+    size: '',
     description: '',
     price: '',
-    imgUrl: '',
+    isFeatured: false,
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    images: []
   })
+  const [formSubmit, setFormSubmit] = useState("");
+  const [imageArray, setImageArray] = useState([])
   const [loaded, setLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
   const { id } = useParams()
@@ -34,7 +45,7 @@ const ListingEdit = () => {
   const updateListing = (listing) => {
     axios.put(`http://localhost:8000/api/listing/${id}`, listing)
       .then(() => {
-        navigate('/admin')
+        setFormSubmit(id);
       })
       .catch((err) => {
         const errorResponse = err.response.data.errors;
@@ -51,8 +62,6 @@ const ListingEdit = () => {
       })
   }
 
-
-
   return (
     <div>
       <h4 className='mb-4'>Edit</h4>
@@ -62,6 +71,13 @@ const ListingEdit = () => {
           initialListing={listing}
         />
       )}
+
+      {
+        formSubmit &&
+        <div className="row mt-5">
+          <UploadImageModal listingId={formSubmit} imageArray={imageArray} setImageArray={setImageArray} />
+        </div>
+      }
 
       {
         errors.length > 0
@@ -74,6 +90,30 @@ const ListingEdit = () => {
           )}
         </Alert>
       }
+
+      <Box sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        p: 3,
+        gap: 4
+      }}>
+        <ImageList
+          sx={{ width: 450, }}
+          cols={5}
+          rowHeight={90}
+        >
+          {listing.images.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                src={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format`}
+                srcSet={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.name}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
     </div>
   )
 }
