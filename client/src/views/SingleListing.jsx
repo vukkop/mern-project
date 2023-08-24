@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useEffect, useState } from 'react'
 import axios from "axios";
 import SingleListingCarousel from '../components/single-listing-components/SingleListingCarousel'
+import SingleListingDetails from '../components/single-listing-components/SingleListingDetails';
 
 const SingleListing = () => {
   const { id } = useParams()
@@ -38,8 +39,8 @@ const SingleListing = () => {
   return (
     <div>
       {/* <h3>{listing.name}</h3> */}
-      <SingleListingCarousel images={listing.imgUrl} />
-
+      <SingleListingCarousel images={listing.images} />
+      <SingleListingDetails listing={listing} />
 
     </div>
   )
