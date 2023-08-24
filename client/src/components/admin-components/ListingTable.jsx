@@ -68,6 +68,7 @@ const ListingTable = () => {
   }
 
   const handleDeleteClick = (id, name = "item") => {
+    axios.delete("http://localhost:8000/api/image/delete")
     deleteById(id)
     setListingList((current) => current.filter(el => el._id !== id))
     setToaster(`Successfully deleted ${name}.`)
