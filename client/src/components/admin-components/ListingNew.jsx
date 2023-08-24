@@ -30,24 +30,20 @@ const ListingNew = () => {
   const createListing = (listing) => {
     axios.post("http://localhost:8000/api/listing", listing)
       .then((res) => {
-        console.log(res.data._id);
-
         setFormSubmit(res.data._id);
-
       })
       .catch((err) => {
-        console.log(err);
-        // const errorResponse = err.response.data.errors;
-        // const errorArr = [];
-        // for (const key of Object.keys(errorResponse)) {
-        //   errorArr.push(errorResponse[key].message)
-        // }
-        // setErrors(errorArr)
-        // if (errorArr.length > 0) {
-        //   setTimeout(() => {
-        //     setErrors([]);
-        //   }, 4000);
-        // }
+        const errorResponse = err.response.data.errors;
+        const errorArr = [];
+        for (const key of Object.keys(errorResponse)) {
+          errorArr.push(errorResponse[key].message)
+        }
+        setErrors(errorArr)
+        if (errorArr.length > 0) {
+          setTimeout(() => {
+            setErrors([]);
+          }, 4000);
+        }
       })
   }
 
@@ -58,7 +54,10 @@ const ListingNew = () => {
         onSubmitProp={createListing}
         initialListing={newListing}
       />
-      {imageArray.map((e, i) => <img className='rounded h-25' src={e.imgUrl} />)}
+
+      {/* We could implement this when we create edit image functionality - This should not be in our MVP - VUK
+      {imageArray.map((e, i) => <img className='rounded' style={{ height: "100px" }} src={e.imgUrl} />)} */}
+
       {
         formSubmit &&
         <div className="row mt-5">
