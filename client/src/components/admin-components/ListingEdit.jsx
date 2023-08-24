@@ -3,16 +3,26 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Alert, AlertTitle } from '@mui/material'
 import ListingForm from './ListingForm'
+import UploadImageModal from './UploadImageModal'
 
 const ListingEdit = () => {
-
   const [listing, setListing] = useState({
     name: '',
-    numOfBedrooms: 0,
+    type: '',
+    numOfBedrooms: '',
+    numOfBathrooms: '',
+    size: '',
     description: '',
     price: '',
-    imgUrl: '',
+    isFeatured: false,
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    images: []
   })
+  const [formSubmit, setFormSubmit] = useState("");
+  const [imageArray, setImageArray] = useState([])
   const [loaded, setLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
   const { id } = useParams()
@@ -34,7 +44,7 @@ const ListingEdit = () => {
   const updateListing = (listing) => {
     axios.put(`http://localhost:8000/api/listing/${id}`, listing)
       .then(() => {
-        navigate('/admin')
+        setFormSubmit(id);
       })
       .catch((err) => {
         const errorResponse = err.response.data.errors;
@@ -51,8 +61,6 @@ const ListingEdit = () => {
       })
   }
 
-
-
   return (
     <div>
       <h4 className='mb-4'>Edit</h4>
@@ -62,6 +70,13 @@ const ListingEdit = () => {
           initialListing={listing}
         />
       )}
+
+      {
+        formSubmit &&
+        <div className="row mt-5">
+          <UploadImageModal listingId={formSubmit} imageArray={imageArray} setImageArray={setImageArray} />
+        </div>
+      }
 
       {
         errors.length > 0
