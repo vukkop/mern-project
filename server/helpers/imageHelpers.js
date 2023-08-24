@@ -1,12 +1,12 @@
-const cloudinary  = require("cloudinary").v2
+const cloudinary = require("cloudinary").v2;
 const { Listing } = require("../models/listing.model");
 
 cloudinary.config({
   cloud_name: "Vuk i need you api keys",
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true
-})
+  secure: true,
+});
 
 // sample image object
 const sampleImgObj = {
@@ -22,6 +22,61 @@ const ActionEnum = {
   delete: "delete",
 };
 
+//ADD IMAGE helper
+const addImage = async (imageObj) => {
+  let listing;
+  try {
+    listing = await Listing.findOne({ _id: imageObj.listingId });
+    for (let i = 0; i < listing.images.length; i++) {
+      if (listing.images[i].imgUrl === "") {
+        listing.images.splice(i, 1);
+      }
+    }
+    listing.images.push(imageObj);
+  } catch (error) {
+    throw new Error(error.message ? error.message : error);
+  }
+
+  try {
+    await Listing.findOneAndUpdate({ _id: imageObj.listingId }, listing, {
+      new: true,
+      runValidators: true,
+    });
+  } catch (error) {
+    throw new Error(error.message ? error.message : error);
+  }
+  return true;
+};
+
+//UPDATE IMAGE helper
+const updateImageList = async (imageObj) => {
+  const status = {
+    updateListing: false,
+  };
+  let listing;
+
+  try {
+    listing = await updateImgArray(ActionEnum.update, imageObj);
+  } catch (error) {
+    throw new Error(error.message ? error.message : error);
+  }
+
+  try {
+    const updateListing = await Listing.findOneAndUpdate(
+      { _id: imageObj.listingId },
+      listing,
+      { new: true, runValidators: true }
+    );
+    if (updateListing) {
+      status.updateListing = true;
+    }
+  } catch (error) {
+    throw new Error(error.message ? error.message : error);
+  }
+  return status;
+};
+
+//DELETE IMAGE helper
 //this will take in an array of image objects (at least 1), and then clean up the DB so we don't reference images that no longer exist
 // We will also use this to ping the cloudinary API in the background so we manage our usage
 const cleanupDeletedImage = async (imageObj) => {
@@ -104,9 +159,7 @@ const deleteFromCloudinary = async (imgId) => {
   //api call here to delete by id if it exists
   try {
     // call the delete
-    const deleted = await cloudinary.v2.uploader.destroy("imgId")
-      .then()
-    
+    const deleted = await cloudinary.v2.uploader.destroy("imgId").then();
     if (deleted) {
       return true;
     }
@@ -128,64 +181,13 @@ const updateImgArray = async (action, imageObj) => {
     }
     if (action === ActionEnum.update) {
       listing.images.push(imageObj);
-    } 
+    }
   }
   return listing;
 };
 
-const updateImageList = async (imageObj) => {
-  const status = {
-    updateListing: false,
-  };
-  let listing;
-  try {
-    listing = await updateImgArray(ActionEnum.update, imageObj);
-  } catch (error) {
-    throw new Error(error.message ? error.message : error);
-  }
-
-  try {
-    const updateListing = await Listing.findOneAndUpdate(
-      { _id: imageObj.listingId },
-      listing,
-      { new: true, runValidators: true }
-    );
-    if (updateListing) {
-      status.updateListing = true;
-    }
-  } catch (error) {
-    throw new Error(error.message ? error.message : error);
-  }
-  return status;
-};
-
-const addImage = async (imageObj) => {
-  let listing;
-  try {
-    listing = await Listing.findOne({_id: imageObj.listingId});
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    console.log(listing);
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    listing.images.push(imageObj);
-  } catch (error) {
-    throw new Error(error.message ? error.message : error);
-  }
-
-  try {
-    await Listing.findOneAndUpdate(
-      { _id: imageObj.listingId },
-      listing,
-      { new: true, runValidators: true }
-    );
-  } catch (error) {
-    throw new Error(error.message ? error.message : error);
-  }
-  return true;
-};
-
-
 module.exports = {
   cleanupDeletedImage,
   addImage,
-  updateImageList
-}
+  updateImageList,
+};
