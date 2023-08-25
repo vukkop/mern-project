@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import SearchBar from '../components/search-components/SearchBar'
 
+
 const Properties = () => {
   const [propertiesList, setPropertiesList] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -13,13 +14,12 @@ const Properties = () => {
   const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 };
-
   useEffect(()=>{
     getPropertyList();
   }, [])
   const getPropertyList = () => {
     axios
-        .get(`http://${process.env.API_URL}:8000/api/listing/all`)
+        .get(`http://${process.env.REACT_APP_API_URL}:8000/api/listing/all`)
         .then((res)=>{
           setPropertiesList(res.data)
           setBasePropList(res.data)          

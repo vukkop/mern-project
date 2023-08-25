@@ -7,7 +7,7 @@
 .env
 # testing
 /coverage
-
+dockerfile
 # production
 /build
 
