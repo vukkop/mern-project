@@ -46,9 +46,7 @@ function PseudoNav() {
   };
 
   const navFunc = (page) => {
-    console.log(typeof page, page)
     if (page == "Home") {
-      console.log("Going Home")
       navigate(`/`);
       handleCloseNavMenu()
     } else {
@@ -64,18 +62,23 @@ function PseudoNav() {
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: "center" }}>
-            <LogoSVG width={35} height={35} color={colors.grey[100]} />
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={navStyle.sxObj}
+          <Link 
+          to={"/"} 
+          sx={{ 
+            display: { xs: 'none', md: 'flex' }, 
+            mr: 1, 
+            alignItems: "center" }}
+            style={{ textDecoration: "none" }}
           >
-            RBIV
-          </Typography>
+            <LogoSVG width={35} height={35} color={colors.grey[100]} />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={navStyle.sxObj}
+            >
+              RBIV
+            </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -113,7 +116,6 @@ function PseudoNav() {
             </Menu>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 2, alignItems: "center" }}>
-            <LogoSVG width={35} height={35} color={colors.grey[100]} />
           </Box>
           <Typography
             variant="h5"
@@ -138,12 +140,12 @@ function PseudoNav() {
           </Box>
 
           <Box sx={{ flexGrow: 0}}>
-            <Tooltip title="Open settings">
-            <Button style={{ textDecoration: "none", color: colors.grey[100] }} onClick={()=> login()}>Login</Button>
+            <Box title="Open settings">
+              <Button style={{ textDecoration: "none", color: colors.grey[100] }} onClick={()=> login()}>Login</Button>
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
               </IconButton>
-            </Tooltip>
+            </Box>
           </Box>
         </Toolbar>
       </Container>

@@ -40,12 +40,23 @@ const PropertyCard = (props) => {
                         />
                         <CardContent sx={{ flex: 3, px: 10 }}>
                             <Typography gutterBottom variant="h4" component="div">
-                                $ {property.price}
+                                $ {property.price.toLocaleString()}
                             </Typography>
                             <Typography variant="h4" color="text.secondary">
                                 {property.numOfBedrooms} <Icon><BedroomParentOutlinedIcon /></Icon> bedrooms |  {property.numOfBathrooms} <Icon><BathtubIcon /></Icon> bathrooms
                             </Typography>
-                            <Typography mt={2} variant="h8" color="text.secondary">
+                            <Typography 
+                            mt={2} 
+                            variant="h8" 
+                            color="text.secondary"
+                            style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical'
+                              }}
+                            >
                                 {property.description}
                             </Typography>
                         </CardContent>

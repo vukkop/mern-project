@@ -5,18 +5,9 @@ import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../../context/theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import { MenuItem, Tooltip, Button, Avatar, Container, Typography, Menu, AppBar, Box, Toolbar } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import LogoSVG from "../../../assets/svg/Logo";
 import NavStyles from "../../../hooks/NavHooks"
 import { AuthContext } from "../../../context/authContext";
@@ -52,9 +43,7 @@ function NavBar() {
   };
 
   const navFunc = (page) => {
-    console.log(typeof page, page)
     if (page == "Home") {
-      console.log("Going Home")
       navigate(`/`);
       handleCloseNavMenu()
     } else {
@@ -62,14 +51,12 @@ function NavBar() {
       handleCloseNavMenu()
     }
   }
-  const goHome = () =>{
-    navigate('/')
-  }
 
   const Logout = () => {
     setCurrentUser(null)
     setCurrentUserEmail(null)
     localStorage.clear()
+    handleCloseUserMenu()
     navigate('/login')
   }
 
@@ -78,21 +65,28 @@ function NavBar() {
     <AppBar position="static" sx={{ backgroundColor: colors.blueAccent[500] }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: "center" }}>
-            
+        <Link 
+          to={"/"} 
+          sx={{ 
+            display: { xs: 'none', md: 'flex' }, 
+            mr: 1, 
+            alignItems: "center" }}
+          style={{ textDecoration: "none" }}
+        >
             <LogoSVG width={35} height={35} color={colors.grey[100]} />
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            onClick={goHome}
-            sx={navStyle.sxObj}
-          >
-            RBIV
-          </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              sx={navStyle.sxObj}
+            >
+              RBIV
+            </Typography>
+          </Link>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ 
+            flexGrow: 1, 
+            display: { xs: 'flex', md: 'none' } }}
+          >
             <IconButton
               size="large"
               onClick={handleOpenNavMenu}
@@ -120,12 +114,16 @@ function NavBar() {
               {/* this is the hamburger menu text */}
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu} sx={{p:0}}>
-                  <Button size="large" onClick={() => navFunc(page)} style={{
-                    textDecoration: 'none', 
-                    textalign: 'center',
-                    color: colors.grey[100],
-                    width: "100%",
-                    }}>
+                  <Button 
+                    size="large" 
+                    onClick={() => navFunc(page)} 
+                    style={{
+                      textDecoration: 'none', 
+                      textalign: 'center',
+                      color: colors.grey[100],
+                      width: "100%",
+                      }}
+                  >
                     {page}
                   </Button>
                 </MenuItem>
@@ -133,7 +131,7 @@ function NavBar() {
             </Menu>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 2, alignItems: "center" }}>
-            <LogoSVG width={35} height={35} color={colors.grey[100]} />
+
           </Box>
           <Typography
             variant="h5"
@@ -149,25 +147,19 @@ function NavBar() {
               <Button
                 key={page}
                 onClick={()=> navFunc(page)}
-                
                 sx={{ my: 2, color: colors.grey[100], display: 'block' }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0}}>
-            <Tooltip title="Open settings">
-              <>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar src="/broken-image.jpg" />
-                </IconButton>
-                <IconButton onClick={colorMode.toggleColorMode}>
-                  {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-                </IconButton>
-              </>
-            </Tooltip>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar src="/broken-image.jpg" />
+            </IconButton>
+            <IconButton onClick={colorMode.toggleColorMode}>
+              {theme.palette.mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+            </IconButton>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -186,11 +178,9 @@ function NavBar() {
               <MenuItem onClick={handleCloseUserMenu}>
                 <Link style={{ textDecoration: "none", color: colors.grey[100] }} to={"/login"}>User : {currentUserEmail}</Link>  
               </MenuItem>
-              <Link onClick={Logout}>
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={Logout}>
                 <Link style={{ textDecoration: "none", textAlign: "center", color: colors.grey[100] }}>Logout</Link>
               </MenuItem>
-              </Link>
             </Menu>
           </Box>
         </Toolbar>

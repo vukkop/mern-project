@@ -1,14 +1,13 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Button, Typography, ImageList, ImageListItem } from '@mui/material'
 import useColorTheme from "../../hooks/FormStyles"
 import { MuiFileInput } from 'mui-file-input'
-import { width } from '@mui/system'
+
 
 const UploadImage = ({ listingId, imageArray, setImageArray }) => {
-  const [value, setValue] = React.useState(null)
+  const [value, setValue] = React.useState("")
   const [imageSelected, setImageSelected] = useState("")
   const navigate = useNavigate()
   const colorTheme = useColorTheme()
@@ -102,8 +101,8 @@ const UploadImage = ({ listingId, imageArray, setImageArray }) => {
             cols={5}
             rowHeight={90}
           >
-            {imageArray.map((item) => (
-              <ImageListItem key={item.img}>
+            {imageArray.map((item, i) => (
+              <ImageListItem key={i}>
                 <img
                   src={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format`}
                   srcSet={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
