@@ -1,6 +1,7 @@
 const { Listing } = require("../models/listing.model");
 
 module.exports.getAllListings = (request, response) => {
+  console.log('GETTING ALL LISTINGS *****')
   Listing.find()
     .then((allListings) => {
       response.json(allListings);
