@@ -28,6 +28,7 @@ const ListingEdit = () => {
   const [errors, setErrors] = useState([]);
   const { id } = useParams()
   const navigate = useNavigate()
+  const API_URL = process.env.API_URL
 
   useEffect(() => {
     getDetails();
@@ -35,7 +36,7 @@ const ListingEdit = () => {
 
   const getDetails = () => {
     axios
-      .get(`http://localhost:8000/api/listing/${id}`)
+      .get(`http://${API_URL}:8000/api/listing/${id}`)
       .then((res) => {
         setListing(res.data)
         setLoaded(true);
@@ -43,7 +44,7 @@ const ListingEdit = () => {
   }
 
   const updateListing = (listing) => {
-    axios.put(`http://localhost:8000/api/listing/${id}`, listing)
+    axios.put(`http://${API_URL}:8000/api/listing/${id}`, listing)
       .then(() => {
         setFormSubmit(id);
       })

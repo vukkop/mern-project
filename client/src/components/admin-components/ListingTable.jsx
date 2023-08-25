@@ -11,7 +11,7 @@ import {
 
 
 const ListingTable = () => {
-
+const API_URL = process.env.API_URL
 
   const [listingList, setListingList] = useState([]);
   const [toaster, setToaster] = useState('');
@@ -61,14 +61,13 @@ const ListingTable = () => {
 
   const getList = () => {
     axios
-      .get("http://localhost:8000/api/listing/all")
+      .get(`http://${API_URL}:8000/api/listing/all`)
       .then((res) => {
         setListingList(res.data)
       }).catch((err) => console.log(err))
   }
 
   const handleDeleteClick = (id, name = "item") => {
-    // axios.delete("http://localhost:8000/api/image/delete")
     deleteById(id)
     setListingList((current) => current.filter(el => el._id !== id))
     setToaster(`Successfully deleted ${name}.`)

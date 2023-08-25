@@ -19,7 +19,7 @@ const Properties = () => {
   }, [])
   const getPropertyList = () => {
     axios
-        .get("http://localhost:8000/api/listing/all")
+        .get(`http://${process.env.API_URL}:8000/api/listing/all`)
         .then((res)=>{
           setPropertiesList(res.data)
           setBasePropList(res.data)          

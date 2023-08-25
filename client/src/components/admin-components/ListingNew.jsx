@@ -11,6 +11,7 @@ const ListingNew = () => {
   const [errors, setErrors] = useState([]);
   const [formSubmit, setFormSubmit] = useState("");
   const navigate = useNavigate();
+  const API_URL = process.env.API_URL
   const newListing = {
     name: '',
     type: '',
@@ -28,7 +29,7 @@ const ListingNew = () => {
   }
 
   const createListing = (listing) => {
-    axios.post("http://localhost:8000/api/listing", listing)
+    axios.post(`http://${API_URL}:8000/api/listing`, listing)
       .then((res) => {
         setFormSubmit(res.data._id);
       })

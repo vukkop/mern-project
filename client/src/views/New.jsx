@@ -7,7 +7,7 @@ const New = () => {
   const navigate = useNavigate()
 
   const createListing = (listing) => {
-    axios.post("http://localhost:8000/api/listings", listing)
+    axios.post(`http://${process.env.API_URL}:8000/api/listings`, listing)
       .then(() => {
         navigate('/')
       })

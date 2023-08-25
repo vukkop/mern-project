@@ -36,7 +36,7 @@ const UploadImage = ({ listingId, imageArray, setImageArray }) => {
         return imgObject
       })
       .then((imgObject) => {
-        axios.post('http://localhost:8000/api/image/add', imgObject)
+        axios.post(`http://${process.env.API_URL}:8000/api/image/add`, imgObject)
       })
       .catch((err) => {
         console.log(err);

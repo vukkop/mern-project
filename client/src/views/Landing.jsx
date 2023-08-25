@@ -32,7 +32,7 @@ const Landing = () => {
 
   const getList = () => {
     axios
-      .get("http://localhost:8000/api/listings/all")
+      .get(`http://${process.env.API_URL}:8000/api/listings/all`)
       .then((res) => {
         setListingList(res.data)
       }).catch((err) => console.log(err))

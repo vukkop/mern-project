@@ -29,7 +29,7 @@ const SingleListing = () => {
 
   const getDetails = () => {
     axios
-      .get(`http://localhost:8000/api/listing/${id}`)
+      .get(`http://${process.env.API_URL}:8000/api/listing/${id}`)
       .then((res) => {
         setListing(res.data)
       })
