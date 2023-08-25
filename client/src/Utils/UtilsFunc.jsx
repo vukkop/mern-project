@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const deleteById = (id) => {
   axios
-    .delete(`http://${process.env.API_URL}:8000/api/listing/${id}`)
+    .delete(`http://${process.env.REACT_APP_API_URL}:8000/api/listing/${id}`)
     .then((res) => {
       return res;
     })

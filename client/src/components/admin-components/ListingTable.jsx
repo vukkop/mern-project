@@ -11,7 +11,7 @@ import {
 
 
 const ListingTable = () => {
-const API_URL = process.env.API_URL
+const API_URL = process.env.REACT_APP_API_URL
 
   const [listingList, setListingList] = useState([]);
   const [toaster, setToaster] = useState('');
