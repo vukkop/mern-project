@@ -72,7 +72,7 @@ const ListingForm = (props) => {
                   onChange={onChangeHandler}
                   value={listing.numOfBedrooms}
                   InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                  InputProps={{ ...colorTheme.inputStyling }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className='pe-2 mb-3'
                   sx={{
                     ...colorTheme.inputStyling,
@@ -86,7 +86,7 @@ const ListingForm = (props) => {
                   onChange={onChangeHandler}
                   value={listing.numOfBathrooms}
                   InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                  InputProps={{ ...colorTheme.inputStyling }}
+                  InputProps={{ ...colorTheme.inputProps }}
                   className="mb-3"
                   sx={{
                     ...colorTheme.inputStyling,
@@ -231,16 +231,7 @@ const ListingForm = (props) => {
           <Button type='submit' className="float-end" sx={{ ...colorTheme.submitButton }} variant="contained">Submit</Button>
         </div>
       </form >
-
-      {/* <div className="row mt-5">
-        <Button color='secondary' onClick={() => setIsOpen(!isOpen)}>Button</Button>
-        {isOpen && <UploadImageModal />}
-
-      </div> */}
     </div >
-
-
-
   )
 }
 

@@ -169,7 +169,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                             },
                         }}
                     >
-                        <MenuItem value="Home">House</MenuItem>
+                        <MenuItem value="House">House</MenuItem>
                         <MenuItem value="Town House">Townhome</MenuItem>
                         <MenuItem value="Apartment">Apartment</MenuItem>
                         <MenuItem value="Office">Office</MenuItem>

@@ -29,7 +29,7 @@ const Contacts = () => {
   const sendEmail = (e) => {
     emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, form.current, process.env.REACT_APP_EMAILJS_PUBLIC_KEY)
       .then((result) => {
-        console.log(result.text);
+        console.log(result.text, "Status is 200");
       }, (error) => {
         console.log(error.text);
       });
@@ -106,7 +106,7 @@ const Contacts = () => {
                       mt: 3,
                       display: {xs: "none", md: "block"}
                     }}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, saepe ullam rem iure, labore delectus tempora accusamus
+                    <strong>Ready to find your ideal property? Connect with RBIV now and explore a world of possibilities!</strong> 
                   </Typography>
                   {/* this is the blue box */}
                   <Box sx={{
@@ -133,8 +133,10 @@ const Contacts = () => {
                       <Box sx={{ mt: 5 }}>
                         <Box  component="form" ref={form} noValidate onSubmit={handleSubmit}>
                               <TextField
+                                autoComplete="name"
                                 name='name'
                                 label="Name"
+                                autoFocus
                                 onChange={onChangeHandler}
                                 value={contactForm.name}
                                 InputLabelProps={{ ...colorTheme.inputLabelProps }}
@@ -152,7 +154,7 @@ const Contacts = () => {
                                 onChange={onChangeHandler}
                                 value={contactForm.email}
                                 InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                                InputProps={{ ...colorTheme.inputStyling }}
+                                InputProps={{ ...colorTheme.inputProps }}
                                 className='pe-2 mb-3'
                                 sx={{
                                   ...colorTheme.inputStyling,
@@ -166,7 +168,7 @@ const Contacts = () => {
                                 onChange={onChangeHandler}
                                 value={contactForm.phoneNumber}
                                 InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                                InputProps={{ ...colorTheme.inputStyling }}
+                                InputProps={{ ...colorTheme.inputProps }}
                                 className=' mb-3'
                                 sx={{
                                   ...colorTheme.inputStyling,
@@ -179,7 +181,7 @@ const Contacts = () => {
                                 onChange={onChangeHandler}
                                 value={contactForm.subject}
                                 InputLabelProps={{ ...colorTheme.inputLabelProps }}
-                                InputProps={{ ...colorTheme.inputStyling }}
+                                InputProps={{ ...colorTheme.inputProps }}
                                 className="mb-3"
                                 fullWidth
                                 sx={{

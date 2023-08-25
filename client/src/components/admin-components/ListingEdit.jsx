@@ -102,8 +102,8 @@ const ListingEdit = () => {
           cols={5}
           rowHeight={90}
         >
-          {listing.images.map((item) => (
-            <ImageListItem key={item.img}>
+          {listing.images.map((item, i) => (
+            <ImageListItem key={i}>
               <img
                 src={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format`}
                 srcSet={`${item.imgUrl}?w=100&h=100&fit=crop&auto=format&dpr=2 2x`}
