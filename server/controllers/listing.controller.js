@@ -2,7 +2,6 @@ const { Listing } = require("../models/listing.model");
 
 module.exports.getAllListings = (request, response) => {
   Listing.find()
-    .populate("images")
     .then((allListings) => {
       response.json(allListings);
     })
