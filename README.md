@@ -36,7 +36,7 @@ Our Website is Mobile Friendly.
 - [@BraxtonWalters](https://github.com/BraxtonWalters)
 
 
-## Tech Stack
+## Tech
 
 **Client:** React, Material UI, Bootstrap, Context, Firebase, EmailJS, Pexels, Cloudinary
 
@@ -72,7 +72,7 @@ http://35.87.77.5/
 ![Single Listing](https://raw.githubusercontent.com/vukkop/mern-project/main/client/src/assets/img/RBIV/singleListing.png)
 
 
-## Run Locally
+## Run
 
 Clone the project
 
