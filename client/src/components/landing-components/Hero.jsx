@@ -1,25 +1,21 @@
-import React from 'react';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import {Paper, Typography, Grid, Box, Button} from '@mui/material';
 import { tokens } from "../../context/theme";
 import { useTheme } from "@emotion/react";
 import useColorTheme from "../../hooks/FormStyles";
-import { useNavigate } from 'react-router-dom';
 import HeroStyles from '../../hooks/HeroStyles';
+import { useNavigate } from 'react-router-dom';
 
-function Hero(props) {
+function Hero({post}) {
+  const navigate = useNavigate();
+  
+  // all for theme
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorTheme = useColorTheme();
-  const { post } = props;
-  const navigate = useNavigate();
   const heroStyle = HeroStyles();
+  
 
   const handleRedirect = () => {
-    //change this later to catalog
     navigate('/properties');
   }
 

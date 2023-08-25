@@ -64,10 +64,10 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
     }
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogContent sx={{p:5}}>
-                <DialogTitle sx={{color: colors.greenAccent[500], p:0, mb: 2, fontSize: "2rem"}}>Search Filter</DialogTitle>
+            <DialogContent sx={{ p: 5 }}>
+                <DialogTitle sx={{ color: colors.greenAccent[500], p: 0, mb: 2, fontSize: "2rem" }}>Search Filter</DialogTitle>
                 <FormControl fullWidth sx={{ mt: 2 }} >
-                    
+
                     <TextField
                         label="Bedrooms"
                         value={bedrooms}
@@ -82,14 +82,15 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         inputProps={{
                             ...colorTheme.inputProps
                         }}
-                        sx={{    
+                        sx={{
                             "& .MuiOutlinedInput-root": {
-                            "&.Mui-focused": {
-                              "& fieldset": {
-                                borderColor: colors.greenAccent[500],
-                              },
+                                "&.Mui-focused": {
+                                    "& fieldset": {
+                                        borderColor: colors.greenAccent[500],
+                                    },
+                                },
                             },
-                          },}}
+                        }}
                     >
                         <MenuItem value="">Bedrooms</MenuItem>
                         <MenuItem value={0}>Any</MenuItem>
@@ -101,7 +102,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                     </TextField>
                 </FormControl>
                 <FormControl fullWidth sx={{ mt: 3 }}>
-                    
+
                     <TextField
                         label="Bathrooms"
                         value={bathrooms}
@@ -116,14 +117,15 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         inputProps={{
                             ...colorTheme.inputProps
                         }}
-                        sx={{    
+                        sx={{
                             "& .MuiOutlinedInput-root": {
-                            "&.Mui-focused": {
-                              "& fieldset": {
-                                borderColor: colors.greenAccent[500],
-                              },
+                                "&.Mui-focused": {
+                                    "& fieldset": {
+                                        borderColor: colors.greenAccent[500],
+                                    },
+                                },
                             },
-                          },}}
+                        }}
                     >
                         <MenuItem value="">Bathrooms</MenuItem>
                         <MenuItem value={0}>Any</MenuItem>
@@ -139,7 +141,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                     </TextField>
                 </FormControl>
                 <FormControl fullWidth sx={{ mt: 3 }}>
-                    
+
                     <TextField
                         fullWidth
                         label="Home Type"
@@ -157,16 +159,17 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         inputProps={{
                             color: "white"
                         }}
-                        sx={{    
+                        sx={{
                             "& .MuiOutlinedInput-root": {
-                            "&.Mui-focused": {
-                              "& fieldset": {
-                                borderColor: colors.greenAccent[500],
-                              },
+                                "&.Mui-focused": {
+                                    "& fieldset": {
+                                        borderColor: colors.greenAccent[500],
+                                    },
+                                },
                             },
-                          },}}
+                        }}
                     >
-                        <MenuItem value="Home">House</MenuItem>
+                        <MenuItem value="House">House</MenuItem>
                         <MenuItem value="Town House">Townhome</MenuItem>
                         <MenuItem value="Apartment">Apartment</MenuItem>
                         <MenuItem value="Office">Office</MenuItem>
@@ -174,7 +177,7 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                 </FormControl>
 
                 <FormControl fullWidth>
-                    <FormLabel sx={{mt:2, mb: 1, color: colors.greenAccent[500]}}>Price Range</FormLabel>
+                    <FormLabel sx={{ mt: 2, mb: 1, color: colors.greenAccent[500] }}>Price Range</FormLabel>
                     <Slider
                         style={{ color: colors.greenAccent[500] }}
                         value={priceRange}
@@ -182,27 +185,28 @@ const FilterSearch = ({ open, onClose, applyFilter }) => {
                         valueLabelDisplay="auto"
                         valueLabelFormat={(value) => `$${value}`}
                         min={0}
-                        max={900000}
+                        max={1900000}
+                        step={25000}
                     />
                 </FormControl>
-                    <Box justifyContent={"space-between"} sx={{mt: 5}}>
-                        <Button onClick={handleApplyFilter}
-                            variant='contained'
-                            color="secondary"
-                            size='small'
-                            sx={{width: '100px', mr: 4}}
-                        >
-                            Apply Filter
-                        </Button>
-                        <Button onClick={handleResetFilter}
-                            variant='contained'
-                            color="secondary"
-                            size='small'
-                            sx={{width: '100px'}} 
-                        >
-                            Reset Filters
-                        </Button>
-                    </Box>
+                <Box justifyContent={"space-between"} sx={{ mt: 5 }}>
+                    <Button onClick={handleApplyFilter}
+                        variant='contained'
+                        color="secondary"
+                        size='small'
+                        sx={{ width: '100px', mr: 4 }}
+                    >
+                        Apply Filter
+                    </Button>
+                    <Button onClick={handleResetFilter}
+                        variant='contained'
+                        color="secondary"
+                        size='small'
+                        sx={{ width: '100px' }}
+                    >
+                        Reset Filters
+                    </Button>
+                </Box>
             </DialogContent>
         </Dialog>
     );
