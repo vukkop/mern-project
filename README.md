@@ -126,5 +126,10 @@ Start the server
 
 ## Feedback
 
-If you have any feedback, please reach out to us at school_email_mern_project@gmail.com
+If you have any feedback, please reach out to us at 
+- [@immanuelvatta](https://github.com/immanuelvatta)
+- [@vukkop](https://github.com/vukkop)
+- [@Owens-Robert](https://github.com/Owens-Robert)
+- [@BraxtonWalters](https://github.com/BraxtonWalters)
+
 
